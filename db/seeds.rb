@@ -10,4 +10,8 @@ puts "Seeding foods..."
 load Rails.root.join("db/seeds/foods.rb")
 puts "✅ Foods seeded."
 
+puts "Seeding food nutrients..."
+load Rails.root.join("db/seeds/food_nutrients.rb")
+puts "✅ Food nutrients seeded."
+
 puts "All seeds finished!"

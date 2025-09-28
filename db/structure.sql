@@ -59,6 +59,39 @@ ALTER SEQUENCE public.food_categories_id_seq OWNED BY public.food_categories.id;
 
 
 --
+-- Name: food_nutrients; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.food_nutrients (
+    id bigint NOT NULL,
+    fdc_id integer NOT NULL,
+    nutrient_id bigint NOT NULL,
+    amount numeric(15,6),
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
+);
+
+
+--
+-- Name: food_nutrients_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.food_nutrients_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: food_nutrients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.food_nutrients_id_seq OWNED BY public.food_nutrients.id;
+
+
+--
 -- Name: foods; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -142,6 +175,13 @@ ALTER TABLE ONLY public.food_categories ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
+-- Name: food_nutrients id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.food_nutrients ALTER COLUMN id SET DEFAULT nextval('public.food_nutrients_id_seq'::regclass);
+
+
+--
 -- Name: foods id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -169,6 +209,14 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 ALTER TABLE ONLY public.food_categories
     ADD CONSTRAINT food_categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: food_nutrients food_nutrients_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.food_nutrients
+    ADD CONSTRAINT food_nutrients_pkey PRIMARY KEY (id);
 
 
 --
@@ -203,6 +251,27 @@ CREATE UNIQUE INDEX index_food_categories_on_code ON public.food_categories USIN
 
 
 --
+-- Name: index_food_nutrients_on_fdc_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_food_nutrients_on_fdc_id ON public.food_nutrients USING btree (fdc_id);
+
+
+--
+-- Name: index_food_nutrients_on_fdc_id_and_nutrient_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_food_nutrients_on_fdc_id_and_nutrient_id ON public.food_nutrients USING btree (fdc_id, nutrient_id);
+
+
+--
+-- Name: index_food_nutrients_on_nutrient_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_food_nutrients_on_nutrient_id ON public.food_nutrients USING btree (nutrient_id);
+
+
+--
 -- Name: index_foods_on_fdc_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -231,11 +300,27 @@ CREATE INDEX index_nutrients_on_rank ON public.nutrients USING btree (rank);
 
 
 --
+-- Name: food_nutrients fk_rails_09286a8cac; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.food_nutrients
+    ADD CONSTRAINT fk_rails_09286a8cac FOREIGN KEY (fdc_id) REFERENCES public.foods(fdc_id);
+
+
+--
 -- Name: foods fk_rails_a28abb337f; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.foods
     ADD CONSTRAINT fk_rails_a28abb337f FOREIGN KEY (food_category_id) REFERENCES public.food_categories(id);
+
+
+--
+-- Name: food_nutrients fk_rails_acb42752f5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.food_nutrients
+    ADD CONSTRAINT fk_rails_acb42752f5 FOREIGN KEY (nutrient_id) REFERENCES public.nutrients(id);
 
 
 --
@@ -245,6 +330,7 @@ ALTER TABLE ONLY public.foods
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250928180036'),
 ('20250928172929'),
 ('20250928152141'),
 ('20250928145643');
