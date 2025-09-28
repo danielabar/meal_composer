@@ -24,5 +24,8 @@ module MealComposer
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    #
+    # App-specific customizations:
+    config.active_record.schema_format = :sql
   end
 end

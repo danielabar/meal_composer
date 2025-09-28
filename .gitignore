@@ -35,3 +35,7 @@
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
+
+# Non canonical data files
+/db/data/food_nutrient.csv
+/db/data/food_portion.csv
