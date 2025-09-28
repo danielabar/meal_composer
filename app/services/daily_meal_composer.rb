@@ -182,8 +182,8 @@ class DailyMealComposer
 
     Rails.logger.info "DEBUG: Gap needed: carbs=#{gap.carbs}, protein=#{gap.protein}, fat=#{gap.fat}"
 
-    best_food = nil
-    best_score = Float::INFINITY
+    # Collect all foods with their scores for variety selection
+    food_scores = []
 
     available_foods.each do |food|
       food_macros = food.macronutrients
@@ -199,14 +199,22 @@ class DailyMealComposer
       score = calculate_food_match_score(food_macros, gap)
       Rails.logger.info "DEBUG: Food score: #{score}"
 
-      if score < best_score
-        best_score = score
-        best_food = food
-        Rails.logger.info "DEBUG: New best food: #{food.description} with score #{score}"
-      end
+      food_scores << { food: food, score: score }
     end
 
-    Rails.logger.info "DEBUG: Final best food: #{best_food&.description} with score #{best_score}"
+    # Sort by score (lower is better) and pick randomly from top candidates
+    food_scores.sort_by! { |fs| fs[:score] }
+
+    # Take top 20% of foods or at least 3 foods for variety
+    top_count = [ food_scores.length * 0.2, 3 ].max.to_i.clamp(1, food_scores.length)
+    top_candidates = food_scores.first(top_count)
+
+    # Randomly select from top candidates
+    selected = top_candidates.sample
+    best_food = selected&.dig(:food)
+    best_score = selected&.dig(:score)
+
+    Rails.logger.info "DEBUG: Selected from #{top_count} top candidates: #{best_food&.description} with score #{best_score}"
     best_food
   end
 
