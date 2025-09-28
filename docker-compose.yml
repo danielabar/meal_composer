@@ -1,0 +1,22 @@
+services:
+  database:
+    image: postgres:18
+    volumes:
+      # Named volume to persist database data outside of container.
+      # Format is "named_volume:path/in/container"
+      - db_pg_data:/var/lib/postgresql/data
+
+      # Host mount for one-time initialization.
+      # Format is "./path/on/host:/path/in/container"
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      # Map to something other than default 5432 on host in case Postgres
+      # is also running natively on host.
+      # Format is "host:container"
+      - "5433:5432"
+    environment:
+      # This is fine for local dev container only. DO NOT USE IN PRODUCTION!
+      POSTGRES_HOST_AUTH_METHOD: trust
+
+volumes:
+  db_pg_data:

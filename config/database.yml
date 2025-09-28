@@ -1,0 +1,25 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  database: <%= ENV['DATABASE_NAME'] || "meal_composer" %>
+  username: <%= ENV['DATABASE_USER'] || "meal_composer" %>
+  password: <%= ENV['DATABASE_PASSWORD'] || "meal_composer" %>
+  port: <%= ENV['DATABASE_PORT'] || "5432" %>
+  host: <%= ENV['DATABASE_HOST'] || "127.0.0.1" %>
+
+development:
+  <<: *default
+  database: meal_composer_development
+  port: 5433
+
+test:
+  <<: *default
+  database: meal_composer_test
+  port: 5433
+
+production:
+  <<: *default
+  database: meal_composer_production
+  username: meal_composer
+  password: <%= ENV['MEAL_COMPOSER_DATABASE_PASSWORD'] %>
