@@ -1,10 +1,17 @@
 class DailyMealComposer
-  MACRO_TOLERANCE_GRAMS = 10.0
+  MACRO_TOLERANCE_GRAMS = 15.0  # Increased tolerance for better success rate
 
   DEFAULT_MEAL_CATEGORIES = {
     breakfast: [ 1, 4, 9, 11 ],  # Dairy, Fats, Fruits, Vegetables
     lunch: [ 13, 15, 16, 11, 4 ], # Beef, Fish, Legumes, Vegetables, Fats
     dinner: [ 13, 15, 16, 11, 4 ]  # Beef, Fish, Legumes, Vegetables, Fats
+  }.freeze
+
+  # Future enhancement: Ensure each meal has at least one from each category type
+  REQUIRED_CATEGORIES_PER_MEAL = {
+    breakfast: { protein: [ 1 ], fat: [ 4 ], carb: [ 9, 11 ] },  # Dairy for protein, Fats, Fruits/Veggies for carbs
+    lunch: { protein: [ 13, 15, 16 ], fat: [ 4 ], carb: [ 11, 16 ] },  # Meat/Fish/Legumes, Fats, Vegetables/Legumes
+    dinner: { protein: [ 13, 15, 16 ], fat: [ 4 ], carb: [ 11, 16 ] }   # Meat/Fish/Legumes, Fats, Vegetables/Legumes
   }.freeze
 
   def compose_daily_meals(macro_targets:, meal_preferences: nil)
@@ -87,7 +94,7 @@ class DailyMealComposer
     selected_foods = []
     current_macros = MacroTargets.new(carbs: 0, protein: 0, fat: 0)
 
-    max_iterations = 10
+    max_iterations = 15  # More iterations for better solutions
     iteration = 0
 
     while !macros_within_tolerance?(current_macros, meal_targets) && iteration < max_iterations
@@ -253,18 +260,18 @@ class DailyMealComposer
     portion_options = []
 
     if (food_macros[:carbohydrates] || 0) > 0 && carb_gap > 0
-      # Don't exceed the gap - use 70% to leave room for other foods
-      max_grams_for_carbs = (carb_gap * 0.7 / (food_macros[:carbohydrates] || 1)) * 100
+      # Use 90% of gap to be more aggressive in filling targets
+      max_grams_for_carbs = (carb_gap * 0.9 / (food_macros[:carbohydrates] || 1)) * 100
       portion_options << max_grams_for_carbs
     end
 
     if (food_macros[:protein] || 0) > 0 && protein_gap > 0
-      max_grams_for_protein = (protein_gap * 0.7 / (food_macros[:protein] || 1)) * 100
+      max_grams_for_protein = (protein_gap * 0.9 / (food_macros[:protein] || 1)) * 100
       portion_options << max_grams_for_protein
     end
 
     if (food_macros[:fat] || 0) > 0 && fat_gap > 0
-      max_grams_for_fat = (fat_gap * 0.7 / (food_macros[:fat] || 1)) * 100
+      max_grams_for_fat = (fat_gap * 0.9 / (food_macros[:fat] || 1)) * 100
       portion_options << max_grams_for_fat
     end
 
