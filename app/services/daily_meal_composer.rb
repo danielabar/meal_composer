@@ -2,16 +2,16 @@ class DailyMealComposer
   MACRO_TOLERANCE_GRAMS = 15.0  # Increased tolerance for better success rate
 
   DEFAULT_MEAL_CATEGORIES = {
-    breakfast: [ 1, 4, 9, 11 ],  # Dairy, Fats, Fruits, Vegetables
-    lunch: [ 13, 15, 16, 11, 4 ], # Beef, Fish, Legumes, Vegetables, Fats
-    dinner: [ 13, 15, 16, 11, 4 ]  # Beef, Fish, Legumes, Vegetables, Fats
+    breakfast: [ 1, 4, 9 ],    # Dairy and Egg Products, Fats and Oils, Fruits and Fruit Juices
+    lunch: [ 5, 4, 11 ],       # Poultry Products, Fats and Oils, Vegetables and Vegetable Products
+    dinner: [ 13, 4, 11 ]      # Beef Products, Fats and Oils, Vegetables and Vegetable Products
   }.freeze
 
-  # Future enhancement: Ensure each meal has at least one from each category type
+  # Ensure each meal has at least one from each required category type
   REQUIRED_CATEGORIES_PER_MEAL = {
-    breakfast: { protein: [ 1 ], fat: [ 4 ], carb: [ 9, 11 ] },  # Dairy for protein, Fats, Fruits/Veggies for carbs
-    lunch: { protein: [ 13, 15, 16 ], fat: [ 4 ], carb: [ 11, 16 ] },  # Meat/Fish/Legumes, Fats, Vegetables/Legumes
-    dinner: { protein: [ 13, 15, 16 ], fat: [ 4 ], carb: [ 11, 16 ] }   # Meat/Fish/Legumes, Fats, Vegetables/Legumes
+    breakfast: { dairy: [ 1 ], fat: [ 4 ], fruit: [ 9 ] },     # Dairy and Egg Products, Fats and Oils, Fruits and Fruit Juices
+    lunch: { poultry: [ 5 ], fat: [ 4 ], vegetable: [ 11 ] },  # Poultry Products, Fats and Oils, Vegetables and Vegetable Products
+    dinner: { beef: [ 13 ], fat: [ 4 ], vegetable: [ 11 ] }    # Beef Products, Fats and Oils, Vegetables and Vegetable Products
   }.freeze
 
   def compose_daily_meals(macro_targets:, meal_preferences: nil)
@@ -90,10 +90,35 @@ class DailyMealComposer
     Rails.logger.info "DEBUG: Meal targets: carbs=#{meal_targets.carbs}, protein=#{meal_targets.protein}, fat=#{meal_targets.fat}"
     Rails.logger.info "DEBUG: Allowed categories: #{allowed_categories}"
 
-    # Try greedy approach first - select foods that best match remaining ratios
+    # Enhanced approach: ensure variety by selecting from required categories first
     selected_foods = []
     current_macros = MacroTargets.new(carbs: 0, protein: 0, fat: 0)
 
+    # Get meal type from allowed categories to determine required categories
+    meal_type = determine_meal_type(allowed_categories)
+    required_categories = REQUIRED_CATEGORIES_PER_MEAL[meal_type]
+
+    Rails.logger.info "DEBUG: Meal type: #{meal_type}, Required categories: #{required_categories}"
+
+    # First, select one food from each required category type
+    required_categories.each do |macro_type, category_ids|
+      category_foods = available_foods.select { |food| category_ids.include?(food.food_category_id) }
+      next if category_foods.empty?
+
+      Rails.logger.info "DEBUG: Selecting #{macro_type} source from categories #{category_ids}"
+
+      best_food = find_best_food_for_gap(category_foods, meal_targets, current_macros)
+      if best_food
+        optimal_grams = calculate_optimal_grams(best_food, meal_targets, current_macros)
+        selected_foods << FoodPortion.new(food: best_food, grams: optimal_grams)
+        add_food_macros_to_current(current_macros, best_food, optimal_grams)
+
+        Rails.logger.info "DEBUG: Selected #{macro_type}: #{optimal_grams.round(1)}g of #{best_food.description}"
+        Rails.logger.info "DEBUG: Current macros after #{macro_type}: carbs=#{current_macros.carbs.round(1)}, protein=#{current_macros.protein.round(1)}, fat=#{current_macros.fat.round(1)}"
+      end
+    end
+
+    # Now fill any remaining gaps with additional foods if needed
     max_iterations = 15  # More iterations for better solutions
     iteration = 0
 
@@ -329,6 +354,21 @@ class DailyMealComposer
     end
 
     has_complete_data
+  end
+
+  def determine_meal_type(allowed_categories)
+    # Breakfast has dairy (1) and fruits (9)
+    if allowed_categories.include?(1) && allowed_categories.include?(9)
+      :breakfast
+    # Lunch has poultry (5)
+    elsif allowed_categories.include?(5)
+      :lunch
+    # Dinner has beef (13)
+    elsif allowed_categories.include?(13)
+      :dinner
+    else
+      :breakfast  # Default fallback
+    end
   end
 
   # Result classes
