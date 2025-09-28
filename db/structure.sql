@@ -93,6 +93,39 @@ ALTER SEQUENCE public.foods_id_seq OWNED BY public.foods.id;
 
 
 --
+-- Name: nutrients; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.nutrients (
+    id bigint NOT NULL,
+    name text NOT NULL,
+    unit_name text NOT NULL,
+    rank numeric(10,1) NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
+);
+
+
+--
+-- Name: nutrients_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.nutrients_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: nutrients_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.nutrients_id_seq OWNED BY public.nutrients.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -113,6 +146,13 @@ ALTER TABLE ONLY public.food_categories ALTER COLUMN id SET DEFAULT nextval('pub
 --
 
 ALTER TABLE ONLY public.foods ALTER COLUMN id SET DEFAULT nextval('public.foods_id_seq'::regclass);
+
+
+--
+-- Name: nutrients id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.nutrients ALTER COLUMN id SET DEFAULT nextval('public.nutrients_id_seq'::regclass);
 
 
 --
@@ -137,6 +177,14 @@ ALTER TABLE ONLY public.food_categories
 
 ALTER TABLE ONLY public.foods
     ADD CONSTRAINT foods_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: nutrients nutrients_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.nutrients
+    ADD CONSTRAINT nutrients_pkey PRIMARY KEY (id);
 
 
 --
@@ -169,6 +217,20 @@ CREATE INDEX index_foods_on_food_category_id ON public.foods USING btree (food_c
 
 
 --
+-- Name: index_nutrients_on_name_and_unit_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_nutrients_on_name_and_unit_name ON public.nutrients USING btree (name, unit_name);
+
+
+--
+-- Name: index_nutrients_on_rank; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_nutrients_on_rank ON public.nutrients USING btree (rank);
+
+
+--
 -- Name: foods fk_rails_a28abb337f; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -183,6 +245,7 @@ ALTER TABLE ONLY public.foods
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250928172929'),
 ('20250928152141'),
 ('20250928145643');
 
