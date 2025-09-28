@@ -59,6 +59,40 @@ ALTER SEQUENCE public.food_categories_id_seq OWNED BY public.food_categories.id;
 
 
 --
+-- Name: foods; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.foods (
+    id bigint NOT NULL,
+    fdc_id integer NOT NULL,
+    description text NOT NULL,
+    food_category_id bigint NOT NULL,
+    publication_date date NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
+);
+
+
+--
+-- Name: foods_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.foods_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: foods_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.foods_id_seq OWNED BY public.foods.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -72,6 +106,13 @@ CREATE TABLE public.schema_migrations (
 --
 
 ALTER TABLE ONLY public.food_categories ALTER COLUMN id SET DEFAULT nextval('public.food_categories_id_seq'::regclass);
+
+
+--
+-- Name: foods id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.foods ALTER COLUMN id SET DEFAULT nextval('public.foods_id_seq'::regclass);
 
 
 --
@@ -91,6 +132,14 @@ ALTER TABLE ONLY public.food_categories
 
 
 --
+-- Name: foods foods_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.foods
+    ADD CONSTRAINT foods_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -106,11 +155,34 @@ CREATE UNIQUE INDEX index_food_categories_on_code ON public.food_categories USIN
 
 
 --
+-- Name: index_foods_on_fdc_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_foods_on_fdc_id ON public.foods USING btree (fdc_id);
+
+
+--
+-- Name: index_foods_on_food_category_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_foods_on_food_category_id ON public.foods USING btree (food_category_id);
+
+
+--
+-- Name: foods fk_rails_a28abb337f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.foods
+    ADD CONSTRAINT fk_rails_a28abb337f FOREIGN KEY (food_category_id) REFERENCES public.food_categories(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250928152141'),
 ('20250928145643');
 
