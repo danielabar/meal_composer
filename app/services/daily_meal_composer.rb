@@ -7,6 +7,10 @@ class DailyMealComposer
     dinner: [ 13, 4, 11 ]      # Beef Products, Fats and Oils, Vegetables and Vegetable Products
   }.freeze
 
+  def initialize
+    @daily_food_usage = Hash.new(0)  # Track food usage across all meals for variety
+  end
+
   # Ensure each meal has at least one from each required category type
   REQUIRED_CATEGORIES_PER_MEAL = {
     breakfast: { dairy: [ 1 ], fat: [ 4 ], fruit: [ 9 ] },     # Dairy and Egg Products, Fats and Oils, Fruits and Fruit Juices
@@ -100,63 +104,38 @@ class DailyMealComposer
 
     Rails.logger.info "DEBUG: Meal type: #{meal_type}, Required categories: #{required_categories}"
 
-    # First, select one food from each required category type
+    # VARIETY-FIRST APPROACH: Select diverse foods from required categories first
     required_categories.each do |macro_type, category_ids|
       category_foods = available_foods.select { |food| category_ids.include?(food.food_category_id) }
       next if category_foods.empty?
 
-      Rails.logger.info "DEBUG: Selecting #{macro_type} source from categories #{category_ids}"
+      Rails.logger.info "DEBUG: Selecting diverse #{macro_type} source from categories #{category_ids}"
 
-      best_food = find_best_food_for_gap(category_foods, meal_targets, current_macros)
-      if best_food
-        optimal_grams = calculate_optimal_grams(best_food, meal_targets, current_macros)
-        selected_foods << FoodPortion.new(food: best_food, grams: optimal_grams)
-        add_food_macros_to_current(current_macros, best_food, optimal_grams)
+      # Calculate current gap for smart selection
+      gap = MacroTargets.new(
+        carbs: meal_targets.carbs - current_macros.carbs,
+        protein: meal_targets.protein - current_macros.protein,
+        fat: meal_targets.fat - current_macros.fat
+      )
 
-        Rails.logger.info "DEBUG: Selected #{macro_type}: #{optimal_grams.round(1)}g of #{best_food.description}"
+      # Use smart selection that balances feasibility and variety
+      selected_food = select_diverse_food(category_foods, gap)
+      if selected_food
+        # Start with reasonable portion, not optimized portion
+        reasonable_grams = calculate_reasonable_portion(selected_food, meal_targets, current_macros)
+        selected_foods << FoodPortion.new(food: selected_food, grams: reasonable_grams)
+        add_food_macros_to_current(current_macros, selected_food, reasonable_grams)
+
+        # Track usage for variety across all meals
+        @daily_food_usage[selected_food.id] += 1
+
+        Rails.logger.info "DEBUG: Selected diverse #{macro_type}: #{reasonable_grams.round(1)}g of #{selected_food.description}"
         Rails.logger.info "DEBUG: Current macros after #{macro_type}: carbs=#{current_macros.carbs.round(1)}, protein=#{current_macros.protein.round(1)}, fat=#{current_macros.fat.round(1)}"
       end
     end
 
-    # Now fill any remaining gaps with additional foods if needed
-    max_iterations = 15  # More iterations for better solutions
-    iteration = 0
-
-    while !macros_within_tolerance?(current_macros, meal_targets) && iteration < max_iterations
-      Rails.logger.info "DEBUG: Iteration #{iteration}, current_macros: carbs=#{current_macros.carbs}, protein=#{current_macros.protein}, fat=#{current_macros.fat}"
-
-      best_food = find_best_food_for_gap(
-        available_foods.to_a - selected_foods.map(&:food),  # Convert to array
-        meal_targets,
-        current_macros
-      )
-
-      Rails.logger.info "DEBUG: Best food found: #{best_food&.description}"
-      break unless best_food
-
-      # Track macros before adding food to detect if we're making progress
-      previous_total = current_macros.carbs + current_macros.protein + current_macros.fat
-
-      optimal_grams = calculate_optimal_grams(best_food, meal_targets, current_macros)
-      Rails.logger.info "DEBUG: Optimal grams: #{optimal_grams}"
-
-      selected_foods << FoodPortion.new(
-        food: best_food,
-        grams: optimal_grams
-      )
-
-      add_food_macros_to_current(current_macros, best_food, optimal_grams)
-      Rails.logger.info "DEBUG: After adding food, current_macros: carbs=#{current_macros.carbs}, protein=#{current_macros.protein}, fat=#{current_macros.fat}"
-
-      # Check if we made progress - if not, break to avoid infinite loop
-      new_total = current_macros.carbs + current_macros.protein + current_macros.fat
-      if (new_total - previous_total).abs < 0.01  # No meaningful progress
-        Rails.logger.info "DEBUG: No progress made, breaking out of loop"
-        break
-      end
-
-      iteration += 1
-    end
+    # Now adjust portions of selected diverse foods to hit macro targets
+    adjust_portions_to_targets(selected_foods, meal_targets, current_macros)
 
     Rails.logger.info "DEBUG: Final selected_foods count: #{selected_foods.count}"
 
@@ -173,49 +152,76 @@ class DailyMealComposer
     end
   end
 
-  def find_best_food_for_gap(available_foods, targets, current_macros)
-    gap = MacroTargets.new(
-      carbs: targets.carbs - current_macros.carbs,
-      protein: targets.protein - current_macros.protein,
-      fat: targets.fat - current_macros.fat
-    )
+  def select_diverse_food(available_foods, gap = nil)
+    # Filter foods with complete macro data
+    valid_foods = available_foods.select do |food|
+      food_macros = NutrientLookupService.macronutrients_for(food)
 
-    Rails.logger.info "DEBUG: Gap needed: carbs=#{gap.carbs}, protein=#{gap.protein}, fat=#{gap.fat}"
+      # Convert nil values to 0 (common for pure oils, pure proteins, etc.)
+      carbs = food_macros[:carbohydrates] || 0
+      protein = food_macros[:protein] || 0
+      fat = food_macros[:fat] || 0
 
-    # Collect all foods with their scores for variety selection
-    food_scores = []
+      # Skip foods with zero values for all macros (they don't contribute anything)
+      next false if carbs == 0 && protein == 0 && fat == 0
 
-    available_foods.each do |food|
-      food_macros = food.macronutrients
-      Rails.logger.info "DEBUG: Checking food '#{food.description}': carbs=#{food_macros[:carbohydrates]}, protein=#{food_macros[:protein]}, fat=#{food_macros[:fat]}"
+      # If we have a gap, ensure the food can contribute to at least one needed macro
+      if gap
+        can_help_carbs = gap.carbs > 0 && carbs > 0
+        can_help_protein = gap.protein > 0 && protein > 0
+        can_help_fat = gap.fat > 0 && fat > 0
 
-      # Skip foods with ANY missing critical macro data
-      next if food_macros[:carbohydrates].nil? || food_macros[:protein].nil? || food_macros[:fat].nil?
-
-      # Also skip foods with zero values for all macros (they don't contribute anything)
-      next if food_macros[:carbohydrates] == 0 && food_macros[:protein] == 0 && food_macros[:fat] == 0
-
-      # Score based on how well this food matches our gap ratios
-      score = calculate_food_match_score(food_macros, gap)
-      Rails.logger.info "DEBUG: Food score: #{score}"
-
-      food_scores << { food: food, score: score }
+        can_help_carbs || can_help_protein || can_help_fat
+      else
+        true
+      end
     end
 
-    # Sort by score (lower is better) and pick randomly from top candidates
-    food_scores.sort_by! { |fs| fs[:score] }
+    return nil if valid_foods.empty?
 
-    # Take top 20% of foods or at least 3 foods for variety
-    top_count = [ food_scores.length * 0.2, 3 ].max.to_i.clamp(1, food_scores.length)
-    top_candidates = food_scores.first(top_count)
+    Rails.logger.info "DEBUG: Valid foods for selection: #{valid_foods.count}"
+    if gap
+      Rails.logger.info "DEBUG: Gap needed: carbs=#{gap.carbs.round(1)}, protein=#{gap.protein.round(1)}, fat=#{gap.fat.round(1)}"
+    end
 
-    # Randomly select from top candidates
-    selected = top_candidates.sample
-    best_food = selected&.dig(:food)
-    best_score = selected&.dig(:score)
+    # NEW: Calculate both feasibility and variety scores
+    scored_foods = valid_foods.map do |food|
+      # VARIETY SCORE (same as before)
+      usage_count = @daily_food_usage[food.id]
+      variety_score = 1.0 / (usage_count + 1.0)
 
-    Rails.logger.info "DEBUG: Selected from #{top_count} top candidates: #{best_food&.description} with score #{best_score}"
-    best_food
+      # NEW: FEASIBILITY SCORE based on largest gap
+      feasibility_score = calculate_feasibility_score(food, gap)
+
+      # COMBINED SCORE: Weight both factors (prioritize feasibility for high targets)
+      combined_score = (feasibility_score * 0.7) + (variety_score * 0.3)
+
+      Rails.logger.info "DEBUG: #{food.description} - feasibility: #{feasibility_score.round(3)}, variety: #{variety_score.round(3)}, combined: #{combined_score.round(3)}"
+
+      { food: food, score: combined_score }
+    end
+
+    # Select from top candidates using weighted random
+    top_candidates = scored_foods.sort_by { |f| -f[:score] }.first([ 5, scored_foods.count ].min)
+
+    # Weighted random selection from top candidates
+    total_weight = top_candidates.sum { |f| f[:score] }
+    random_value = rand * total_weight
+
+    cumulative_weight = 0
+    top_candidates.each do |candidate|
+      cumulative_weight += candidate[:score]
+      if random_value <= cumulative_weight
+        selected_food = candidate[:food]
+        Rails.logger.info "DEBUG: Selected smart food: #{selected_food.description} (usage: #{@daily_food_usage[selected_food.id]}, score: #{candidate[:score].round(3)})"
+        return selected_food
+      end
+    end
+
+    # Fallback to highest scoring food
+    selected_food = top_candidates.first[:food]
+    Rails.logger.info "DEBUG: Fallback to top scorer: #{selected_food.description}"
+    selected_food
   end
 
   def calculate_food_match_score(food_macros, gap)
@@ -278,44 +284,134 @@ class DailyMealComposer
     score
   end
 
-  def calculate_optimal_grams(food, targets, current_macros)
-    food_macros = food.macronutrients
+  def calculate_feasibility_score(food, gap)
+    return 1.0 unless gap # If no gap info, all foods are equally feasible
 
-    # Calculate remaining gaps (only positive gaps matter)
-    carb_gap = [ targets.carbs - current_macros.carbs, 0 ].max
-    protein_gap = [ targets.protein - current_macros.protein, 0 ].max
-    fat_gap = [ targets.fat - current_macros.fat, 0 ].max
+    food_macros = NutrientLookupService.macronutrients_for(food)
+    carbs = food_macros[:carbohydrates] || 0
+    protein = food_macros[:protein] || 0
+    fat = food_macros[:fat] || 0
 
-    # If no gaps remain, use small portion
-    return 25.0 if carb_gap == 0 && protein_gap == 0 && fat_gap == 0
+    # Find the largest gap
+    gaps = { carbs: gap.carbs, protein: gap.protein, fat: gap.fat }
+    largest_gap_macro, largest_gap_amount = gaps.max_by { |_, amount| amount.abs }
 
-    # Calculate portion sizes that would fill each gap without overshooting
-    portion_options = []
+    return 0.1 if largest_gap_amount <= 0 # No significant gaps
 
-    if (food_macros[:carbohydrates] || 0) > 0 && carb_gap > 0
-      # Use 90% of gap to be more aggressive in filling targets
-      max_grams_for_carbs = (carb_gap * 0.9 / (food_macros[:carbohydrates] || 1)) * 100
-      portion_options << max_grams_for_carbs
+    # Score based on how well this food can contribute to the largest gap
+    food_contribution = case largest_gap_macro
+    when :carbs then carbs
+    when :protein then protein
+    when :fat then fat
     end
 
-    if (food_macros[:protein] || 0) > 0 && protein_gap > 0
-      max_grams_for_protein = (protein_gap * 0.9 / (food_macros[:protein] || 1)) * 100
-      portion_options << max_grams_for_protein
-    end
-
-    if (food_macros[:fat] || 0) > 0 && fat_gap > 0
-      max_grams_for_fat = (fat_gap * 0.9 / (food_macros[:fat] || 1)) * 100
-      portion_options << max_grams_for_fat
-    end
-
-    # Use the smallest calculated portion to avoid overshooting any macro
-    if portion_options.any?
-      optimal_grams = portion_options.min
+    # Score higher if food can make a meaningful dent in the gap
+    # but not so much that it overshoots wildly
+    if food_contribution == 0
+      0.1 # Can't help at all
+    elsif food_contribution > largest_gap_amount * 3
+      0.3 # Too much - would overshoot badly
+    elsif food_contribution > largest_gap_amount * 0.3
+      1.0 # Good match - can make meaningful progress
     else
-      optimal_grams = 30.0
+      0.6 # Can help but only a little
+    end
+  end
+
+  def calculate_reasonable_portion(food, meal_targets, current_macros)
+    # Start with a moderate base portion - not trying to optimize yet
+    base_portion = 60.0  # grams
+
+    # Adjust slightly based on food type, but keep it reasonable
+    food_macros = NutrientLookupService.macronutrients_for(food)
+
+    # If it's a very macro-dense food (like oil), use smaller portion
+    if (food_macros[:fat] || 0) > 80  # Very high fat foods like oils
+      base_portion = 25.0
+    elsif (food_macros[:protein] || 0) > 25  # High protein foods
+      base_portion = 80.0
+    elsif (food_macros[:carbohydrates] || 0) > 20  # High carb foods
+      base_portion = 80.0
     end
 
-    optimal_grams.clamp(15.0, 80.0)  # Conservative portions to prevent overshooting
+    Rails.logger.info "DEBUG: Reasonable portion for #{food.description}: #{base_portion}g"
+    base_portion.clamp(20.0, 120.0)
+  end
+
+  def calculate_optimal_grams(food, targets, current_macros)
+    # Skip foods that don't have at least one macro we need
+    # TODO: Implement optimal gram calculation logic
+    60.0  # Return default portion for now
+  end
+
+  def adjust_portions_to_targets(selected_foods, meal_targets, current_macros)
+    max_iterations = 10
+    iteration = 0
+
+    Rails.logger.info "DEBUG: Starting portion adjustment. Current: #{current_macros}, Target: #{meal_targets}"
+
+    while !macros_within_tolerance?(current_macros, meal_targets) && iteration < max_iterations
+      # Find which macro is furthest from target
+      gaps = {
+        carbs: meal_targets.carbs - current_macros.carbs,
+        protein: meal_targets.protein - current_macros.protein,
+        fat: meal_targets.fat - current_macros.fat
+      }
+
+      largest_gap = gaps.max_by { |_, gap| gap.abs }
+      macro_needed = largest_gap[0]
+      gap_amount = largest_gap[1]
+
+      Rails.logger.info "DEBUG: Iteration #{iteration}: Largest gap is #{macro_needed}: #{gap_amount.round(1)}g"
+
+      # Find the food that can best help with this macro
+      best_food_portion = selected_foods.max_by do |portion|
+        food_macros = NutrientLookupService.macronutrients_for(portion.food)
+        case macro_needed
+        when :carbs then food_macros[:carbohydrates] || 0
+        when :protein then food_macros[:protein] || 0
+        when :fat then food_macros[:fat] || 0
+        end
+      end
+
+      if best_food_portion && gap_amount.abs > 1.0
+        # Calculate how much to adjust this food's portion
+        food_macros = NutrientLookupService.macronutrients_for(best_food_portion.food)
+        macro_per_gram = case macro_needed
+        when :carbs then (food_macros[:carbohydrates] || 0) / 100.0
+        when :protein then (food_macros[:protein] || 0) / 100.0
+        when :fat then (food_macros[:fat] || 0) / 100.0
+        end
+
+        if macro_per_gram > 0
+          needed_grams = gap_amount / macro_per_gram
+          adjustment = [ needed_grams, gap_amount > 0 ? 15.0 : -15.0 ].min_by(&:abs)
+
+          old_grams = best_food_portion.grams
+          new_grams = (old_grams + adjustment).clamp(15.0, 150.0)
+
+          Rails.logger.info "DEBUG: Adjusting #{best_food_portion.food.description} from #{old_grams.round(1)}g to #{new_grams.round(1)}g"
+
+          # Update the portion and recalculate current macros
+          best_food_portion.grams = new_grams
+          recalculate_current_macros(selected_foods, current_macros)
+        end
+      end
+
+      iteration += 1
+    end
+
+    Rails.logger.info "DEBUG: Portion adjustment complete after #{iteration} iterations"
+  end
+
+  def recalculate_current_macros(selected_foods, current_macros)
+    current_macros.carbs = 0
+    current_macros.protein = 0
+    current_macros.fat = 0
+
+    selected_foods.each do |portion|
+      add_food_macros_to_current(current_macros, portion.food, portion.grams)
+    end
   end
 
   def macros_within_tolerance?(current, targets)
@@ -325,7 +421,7 @@ class DailyMealComposer
   end
 
   def add_food_macros_to_current(current_macros, food, grams)
-    food_macros = food.macronutrients
+    food_macros = NutrientLookupService.macronutrients_for(food)
     multiplier = grams / 100.0
 
     current_macros.carbs += (food_macros[:carbohydrates] || 0) * multiplier
@@ -348,20 +444,21 @@ class DailyMealComposer
   end
 
   def food_has_complete_macro_data?(food)
-    macros = food.macronutrients
+    macros = NutrientLookupService.macronutrients_for(food)
 
-    # All three macros must be present (not nil) - even if 0
-    carbs_present = !macros[:carbohydrates].nil?
-    protein_present = !macros[:protein].nil?
-    fat_present = !macros[:fat].nil?
+    # Convert nil values to 0 (consistent with select_diverse_food logic)
+    carbs = macros[:carbohydrates] || 0
+    protein = macros[:protein] || 0
+    fat = macros[:fat] || 0
 
-    has_complete_data = carbs_present && protein_present && fat_present
+    # Skip foods with zero values for all macros (they don't contribute anything)
+    has_some_nutrition = !(carbs == 0 && protein == 0 && fat == 0)
 
-    unless has_complete_data
-      Rails.logger.info "DEBUG: Excluding food '#{food.description}': carbs=#{macros[:carbohydrates]}, protein=#{macros[:protein]}, fat=#{macros[:fat]} (incomplete data)"
+    unless has_some_nutrition
+      Rails.logger.info "DEBUG: Excluding food '#{food.description}': carbs=#{carbs}, protein=#{protein}, fat=#{fat} (no nutritional contribution)"
     end
 
-    has_complete_data
+    has_some_nutrition
   end
 
   def determine_meal_type(allowed_categories)

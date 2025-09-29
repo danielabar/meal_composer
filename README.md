@@ -95,32 +95,32 @@ end
 
 Sample output:
 ```
-Success! Plan uses 9 foods totaling 574.8133198789102g
-Target: 50.0g carbs, 100.0g protein, 150.0g fat
-Actual: 33.96055188698285g carbs, 66.117g protein, 141.5068g fat
+Success! Plan uses 9 foods totaling 530.0g
+Target: 25.0g carbs, 60.0g protein, 180.0g fat
+Actual: 14.5492728g carbs, 50.2306878g protein, 164.718095g fat
 Within tolerance: false
 === BREAKFAST ===
-80.0g of Cheese, cheddar
-20.7g of Oil, coconut
-80.0g of Kiwifruit (kiwi), green, peeled, raw
-Breakfast macros: carbs=13.2g, protein=19.4g, fat=48.2g
+60.0g of Eggs, Grade A, Large, egg yolk
+40.0g of Oil, canola
+60.0g of Raspberries, raw
+Breakfast macros: carbs=8.4g, protein=10.3g, fat=55.2g
 
 === LUNCH ===
-80.0g of Turkey, ground, 93% lean, 7% fat, pan-broiled crumbles
-37.0g of Oil, coconut
-80.0g of Squash, winter, butternut, raw
-Lunch macros: carbs=8.7g, protein=22.6g, fat=46.1g
+80.0g of Chicken, broiler or fryers, breast, skinless, boneless, meat only, cooked, braised
+55.0g of Oil, soybean
+60.0g of Celery, raw
+Lunch macros: carbs=2.0g, protein=26.0g, fat=54.7g
 
 === DINNER ===
-80.0g of Beef, short loin, t-bone steak, bone-in, separable lean only, trimmed to 1/8" fat, choice, cooked, grilled
-37.1g of Oil, coconut
-80.0g of Corn, sweet, yellow and white kernels,  fresh, raw
-Dinner macros: carbs=12.1g, protein=24.1g, fat=47.2g
+60.0g of Beef, top sirloin steak, raw
+55.0g of Oil, sunflower
+60.0g of Cabbage, red, raw
+Dinner macros: carbs=4.2g, protein=13.9g, fat=54.8g
 
 === DAILY TOTALS ===
-Target: 50.0g carbs, 100.0g protein, 150.0g fat
-Actual: 33.96055188698285g carbs, 66.117g protein, 141.5068g fat
-Difference: carbs -16.0g, protein -33.9g, fat -8.5g
+Target: 25.0g carbs, 60.0g protein, 180.0g fat
+Actual: 14.5492728g carbs, 50.2306878g protein, 164.718095g fat
+Difference: carbs -10.5g, protein -9.8g, fat -15.3g
 Within tolerance: false
 ```
 

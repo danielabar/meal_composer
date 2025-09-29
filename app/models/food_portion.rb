@@ -6,6 +6,10 @@ class FoodPortion
     @grams = grams.to_f
   end
 
+  def grams=(new_grams)
+    @grams = new_grams.to_f
+  end
+
   def macros
     food_macros = food.macronutrients
     multiplier = grams / 100.0
