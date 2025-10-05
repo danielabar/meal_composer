@@ -32,4 +32,36 @@ class DailyMealPlan
       fat: actual_macros.fat - target_macros.fat
     }
   end
+
+  def pretty_print
+    output = []
+    output << "Success! Plan uses #{total_foods} foods totaling #{total_grams}g"
+
+    output << "\n=== BREAKFAST ==="
+    breakfast.food_portions.each do |portion|
+      output << "#{portion.grams.round(1)}g of #{portion.food.description}"
+    end
+    output << "Breakfast macros: carbs=#{breakfast.macros.carbs.round(1)}g, protein=#{breakfast.macros.protein.round(1)}g, fat=#{breakfast.macros.fat.round(1)}g"
+
+    output << "\n=== LUNCH ==="
+    lunch.food_portions.each do |portion|
+      output << "#{portion.grams.round(1)}g of #{portion.food.description}"
+    end
+    output << "Lunch macros: carbs=#{lunch.macros.carbs.round(1)}g, protein=#{lunch.macros.protein.round(1)}g, fat=#{lunch.macros.fat.round(1)}g"
+
+    output << "\n=== DINNER ==="
+    dinner.food_portions.each do |portion|
+      output << "#{portion.grams.round(1)}g of #{portion.food.description}"
+    end
+    output << "Dinner macros: carbs=#{dinner.macros.carbs.round(1)}g, protein=#{dinner.macros.protein.round(1)}g, fat=#{dinner.macros.fat.round(1)}g"
+
+    output << "\n=== DAILY TOTALS ==="
+    output << "Target: #{target_macros}"
+    output << "Actual: #{actual_macros}"
+    differences = macro_differences
+    output << "Difference: carbs #{differences[:carbs].round(1)}g, protein #{differences[:protein].round(1)}g, fat #{differences[:fat].round(1)}g"
+    output << "Within tolerance: #{within_tolerance?}"
+
+    output.join("\n")
+  end
 end
