@@ -50,44 +50,14 @@ The setup process will install dependencies, create the database, and load USDA 
 
 ## Usage
 
+Launch a Rails console with `bin/rails c`:
+
 ```ruby
-macro_targets = MacroTargets.new(carbs: 50, protein: 100, fat: 150)
-composer = DailyMealComposer.new
-result = composer.compose_daily_meals(macro_targets: macro_targets)
+macro_targets = MacroTargets.new(carbs: 25, protein: 60, fat: 180)
+result = SimpleMealComposer.new.compose_daily_meals(macro_targets: macro_targets)
 
 if result.composed?
-  plan = result.daily_plan
-  puts "Success! Plan uses #{plan.total_foods} foods totaling #{plan.total_grams}g"
-  puts "Target: #{plan.target_macros}"
-  puts "Actual: #{plan.actual_macros}"
-  puts "Within tolerance: #{plan.within_tolerance?}"
-
-  puts "=== BREAKFAST ==="
-  plan.breakfast.food_portions.each do |portion|
-    puts "#{portion.grams.round(1)}g of #{portion.food.description}"
-  end
-  puts "Breakfast macros: carbs=#{plan.breakfast.macros.carbs.round(1)}g, protein=#{plan.breakfast.macros.protein.round(1)}g, fat=#{plan.breakfast.macros.fat.round(1)}g"
-  puts
-
-  puts "=== LUNCH ==="
-  plan.lunch.food_portions.each do |portion|
-    puts "#{portion.grams.round(1)}g of #{portion.food.description}"
-  end
-  puts "Lunch macros: carbs=#{plan.lunch.macros.carbs.round(1)}g, protein=#{plan.lunch.macros.protein.round(1)}g, fat=#{plan.lunch.macros.fat.round(1)}g"
-  puts
-
-  puts "=== DINNER ==="
-  plan.dinner.food_portions.each do |portion|
-    puts "#{portion.grams.round(1)}g of #{portion.food.description}"
-  end
-  puts "Dinner macros: carbs=#{plan.dinner.macros.carbs.round(1)}g, protein=#{plan.dinner.macros.protein.round(1)}g, fat=#{plan.dinner.macros.fat.round(1)}g"
-  puts
-
-  puts "=== DAILY TOTALS ==="
-  puts "Target: #{plan.target_macros}"
-  puts "Actual: #{plan.actual_macros}"
-  puts "Difference: carbs #{(plan.actual_macros.carbs - plan.target_macros.carbs).round(1)}g, protein #{(plan.actual_macros.protein - plan.target_macros.protein).round(1)}g, fat #{(plan.actual_macros.fat - plan.target_macros.fat).round(1)}g"
-  puts "Within tolerance: #{plan.within_tolerance?}"
+  puts result.daily_plan.pretty_print
 else
   puts "Failed: #{result.error}"
 end
@@ -95,33 +65,29 @@ end
 
 Sample output:
 ```
-Success! Plan uses 9 foods totaling 530.0g
-Target: 25.0g carbs, 60.0g protein, 180.0g fat
-Actual: 14.5492728g carbs, 50.2306878g protein, 164.718095g fat
-Within tolerance: false
 === BREAKFAST ===
-60.0g of Eggs, Grade A, Large, egg yolk
-40.0g of Oil, canola
-60.0g of Raspberries, raw
-Breakfast macros: carbs=8.4g, protein=10.3g, fat=55.2g
+127.5g of Cottage cheese, full fat, large or small curd
+58.5g of Oil, safflower
+17.9g of Kiwifruit (kiwi), green, peeled, raw
+Breakfast macros: carbs=8.3g, protein=15.0g, fat=60.0g
 
 === LUNCH ===
-80.0g of Chicken, broiler or fryers, breast, skinless, boneless, meat only, cooked, braised
-55.0g of Oil, soybean
-60.0g of Celery, raw
-Lunch macros: carbs=2.0g, protein=26.0g, fat=54.7g
+109.6g of Chicken, thigh, meat and skin, raw
+48.4g of Oil, sunflower
+130.5g of Cabbage, green, raw
+Lunch macros: carbs=8.3g, protein=20.0g, fat=60.0g
 
 === DINNER ===
-60.0g of Beef, top sirloin steak, raw
-55.0g of Oil, sunflower
-60.0g of Cabbage, red, raw
-Dinner macros: carbs=4.2g, protein=13.9g, fat=54.8g
+63.0g of Beef, round, top round roast, boneless, separable lean only, trimmed to 0" fat, select, raw
+61.8g of Oil, corn
+144.6g of Mushroom, pioppini
+Dinner macros: carbs=8.3g, protein=20.0g, fat=60.0g
 
 === DAILY TOTALS ===
 Target: 25.0g carbs, 60.0g protein, 180.0g fat
-Actual: 14.5492728g carbs, 50.2306878g protein, 164.718095g fat
-Difference: carbs -10.5g, protein -9.8g, fat -15.3g
-Within tolerance: false
+Actual: 24.999999999999993g carbs, 54.999999999999986g protein, 180.0g fat
+Difference: carbs 0.0g, protein -5.0g, fat 0.0g
+Within tolerance: true
 ```
 
 ## Current Status
