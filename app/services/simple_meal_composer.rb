@@ -1,5 +1,5 @@
 class SimpleMealComposer
-  MACRO_TOLERANCE_GRAMS = 15.0
+  MACRO_TOLERANCE_GRAMS = 5.0
 
   # Same meal categories as DailyMealComposer for consistency
   DEFAULT_MEAL_CATEGORIES = {
