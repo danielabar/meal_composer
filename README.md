@@ -50,44 +50,14 @@ The setup process will install dependencies, create the database, and load USDA 
 
 ## Usage
 
+**With default meal structure**
+
 ```ruby
-macro_targets = MacroTargets.new(carbs: 50, protein: 100, fat: 150)
-composer = DailyMealComposer.new
-result = composer.compose_daily_meals(macro_targets: macro_targets)
+macro_targets = MacroTargets.new(carbs: 25, protein: 60, fat: 180)
+result = ThreeIngredientComposer.new.compose_daily_meals(macro_targets: macro_targets)
 
 if result.composed?
-  plan = result.daily_plan
-  puts "Success! Plan uses #{plan.total_foods} foods totaling #{plan.total_grams}g"
-  puts "Target: #{plan.target_macros}"
-  puts "Actual: #{plan.actual_macros}"
-  puts "Within tolerance: #{plan.within_tolerance?}"
-
-  puts "=== BREAKFAST ==="
-  plan.breakfast.food_portions.each do |portion|
-    puts "#{portion.grams.round(1)}g of #{portion.food.description}"
-  end
-  puts "Breakfast macros: carbs=#{plan.breakfast.macros.carbs.round(1)}g, protein=#{plan.breakfast.macros.protein.round(1)}g, fat=#{plan.breakfast.macros.fat.round(1)}g"
-  puts
-
-  puts "=== LUNCH ==="
-  plan.lunch.food_portions.each do |portion|
-    puts "#{portion.grams.round(1)}g of #{portion.food.description}"
-  end
-  puts "Lunch macros: carbs=#{plan.lunch.macros.carbs.round(1)}g, protein=#{plan.lunch.macros.protein.round(1)}g, fat=#{plan.lunch.macros.fat.round(1)}g"
-  puts
-
-  puts "=== DINNER ==="
-  plan.dinner.food_portions.each do |portion|
-    puts "#{portion.grams.round(1)}g of #{portion.food.description}"
-  end
-  puts "Dinner macros: carbs=#{plan.dinner.macros.carbs.round(1)}g, protein=#{plan.dinner.macros.protein.round(1)}g, fat=#{plan.dinner.macros.fat.round(1)}g"
-  puts
-
-  puts "=== DAILY TOTALS ==="
-  puts "Target: #{plan.target_macros}"
-  puts "Actual: #{plan.actual_macros}"
-  puts "Difference: carbs #{(plan.actual_macros.carbs - plan.target_macros.carbs).round(1)}g, protein #{(plan.actual_macros.protein - plan.target_macros.protein).round(1)}g, fat #{(plan.actual_macros.fat - plan.target_macros.fat).round(1)}g"
-  puts "Within tolerance: #{plan.within_tolerance?}"
+  puts result.daily_plan.pretty_print
 else
   puts "Failed: #{result.error}"
 end
@@ -95,37 +65,77 @@ end
 
 Sample output:
 ```
-Success! Plan uses 9 foods totaling 574.8133198789102g
-Target: 50.0g carbs, 100.0g protein, 150.0g fat
-Actual: 33.96055188698285g carbs, 66.117g protein, 141.5068g fat
-Within tolerance: false
 === BREAKFAST ===
-80.0g of Cheese, cheddar
-20.7g of Oil, coconut
-80.0g of Kiwifruit (kiwi), green, peeled, raw
-Breakfast macros: carbs=13.2g, protein=19.4g, fat=48.2g
+127.5g of Cottage cheese, full fat, large or small curd
+58.5g of Oil, safflower
+17.9g of Kiwifruit (kiwi), green, peeled, raw
+Breakfast macros: carbs=8.3g, protein=15.0g, fat=60.0g
 
 === LUNCH ===
-80.0g of Turkey, ground, 93% lean, 7% fat, pan-broiled crumbles
-37.0g of Oil, coconut
-80.0g of Squash, winter, butternut, raw
-Lunch macros: carbs=8.7g, protein=22.6g, fat=46.1g
+109.6g of Chicken, thigh, meat and skin, raw
+48.4g of Oil, sunflower
+130.5g of Cabbage, green, raw
+Lunch macros: carbs=8.3g, protein=20.0g, fat=60.0g
 
 === DINNER ===
-80.0g of Beef, short loin, t-bone steak, bone-in, separable lean only, trimmed to 1/8" fat, choice, cooked, grilled
-37.1g of Oil, coconut
-80.0g of Corn, sweet, yellow and white kernels,  fresh, raw
-Dinner macros: carbs=12.1g, protein=24.1g, fat=47.2g
+63.0g of Beef, round, top round roast, boneless, separable lean only, trimmed to 0" fat, select, raw
+61.8g of Oil, corn
+144.6g of Mushroom, pioppini
+Dinner macros: carbs=8.3g, protein=20.0g, fat=60.0g
 
 === DAILY TOTALS ===
-Target: 50.0g carbs, 100.0g protein, 150.0g fat
-Actual: 33.96055188698285g carbs, 66.117g protein, 141.5068g fat
-Difference: carbs -16.0g, protein -33.9g, fat -8.5g
-Within tolerance: false
+Target: 25.0g carbs, 60.0g protein, 180.0g fat
+Actual: 24.999999999999993g carbs, 54.999999999999986g protein, 180.0g fat
+Difference: carbs 0.0g, protein -5.0g, fat 0.0g
+Within tolerance: true
+```
+
+**With custom meal structure**
+
+```ruby
+meal_structure = {
+  breakfast: [ "Dairy and Egg Products", "Fats and Oils", "Vegetables and Vegetable Products" ],
+  lunch: [ "Finfish and Shellfish Products", "Fats and Oils", "Vegetables and Vegetable Products" ],
+  dinner: [ "Beef Products", "Fats and Oils", "Cereal Grains and Pasta" ]
+}
+macro_targets = MacroTargets.new(carbs: 100, protein: 150, fat: 95)
+result = ThreeIngredientComposer.new.compose_daily_meals(macro_targets: macro_targets, meal_structure: meal_structure)
+if result.composed?
+  puts result.daily_plan.pretty_print
+else
+  puts "Failed: #{result.error}"
+end
+```
+
+Sample output:
+```
+=== BREAKFAST ===
+55.5g of Egg, white, dried
+28.3g of Oil, coconut
+202.6g of Corn, sweet, yellow and white kernels,  fresh, raw
+Breakfast macros: carbs=33.3g, protein=50.0g, fat=31.7g
+
+=== LUNCH ===
+256.1g of Fish, cod, Atlantic, wild caught, raw
+30.6g of Oil, corn
+449.7g of Beans, snap, green, raw
+Lunch macros: carbs=33.3g, protein=50.0g, fat=31.7g
+
+=== DINNER ===
+188.1g of Beef, round, eye of round roast, boneless, separable lean only, trimmed to 0" fat, select, raw
+25.8g of Oil, corn
+47.8g of Oats, whole grain, steel cut
+Dinner macros: carbs=33.3g, protein=50.0g, fat=31.7g
+
+=== DAILY TOTALS ===
+Target: 100.0g carbs, 150.0g protein, 95.0g fat
+Actual: 99.99999999999999g carbs, 149.99999999999997g protein, 94.99999999999997g fat
+Difference: carbs 0.0g, protein 0.0g, fat 0.0g
+Within tolerance: true
 ```
 
 ## Current Status
 
 Early development. The algorithm successfully generates meal plans within macro tolerances but may require multiple attempts for very restrictive targets.
 
-The meal structures are currently fixed (one dairy/egg + one fat + one fruit for breakfast, etc.). Future versions may include flexibility to customize the number of meals per day and the number of foods from each category within each meal.
+The meal structures can be customized wrt categories at each meal, but are limited to exactly three categories per meal. Future versions may include flexibility to customize the number of meals per day and the number of foods from each category within each meal.
