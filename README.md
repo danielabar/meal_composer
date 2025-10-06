@@ -50,11 +50,11 @@ The setup process will install dependencies, create the database, and load USDA 
 
 ## Usage
 
-Launch a Rails console with `bin/rails c`:
+**With default meal structure**
 
 ```ruby
 macro_targets = MacroTargets.new(carbs: 25, protein: 60, fat: 180)
-result = SimpleMealComposer.new.compose_daily_meals(macro_targets: macro_targets)
+result = ThreeIngredientComposer.new.compose_daily_meals(macro_targets: macro_targets)
 
 if result.composed?
   puts result.daily_plan.pretty_print
@@ -90,8 +90,52 @@ Difference: carbs 0.0g, protein -5.0g, fat 0.0g
 Within tolerance: true
 ```
 
+**With custom meal structure**
+
+```ruby
+meal_structure = {
+  breakfast: [ "Dairy and Egg Products", "Fats and Oils", "Vegetables and Vegetable Products" ],
+  lunch: [ "Finfish and Shellfish Products", "Fats and Oils", "Vegetables and Vegetable Products" ],
+  dinner: [ "Beef Products", "Fats and Oils", "Cereal Grains and Pasta" ]
+}
+macro_targets = MacroTargets.new(carbs: 100, protein: 150, fat: 95)
+result = ThreeIngredientComposer.new.compose_daily_meals(macro_targets: macro_targets, meal_structure: meal_structure)
+if result.composed?
+  puts result.daily_plan.pretty_print
+else
+  puts "Failed: #{result.error}"
+end
+```
+
+Sample output:
+```
+=== BREAKFAST ===
+55.5g of Egg, white, dried
+28.3g of Oil, coconut
+202.6g of Corn, sweet, yellow and white kernels,  fresh, raw
+Breakfast macros: carbs=33.3g, protein=50.0g, fat=31.7g
+
+=== LUNCH ===
+256.1g of Fish, cod, Atlantic, wild caught, raw
+30.6g of Oil, corn
+449.7g of Beans, snap, green, raw
+Lunch macros: carbs=33.3g, protein=50.0g, fat=31.7g
+
+=== DINNER ===
+188.1g of Beef, round, eye of round roast, boneless, separable lean only, trimmed to 0" fat, select, raw
+25.8g of Oil, corn
+47.8g of Oats, whole grain, steel cut
+Dinner macros: carbs=33.3g, protein=50.0g, fat=31.7g
+
+=== DAILY TOTALS ===
+Target: 100.0g carbs, 150.0g protein, 95.0g fat
+Actual: 99.99999999999999g carbs, 149.99999999999997g protein, 94.99999999999997g fat
+Difference: carbs 0.0g, protein 0.0g, fat 0.0g
+Within tolerance: true
+```
+
 ## Current Status
 
 Early development. The algorithm successfully generates meal plans within macro tolerances but may require multiple attempts for very restrictive targets.
 
-The meal structures are currently fixed (one dairy/egg + one fat + one fruit for breakfast, etc.). Future versions may include flexibility to customize the number of meals per day and the number of foods from each category within each meal.
+The meal structures can be customized wrt categories at each meal, but are limited to exactly three categories per meal. Future versions may include flexibility to customize the number of meals per day and the number of foods from each category within each meal.
