@@ -1,8 +1,51 @@
 class ThreeIngredientComposer
+  # ThreeIngredientComposer implements a meal composition algorithm using systems of linear equations.
+  #
+  # Core Algorithm:
+  # This service composes meals by solving a system of linear equations to precisely determine
+  # the optimal quantities of each food ingredient required to meet nutritional targets.
+  #
+  # Mathematical Model:
+  # For each meal, we select exactly 3 food ingredients and set up the following system:
+  #
+  # | c₁ c₂ c₃ |   | p₁ |   | target_carbs   |
+  # | p₁ p₂ p₃ | × | p₂ | = | target_protein |
+  # | f₁ f₂ f₃ |   | p₃ |   | target_fat     |
+  #
+  # Where:
+  # - c₁, c₂, c₃: carbohydrate coefficients per gram for each food
+  # - p₁, p₂, p₃: protein coefficients per gram for each food
+  # - f₁, f₂, f₃: fat coefficients per gram for each food
+  # - p₁, p₂, p₃: portion sizes in grams (our unknowns)
+  # - target_carbs, target_protein, target_fat: nutritional targets
+  #
+  # Solution Method:
+  # We solve this system using Cramer's Rule, which is suitable for solving 3×3 systems efficiently.
+  # Cramer's Rule calculates each unknown variable (portion size) as:
+  #
+  # p₁ = |A₁|/|A|, p₂ = |A₂|/|A|, p₃ = |A₃|/|A|
+  #
+  # Where:
+  # - |A| is the determinant of the coefficient matrix
+  # - |Aₙ| is the determinant of the matrix with the nth column replaced by the target vector
+  #
+  # Optimization Strategy:
+  # If an exact solution doesn't exist or yields impractical portion sizes, we implement a
+  # variation search within a predefined tolerance (±5g of each macro target). This increases
+  # the probability of finding a viable solution while still meeting nutritional requirements
+  # within an acceptable margin of error.
+  #
+  # The algorithm terminates when it finds portion sizes that:
+  # 1. Are within practical limits (10g-500g per ingredient)
+  # 2. Satisfy macro targets within specified tolerance
+  # 3. Use exactly 3 ingredients per meal
+  #
+  # If no valid solution is found after 20 attempts, we consider the meal composition to have failed.
+  #
   # Standard tolerance for 3 foods
   MACRO_TOLERANCE_GRAMS = 5.0
 
-  # Define meal structure using category descriptions instead of IDs
+  # Define meal structure using category descriptions
   DEFAULT_MEAL_STRUCTURE = {
     breakfast: [ "Dairy and Egg Products", "Fats and Oils", "Fruits and Fruit Juices" ],
     lunch: [ "Poultry Products", "Fats and Oils", "Vegetables and Vegetable Products" ],
@@ -10,10 +53,8 @@ class ThreeIngredientComposer
   }.freeze
 
   def compose_daily_meals(macro_targets:, meal_structure: nil)
-    # Use provided structure or default
     structure = meal_structure || DEFAULT_MEAL_STRUCTURE
 
-    # Validate each meal has exactly 3 food categories
     invalid_meal = structure.find { |meal_type, categories| categories.length != 3 }
     if invalid_meal
       meal_name = invalid_meal[0]
@@ -24,12 +65,8 @@ class ThreeIngredientComposer
       )
     end
 
-    # Convert structure's text descriptions to category IDs
     resolved_structure = resolve_category_descriptions(structure)
-
-    # Distribute macros evenly across 3 meals
     meal_targets = distribute_macros_across_meals(macro_targets)
-
     composed_meals = {}
     remaining_targets = macro_targets.dup
 
