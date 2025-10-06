@@ -10,7 +10,7 @@ class DailyMealPlan
   end
 
   def within_tolerance?
-    tolerance = DailyMealComposer::MACRO_TOLERANCE_GRAMS
+    tolerance = ::ThreeIngredientComposer::MACRO_TOLERANCE_GRAMS
 
     (actual_macros.carbs - target_macros.carbs).abs <= tolerance &&
     (actual_macros.protein - target_macros.protein).abs <= tolerance &&
