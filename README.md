@@ -48,9 +48,9 @@ The app uses a constrained optimization algorithm that balances nutritional accu
 
 The setup process will install dependencies, create the database, and load USDA nutrition data.
 
-## Usage
+## Usage Examples
 
-Strict Keto
+**Strict Keto**
 
 ```ruby
 meal_structure = {
@@ -99,6 +99,59 @@ Target: 25.0g carbs, 60.0g protein, 180.0g fat
 Actual: 19.0g carbs, 62.0g protein, 187.0g fat
 Difference: carbs -6.0g, protein 2.0g, fat 7.0g
 Within tolerance: true
+```
+
+**High Protein Athlete**
+
+```ruby
+meal_structure = {
+  breakfast: ["Dairy and Egg Products", "Cereal Grains and Pasta", "Fruits and Fruit Juices", "Nut and Seed Products"],
+  lunch: ["Poultry Products", "Vegetables and Vegetable Products", "Legumes and Legume Products", "Cereal Grains and Pasta"],
+  dinner: ["Beef Products", "Vegetables and Vegetable Products", "Cereal Grains and Pasta", "Dairy and Egg Products", "Nut and Seed Products"]
+}
+macro_targets = MacroTargets.new(carbs: 250, protein: 180, fat: 70)
+result = FlexibleMealComposer.new.compose_daily_meals(
+  macro_targets: macro_targets,
+  meal_structure: meal_structure
+)
+
+if result.composed?
+  puts result.daily_plan.pretty_print
+else
+  puts "Failed: #{result.error}"
+end
+```
+
+Sample output:
+
+```
+=== BREAKFAST ===
+164.9g of Eggs, Grade A, Large, egg white
+85.6g of Flour, whole wheat, unenriched
+62.4g of Cranberry juice, not fortified, from concentrate, shelf stable
+33.6g of Almond butter, creamy
+Breakfast macros: carbs=77.0g, protein=38.0g, fat=20.0g
+
+=== LUNCH ===
+143.4g of Chicken, breast, meat and skin, raw
+75.8g of Tomato, roma
+35.3g of Peanut butter, smooth style, with salt
+110.3g of Flour, whole wheat, unenriched
+Lunch macros: carbs=89.0g, protein=56.0g, fat=28.0g
+
+=== DINNER ===
+233.5g of Beef, flank, steak, boneless, choice, raw
+85.9g of Mushrooms, shiitake
+109.3g of Oats, whole grain, rolled, old fashioned
+78.8g of Milk, reduced fat, fluid, 2% milkfat, with added vitamin A and vitamin D
+10.0g of Almond butter, creamy
+Dinner macros: carbs=88.0g, protein=69.0g, fat=35.0g
+
+=== DAILY TOTALS ===
+Target: 250.0g carbs, 180.0g protein, 70.0g fat
+Actual: 254.0g carbs, 162.0g protein, 84.0g fat
+Difference: carbs 4.0g, protein -18.0g, fat 14.0g
+Within tolerance: false
 ```
 
 ## Current Status
