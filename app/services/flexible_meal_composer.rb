@@ -391,13 +391,18 @@ class FlexibleMealComposer
     macros = NutrientLookupService.macronutrients_for(food)
     return false unless macros
 
-    # Check if we have all the required macro values
-    has_all_macros = [ :carbohydrates, :protein, :fat ].all? { |key| !macros[key].nil? }
+    # Special case for oils - they typically have nil values for carbs and protein
+    category = FoodCategory.find_by(id: food.food_category_id)
+    if category && category.description == "Fats and Oils"
+      # For oils, we only need fat data
+      return !macros[:fat].nil? && macros[:fat] > 0
+    end
 
-    # Check if at least one macro has some nutritional value
+    # Regular check for other foods
+    has_all_macros = [ :carbohydrates, :protein, :fat ].all? { |key| !macros[key].nil? }
     has_some_nutrition = (macros[:carbohydrates] || 0) > 0 ||
-                         (macros[:protein] || 0) > 0 ||
-                         (macros[:fat] || 0) > 0
+                        (macros[:protein] || 0) > 0 ||
+                        (macros[:fat] || 0) > 0
 
     has_all_macros && has_some_nutrition
   end
