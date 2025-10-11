@@ -50,56 +50,20 @@ The setup process will install dependencies, create the database, and load USDA 
 
 ## Usage
 
-**With default meal structure**
-
-```ruby
-macro_targets = MacroTargets.new(carbs: 25, protein: 60, fat: 180)
-result = ThreeIngredientComposer.new.compose_daily_meals(macro_targets: macro_targets)
-
-if result.composed?
-  puts result.daily_plan.pretty_print
-else
-  puts "Failed: #{result.error}"
-end
-```
-
-Sample output:
-```
-=== BREAKFAST ===
-127.5g of Cottage cheese, full fat, large or small curd
-58.5g of Oil, safflower
-17.9g of Kiwifruit (kiwi), green, peeled, raw
-Breakfast macros: carbs=8.3g, protein=15.0g, fat=60.0g
-
-=== LUNCH ===
-109.6g of Chicken, thigh, meat and skin, raw
-48.4g of Oil, sunflower
-130.5g of Cabbage, green, raw
-Lunch macros: carbs=8.3g, protein=20.0g, fat=60.0g
-
-=== DINNER ===
-63.0g of Beef, round, top round roast, boneless, separable lean only, trimmed to 0" fat, select, raw
-61.8g of Oil, corn
-144.6g of Mushroom, pioppini
-Dinner macros: carbs=8.3g, protein=20.0g, fat=60.0g
-
-=== DAILY TOTALS ===
-Target: 25.0g carbs, 60.0g protein, 180.0g fat
-Actual: 24.999999999999993g carbs, 54.999999999999986g protein, 180.0g fat
-Difference: carbs 0.0g, protein -5.0g, fat 0.0g
-Within tolerance: true
-```
-
-**With custom meal structure**
+Strict Keto
 
 ```ruby
 meal_structure = {
   breakfast: [ "Dairy and Egg Products", "Fats and Oils", "Vegetables and Vegetable Products" ],
   lunch: [ "Finfish and Shellfish Products", "Fats and Oils", "Vegetables and Vegetable Products" ],
-  dinner: [ "Beef Products", "Fats and Oils", "Cereal Grains and Pasta" ]
+  dinner: [ "Beef Products", "Fats and Oils", "Vegetables and Vegetable Products" ]
 }
-macro_targets = MacroTargets.new(carbs: 100, protein: 150, fat: 95)
-result = ThreeIngredientComposer.new.compose_daily_meals(macro_targets: macro_targets, meal_structure: meal_structure)
+macro_targets = MacroTargets.new(carbs: 25, protein: 60, fat: 180)
+result = FlexibleMealComposer.new.compose_daily_meals(
+  macro_targets: macro_targets,
+  meal_structure: meal_structure
+)
+
 if result.composed?
   puts result.daily_plan.pretty_print
 else
@@ -108,29 +72,32 @@ end
 ```
 
 Sample output:
+
 ```
+Plan uses 9 foods totaling 757.0g
+
 === BREAKFAST ===
-55.5g of Egg, white, dried
-28.3g of Oil, coconut
-202.6g of Corn, sweet, yellow and white kernels,  fresh, raw
-Breakfast macros: carbs=33.3g, protein=50.0g, fat=31.7g
+77.1g of Cheese, cotija, solid
+29.5g of Oil, sunflower
+99.8g of Squash, summer, green, zucchini, includes skin, raw
+Breakfast macros: carbs=5.0g, protein=19.0g, fat=49.0g
 
 === LUNCH ===
-256.1g of Fish, cod, Atlantic, wild caught, raw
-30.6g of Oil, corn
-449.7g of Beans, snap, green, raw
-Lunch macros: carbs=33.3g, protein=50.0g, fat=31.7g
+116.3g of Fish, pollock, raw
+67.0g of Oil, olive, extra light
+104.9g of Squash, summer, green, zucchini, includes skin, raw
+Lunch macros: carbs=3.0g, protein=15.0g, fat=63.0g
 
 === DINNER ===
-188.1g of Beef, round, eye of round roast, boneless, separable lean only, trimmed to 0" fat, select, raw
-25.8g of Oil, corn
-47.8g of Oats, whole grain, steel cut
-Dinner macros: carbs=33.3g, protein=50.0g, fat=31.7g
+94.9g of Beef, short loin, t-bone steak, bone-in, separable lean only, trimmed to 1/8" fat, choice, cooked, grilled
+67.8g of Oil, canola
+99.7g of Squash, winter, acorn, raw
+Dinner macros: carbs=10.0g, protein=27.0g, fat=75.0g
 
 === DAILY TOTALS ===
-Target: 100.0g carbs, 150.0g protein, 95.0g fat
-Actual: 99.99999999999999g carbs, 149.99999999999997g protein, 94.99999999999997g fat
-Difference: carbs 0.0g, protein 0.0g, fat 0.0g
+Target: 25.0g carbs, 60.0g protein, 180.0g fat
+Actual: 19.0g carbs, 62.0g protein, 187.0g fat
+Difference: carbs -6.0g, protein 2.0g, fat 7.0g
 Within tolerance: true
 ```
 
@@ -138,4 +105,8 @@ Within tolerance: true
 
 Early development. The algorithm successfully generates meal plans within macro tolerances but may require multiple attempts for very restrictive targets.
 
-The meal structures can be customized wrt categories at each meal, but are limited to exactly three categories per meal. Future versions may include flexibility to customize the number of meals per day and the number of foods from each category within each meal.
+The meal structures can be customized wrt categories at each meal, with exactly one food per category. Future versions may include flexibility to customize the number of meals per day and the number of foods from each category within each meal.
+
+## Reference Data
+
+[FoodData Central Download Datasets](https://fdc.nal.usda.gov/download-datasets)
