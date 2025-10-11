@@ -10,7 +10,7 @@ class DailyMealPlan
   end
 
   def within_tolerance?
-    tolerance = ::ThreeIngredientComposer::MACRO_TOLERANCE_GRAMS
+    tolerance = ::FlexibleMealComposer::MACRO_TOLERANCE_GRAMS
 
     (actual_macros.carbs - target_macros.carbs).abs <= tolerance &&
     (actual_macros.protein - target_macros.protein).abs <= tolerance &&
@@ -35,7 +35,7 @@ class DailyMealPlan
 
   def pretty_print
     output = []
-    output << "Success! Plan uses #{total_foods} foods totaling #{total_grams}g"
+    output << "Plan uses #{total_foods} foods totaling #{total_grams}g"
 
     output << "\n=== BREAKFAST ==="
     breakfast.food_portions.each do |portion|
