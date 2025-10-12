@@ -50,13 +50,15 @@ The setup process will install dependencies, create the database, and load USDA 
 
 ## Usage Examples
 
+If you want more than one of the same category at a meal, just include it twice. For example, the plan below will include two vegetables for dinner.
+
 **Strict Keto**
 
 ```ruby
 meal_structure = {
   breakfast: [ "Dairy and Egg Products", "Fats and Oils", "Vegetables and Vegetable Products" ],
   lunch: [ "Finfish and Shellfish Products", "Fats and Oils", "Vegetables and Vegetable Products" ],
-  dinner: [ "Beef Products", "Fats and Oils", "Vegetables and Vegetable Products" ]
+  dinner: [ "Beef Products", "Fats and Oils", "Vegetables and Vegetable Products", "Vegetables and Vegetable Products" ]
 }
 macro_targets = MacroTargets.new(carbs: 25, protein: 60, fat: 180)
 result = FlexibleMealComposer.new.compose_daily_meals(
@@ -74,32 +76,37 @@ end
 Sample output:
 
 ```
-Plan uses 9 foods totaling 757.0g
+Plan uses 10 foods totaling 754.2g
 
 === BREAKFAST ===
-77.1g of Cheese, cotija, solid
-29.5g of Oil, sunflower
-99.8g of Squash, summer, green, zucchini, includes skin, raw
-Breakfast macros: carbs=5.0g, protein=19.0g, fat=49.0g
+73.1g of Cheese, American, restaurant
+23.1g of Oil, soybean
+98.5g of Brussels sprouts, raw
+Breakfast macros: carbs=14.0g, protein=17.0g, fat=45.0g
 
 === LUNCH ===
-116.3g of Fish, pollock, raw
-67.0g of Oil, olive, extra light
-104.9g of Squash, summer, green, zucchini, includes skin, raw
-Lunch macros: carbs=3.0g, protein=15.0g, fat=63.0g
+99.0g of Fish, tilapia, farm raised, raw
+69.2g of Oil, olive, extra light
+99.9g of Collards, raw
+Lunch macros: carbs=7.0g, protein=22.0g, fat=68.0g
 
 === DINNER ===
-94.9g of Beef, short loin, t-bone steak, bone-in, separable lean only, trimmed to 1/8" fat, choice, cooked, grilled
-67.8g of Oil, canola
-99.7g of Squash, winter, acorn, raw
-Dinner macros: carbs=10.0g, protein=27.0g, fat=75.0g
+74.2g of Beef, short loin, t-bone steak, bone-in, separable lean only, trimmed to 1/8" fat, choice, cooked, grilled
+67.6g of Oil, soybean
+74.8g of Beans, snap, green, raw
+74.8g of Mushrooms, shiitake
+Dinner macros: carbs=12.0g, protein=24.0g, fat=73.0g
 
 === DAILY TOTALS ===
 Target: 25.0g carbs, 60.0g protein, 180.0g fat
-Actual: 19.0g carbs, 62.0g protein, 187.0g fat
-Difference: carbs -6.0g, protein 2.0g, fat 7.0g
+Actual: 33.0g carbs, 62.0g protein, 185.0g fat
+Difference: carbs 8.0g, protein 2.0g, fat 5.0g
 Within tolerance: true
 ```
+
+Visual from ChatGPT
+
+![strict keto](docs/images/strict-keto.png "strict keto")
 
 **High Protein Athlete**
 
@@ -153,6 +160,10 @@ Actual: 254.0g carbs, 162.0g protein, 84.0g fat
 Difference: carbs 4.0g, protein -18.0g, fat 14.0g
 Within tolerance: false
 ```
+
+Visual from ChatGPT (assume flour === bread)
+
+![high protein athlete](docs/images/high-protein-athlete.png "high protein athlete")
 
 ## Current Status
 
