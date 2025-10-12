@@ -50,15 +50,17 @@ The setup process will install dependencies, create the database, and load USDA 
 
 ## Usage Examples
 
+WIP: Update categories now that we're using FNDDS instead of Foundational Foods
+
 If you want more than one of the same category at a meal, just include it twice. For example, the plan below will include two vegetables for dinner.
 
 **Strict Keto**
 
 ```ruby
 meal_structure = {
-  breakfast: [ "Dairy and Egg Products", "Fats and Oils", "Vegetables and Vegetable Products" ],
-  lunch: [ "Finfish and Shellfish Products", "Fats and Oils", "Vegetables and Vegetable Products" ],
-  dinner: [ "Beef Products", "Fats and Oils", "Vegetables and Vegetable Products", "Vegetables and Vegetable Products" ]
+  breakfast: [ "Blueberries and other berries", "Butter and animal fats", "Eggs and omelets" ],
+  lunch: [ "Other dark green vegetables", "Chicken, whole pieces", "Salad dressings and vegetable oils" ],
+  dinner: [ "Beef, excludes ground", "Butter and animal fats", "Other vegetables and combinations", "Other dark green vegetables" ]
 }
 macro_targets = MacroTargets.new(carbs: 25, protein: 60, fat: 180)
 result = FlexibleMealComposer.new.compose_daily_meals(
@@ -76,35 +78,33 @@ end
 Sample output:
 
 ```
-Plan uses 10 foods totaling 754.2g
-
 === BREAKFAST ===
-73.1g of Cheese, American, restaurant
-23.1g of Oil, soybean
-98.5g of Brussels sprouts, raw
-Breakfast macros: carbs=14.0g, protein=17.0g, fat=45.0g
+98.4g of Raspberries, raw
+39.8g of Animal fat or drippings
+93.5g of Egg, whole, boiled or poached
+Breakfast macros: carbs=14.0g, protein=13.0g, fat=46.0g
 
 === LUNCH ===
-99.0g of Fish, tilapia, farm raised, raw
-69.2g of Oil, olive, extra light
-99.9g of Collards, raw
-Lunch macros: carbs=7.0g, protein=22.0g, fat=68.0g
+99.8g of Cress, raw
+97.9g of Chicken leg, drumstick and thigh, stewed, skin not eaten
+98.1g of Caesar dressing
+Lunch macros: carbs=9.0g, protein=28.0g, fat=65.0g
 
 === DINNER ===
-74.2g of Beef, short loin, t-bone steak, bone-in, separable lean only, trimmed to 1/8" fat, choice, cooked, grilled
-67.6g of Oil, soybean
-74.8g of Beans, snap, green, raw
-74.8g of Mushrooms, shiitake
-Dinner macros: carbs=12.0g, protein=24.0g, fat=73.0g
+75.0g of Beef, NFS
+75.0g of Fat back, cooked
+75.0g of Seaweed, cooked, no added fat
+75.0g of Turrnip greens, NS as to form, cooked
+Dinner macros: carbs=9.0g, protein=26.0g, fat=74.0g
 
 === DAILY TOTALS ===
 Target: 25.0g carbs, 60.0g protein, 180.0g fat
-Actual: 33.0g carbs, 62.0g protein, 185.0g fat
-Difference: carbs 8.0g, protein 2.0g, fat 5.0g
+Actual: 31.0g carbs, 68.0g protein, 185.0g fat
+Difference: carbs 6.0g, protein 8.0g, fat 5.0g
 Within tolerance: true
 ```
 
-Visual from ChatGPT
+Visual from ChatGPT - needs update after switch to FNDDS
 
 ![strict keto](docs/images/strict-keto.png "strict keto")
 
@@ -112,16 +112,30 @@ Visual from ChatGPT
 
 ```ruby
 meal_structure = {
-  breakfast: ["Dairy and Egg Products", "Cereal Grains and Pasta", "Fruits and Fruit Juices", "Nut and Seed Products"],
-  lunch: ["Poultry Products", "Vegetables and Vegetable Products", "Legumes and Legume Products", "Cereal Grains and Pasta"],
-  dinner: ["Beef Products", "Vegetables and Vegetable Products", "Cereal Grains and Pasta", "Dairy and Egg Products", "Nut and Seed Products"]
+  breakfast: [
+    "Eggs and omelets",
+    "Grits and other cooked cereals",
+    "Citrus fruits",
+    "Yeast breads"
+  ],
+  lunch: [
+    "Cold cuts and cured meats",
+    "Lettuce and lettuce salads",
+    "Beans, peas, legumes",
+    "Rice"
+  ],
+  dinner: [
+    "Beef, excludes ground",
+    "Other dark green vegetables",
+    "Pasta, noodles, cooked grains",
+    "Other red and orange vegetables"
+  ]
 }
 macro_targets = MacroTargets.new(carbs: 250, protein: 180, fat: 70)
 result = FlexibleMealComposer.new.compose_daily_meals(
   macro_targets: macro_targets,
   meal_structure: meal_structure
 )
-
 if result.composed?
   puts result.daily_plan.pretty_print
 else
@@ -133,35 +147,34 @@ Sample output:
 
 ```
 === BREAKFAST ===
-164.9g of Eggs, Grade A, Large, egg white
-85.6g of Flour, whole wheat, unenriched
-62.4g of Cranberry juice, not fortified, from concentrate, shelf stable
-33.6g of Almond butter, creamy
-Breakfast macros: carbs=77.0g, protein=38.0g, fat=20.0g
+242.3g of Egg, white, cooked, fat added
+93.2g of Wheat cereal, chocolate flavored, cooked
+65.3g of Orange, canned, in syrup
+140.6g of Focaccia, Italian, plain
+Breakfast macros: carbs=75.0g, protein=39.0g, fat=25.0g
 
 === LUNCH ===
-143.4g of Chicken, breast, meat and skin, raw
-75.8g of Tomato, roma
-35.3g of Peanut butter, smooth style, with salt
-110.3g of Flour, whole wheat, unenriched
-Lunch macros: carbs=89.0g, protein=56.0g, fat=28.0g
+170.8g of Beef, prepackaged or deli, luncheon meat, reduced sodium
+91.6g of Mixed salad greens, raw
+194.6g of White beans, from dried, fat added
+163.6g of Rice, brown and wild, cooked, fat added
+Lunch macros: carbs=89.0g, protein=55.0g, fat=25.0g
 
 === DINNER ===
-233.5g of Beef, flank, steak, boneless, choice, raw
-85.9g of Mushrooms, shiitake
-109.3g of Oats, whole grain, rolled, old fashioned
-78.8g of Milk, reduced fat, fluid, 2% milkfat, with added vitamin A and vitamin D
-10.0g of Almond butter, creamy
-Dinner macros: carbs=88.0g, protein=69.0g, fat=35.0g
+191.7g of Beef, oxtails
+118.0g of Mustard greens, raw
+198.2g of Noodles, whole grain, cooked
+131.9g of Sweet potato, baked, no added fat
+Dinner macros: carbs=89.0g, protein=67.0g, fat=36.0g
 
 === DAILY TOTALS ===
 Target: 250.0g carbs, 180.0g protein, 70.0g fat
-Actual: 254.0g carbs, 162.0g protein, 84.0g fat
-Difference: carbs 4.0g, protein -18.0g, fat 14.0g
+Actual: 253.0g carbs, 161.0g protein, 86.0g fat
+Difference: carbs 3.0g, protein -19.0g, fat 16.0g
 Within tolerance: false
 ```
 
-Visual from ChatGPT (assume flour === bread)
+Visual from ChatGPT TODO needs update after fndds foods
 
 ![high protein athlete](docs/images/high-protein-athlete.png "high protein athlete")
 

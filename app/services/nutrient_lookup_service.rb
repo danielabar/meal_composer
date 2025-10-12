@@ -1,8 +1,13 @@
+# TODO: Technically this is a MacroLookupService because it only looks up carbs/protein/fat.
+# TODO: Would be nice to also return net carbs (carbs minus fiber and sugar alcohols)
 class NutrientLookupService
+  # Nutrient names verified against db/data/fndds/nutrient.csv
   CARB_NUTRIENT_NAMES = [
     "Carbohydrate, by difference",
     "Carbohydrate, by summation",
-    "Total carbohydrate"
+    "Carbohydrates",           # Added from FNDDS
+    "Carbohydrate, other",     # Added from FNDDS
+    "Total carbohydrate"       # Not in FNDDS but kept for Foundation Foods compatibility
   ].freeze
 
   PROTEIN_NUTRIENT_NAMES = [
@@ -13,7 +18,8 @@ class NutrientLookupService
   FAT_NUTRIENT_NAMES = [
     "Total lipid (fat)",
     "Total fat (NLEA)",
-    "Fat, total"
+    "Lipids",               # Added from FNDDS
+    "Fat, total"            # Not in FNDDS but kept for Foundation Foods compatibility
   ].freeze
 
   def self.macronutrients_for(food)
