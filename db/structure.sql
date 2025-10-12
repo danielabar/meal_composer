@@ -135,7 +135,8 @@ CREATE TABLE public.nutrients (
     unit_name text NOT NULL,
     rank numeric(10,1) NOT NULL,
     created_at timestamp(6) with time zone NOT NULL,
-    updated_at timestamp(6) with time zone NOT NULL
+    updated_at timestamp(6) with time zone NOT NULL,
+    nutrient_nbr character varying
 );
 
 
@@ -293,6 +294,13 @@ CREATE UNIQUE INDEX index_nutrients_on_name_and_unit_name ON public.nutrients US
 
 
 --
+-- Name: index_nutrients_on_nutrient_nbr; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_nutrients_on_nutrient_nbr ON public.nutrients USING btree (nutrient_nbr);
+
+
+--
 -- Name: index_nutrients_on_rank; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -330,6 +338,7 @@ ALTER TABLE ONLY public.food_nutrients
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251012140749'),
 ('20250928180036'),
 ('20250928172929'),
 ('20250928152141'),

@@ -1,17 +1,10 @@
-puts "Seeding food categories..."
-load Rails.root.join("db/seeds/food_categories.rb")
-puts "✅ Food categories seeded."
+dataset = ENV["DATASET"] || "foundation"
 
-puts "Seeding nutrients..."
-load Rails.root.join("db/seeds/nutrients.rb")
-puts "✅ Nutrients seeded."
-
-puts "Seeding foods..."
-load Rails.root.join("db/seeds/foods.rb")
-puts "✅ Foods seeded."
-
-puts "Seeding food nutrients..."
-load Rails.root.join("db/seeds/food_nutrients.rb")
-puts "✅ Food nutrients seeded."
-
-puts "All seeds finished!"
+if dataset == "foundation"
+  load Rails.root.join("db/seeds_foundation.rb")
+elsif dataset == "fndds"
+  load Rails.root.join("db/seeds_fndds.rb")
+else
+  puts "❌ Invalid dataset specified. Use DATASET=foundation or DATASET=fndds"
+  exit 1
+end
