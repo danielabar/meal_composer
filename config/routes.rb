@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   # Public home page
   root "home#index"
 
+  resources :daily_macro_targets, except: [ :show ]
+
   # Health check endpoint
   get "up" => "rails/health#show", as: :rails_health_check
 

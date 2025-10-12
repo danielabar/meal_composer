@@ -27,6 +27,41 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: daily_macro_targets; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.daily_macro_targets (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    name character varying NOT NULL,
+    carbs_grams numeric(8,2) NOT NULL,
+    protein_grams numeric(8,2) NOT NULL,
+    fat_grams numeric(8,2) NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
+);
+
+
+--
+-- Name: daily_macro_targets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.daily_macro_targets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: daily_macro_targets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.daily_macro_targets_id_seq OWNED BY public.daily_macro_targets.id;
+
+
+--
 -- Name: food_categories; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -234,6 +269,13 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
+-- Name: daily_macro_targets id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.daily_macro_targets ALTER COLUMN id SET DEFAULT nextval('public.daily_macro_targets_id_seq'::regclass);
+
+
+--
 -- Name: food_categories id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -281,6 +323,14 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: daily_macro_targets daily_macro_targets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.daily_macro_targets
+    ADD CONSTRAINT daily_macro_targets_pkey PRIMARY KEY (id);
 
 
 --
@@ -337,6 +387,20 @@ ALTER TABLE ONLY public.sessions
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_daily_macro_targets_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_daily_macro_targets_on_user_id ON public.daily_macro_targets USING btree (user_id);
+
+
+--
+-- Name: index_daily_macro_targets_on_user_id_and_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_daily_macro_targets_on_user_id_and_name ON public.daily_macro_targets USING btree (user_id, name);
 
 
 --
@@ -425,6 +489,14 @@ ALTER TABLE ONLY public.food_nutrients
 
 
 --
+-- Name: daily_macro_targets fk_rails_612f14eaf4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.daily_macro_targets
+    ADD CONSTRAINT fk_rails_612f14eaf4 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: sessions fk_rails_758836b4f0; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -455,6 +527,7 @@ ALTER TABLE ONLY public.food_nutrients
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251012233902'),
 ('20251012212052'),
 ('20251012212051'),
 ('20251012140749'),

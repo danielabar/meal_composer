@@ -1,0 +1,10 @@
+<div class="max-w-6xl mx-auto">
+  <%= turbo_frame_tag dom_id(@daily_macro_target) do %>
+    <tr class="bg-gray-50">
+      <td colspan="6" class="px-6 py-4">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Edit Macro Target</h3>
+        <%= render "form", daily_macro_target: @daily_macro_target %>
+      </td>
+    </tr>
+  <% end %>
+</div>
