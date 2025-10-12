@@ -58,9 +58,9 @@ If you want more than one of the same category at a meal, just include it twice.
 
 ```ruby
 meal_structure = {
-  breakfast: [ "Citrus fruits", "Butter and animal fats", "Eggs and omelets" ],
+  breakfast: [ "Blueberries and other berries", "Butter and animal fats", "Eggs and omelets" ],
   lunch: [ "Other dark green vegetables", "Chicken, whole pieces", "Salad dressings and vegetable oils" ],
-  dinner: [ "Beef, excludes ground", "Butter and animal fats", "Other red and orange vegetables", "Other dark green vegetables" ]
+  dinner: [ "Beef, excludes ground", "Butter and animal fats", "Other vegetables and combinations", "Other dark green vegetables" ]
 }
 macro_targets = MacroTargets.new(carbs: 25, protein: 60, fat: 180)
 result = FlexibleMealComposer.new.compose_daily_meals(
@@ -75,35 +75,33 @@ else
 end
 ```
 
-Sample output:
+Sample output: TODO Update after some foods cleanup
 
 ```
-Plan uses 10 foods totaling 778.0g
-
 === BREAKFAST ===
-98.5g of Grapefruit, raw
-48.2g of Table fat, NFS
-91.2g of Egg omelet or scrambled egg, with cheese and meat, no added fat
-Breakfast macros: carbs=12.0g, protein=14.0g, fat=48.0g
+97.4g of Clementine, raw
+42.2g of Butter, tub
+89.2g of Egg, whole, fried, from fast food / restaurant
+Breakfast macros: carbs=14.0g, protein=11.0g, fat=47.0g
 
 === LUNCH ===
-97.8g of Kale, NS as to form, cooked
-93.5g of Chicken thigh, baked, coated, skin / coating not eaten
-48.8g of Sesame oil
-Lunch macros: carbs=5.0g, protein=25.0g, fat=62.0g
+100.0g of Beet greens, raw
+91.3g of Chicken thigh, rotisserie, skin eaten
+47.8g of Almond oil
+Lunch macros: carbs=4.0g, protein=23.0g, fat=62.0g
 
 === DINNER ===
-75.0g of Beef, steak, strip, NS as to fat eaten
-75.0g of Butter, NFS
-75.0g of Winter squash, cooked, fat added
-75.0g of Kale, fresh, cooked, fat added
-Dinner macros: carbs=10.0g, protein=24.0g, fat=78.0g
+72.3g of Beef, steak, flank
+59.3g of Ghee, clarified butter
+53.6g of Sweet potato, canned, fat added
+65.3g of Dandelion greens, raw
+Dinner macros: carbs=17.0g, protein=24.0g, fat=72.0g
 
 === DAILY TOTALS ===
 Target: 25.0g carbs, 60.0g protein, 180.0g fat
-Actual: 26.0g carbs, 63.0g protein, 188.0g fat
-Difference: carbs 1.0g, protein 3.0g, fat 8.0g
-Within tolerance: true
+Actual: 35.0g carbs, 58.0g protein, 181.0g fat
+Difference: carbs 10.0g, protein -2.0g, fat 1.0g
+Within tolerance: false
 ```
 
 Visual from ChatGPT - needs update after switch to FNDDS

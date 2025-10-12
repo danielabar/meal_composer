@@ -13,6 +13,6 @@ puts "Seeding food nutrients..."
 load Rails.root.join("db/seeds/fndds/food_nutrients.rb")
 
 puts "Cleaning up food data..."
-load Rails.root.join("db/seeds/fndds/cleanup_foods.rb")
+load Rails.root.join("db/seeds/fndds/cleanup.rb")
 
 puts "🎉 FNDDS data seeding completed!"

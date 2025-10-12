@@ -1,10 +1,7 @@
-# This script is responsible for cleaning up the FNDDS food data
-# by removing entries that are not relevant for adult meal planning.
+# This script is responsible for removing FNDDS food data
+# that is not relevant for adult meal planning (baby foods, infant formula, etc.)
 
-puts "Starting FNDDS food data cleanup..."
-
-# Remove foods no adult would typically eat
-puts "Removing foods not suitable for adult meal planning..."
+puts "Starting cleanup of baby/infant food items..."
 
 # Define keywords for foods to remove
 unsuitable_food_keywords = [
@@ -35,15 +32,4 @@ unsuitable_food_keywords.each do |keyword|
   end
 end
 
-puts "✅ Removed #{removed_count} unsuitable foods"
-
-# TODO: Remove combination foods that contain complex descriptions
-#   - Foods with keywords like `with`, `and`, `includes`, `added`
-#   - These are often too specific for general meal planning purposes
-#   - WATCH OUT: some `and` is desirable, needs more work
-
-# TODO: Investigate and cleanup the butter & animal fats category
-#   - Determine what items like "table fat" actually refer to
-#   - Standardize naming and categorization for consistency
-
-puts "FNDDS food data cleanup completed!"
+puts "✅ Removed #{removed_count} baby/infant food items"
