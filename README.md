@@ -48,58 +48,24 @@ The app uses a constrained optimization algorithm that balances nutritional accu
 
 The setup process will install dependencies, create the database, and load USDA nutrition data.
 
-## Usage
+## Usage Examples
 
-**With default meal structure**
+If you want more than one of the same category at a meal, just include it twice. For example, the plan below will include two vegetables for dinner.
 
-```ruby
-macro_targets = MacroTargets.new(carbs: 25, protein: 60, fat: 180)
-result = ThreeIngredientComposer.new.compose_daily_meals(macro_targets: macro_targets)
-
-if result.composed?
-  puts result.daily_plan.pretty_print
-else
-  puts "Failed: #{result.error}"
-end
-```
-
-Sample output:
-```
-=== BREAKFAST ===
-127.5g of Cottage cheese, full fat, large or small curd
-58.5g of Oil, safflower
-17.9g of Kiwifruit (kiwi), green, peeled, raw
-Breakfast macros: carbs=8.3g, protein=15.0g, fat=60.0g
-
-=== LUNCH ===
-109.6g of Chicken, thigh, meat and skin, raw
-48.4g of Oil, sunflower
-130.5g of Cabbage, green, raw
-Lunch macros: carbs=8.3g, protein=20.0g, fat=60.0g
-
-=== DINNER ===
-63.0g of Beef, round, top round roast, boneless, separable lean only, trimmed to 0" fat, select, raw
-61.8g of Oil, corn
-144.6g of Mushroom, pioppini
-Dinner macros: carbs=8.3g, protein=20.0g, fat=60.0g
-
-=== DAILY TOTALS ===
-Target: 25.0g carbs, 60.0g protein, 180.0g fat
-Actual: 24.999999999999993g carbs, 54.999999999999986g protein, 180.0g fat
-Difference: carbs 0.0g, protein -5.0g, fat 0.0g
-Within tolerance: true
-```
-
-**With custom meal structure**
+**Strict Keto**
 
 ```ruby
 meal_structure = {
   breakfast: [ "Dairy and Egg Products", "Fats and Oils", "Vegetables and Vegetable Products" ],
   lunch: [ "Finfish and Shellfish Products", "Fats and Oils", "Vegetables and Vegetable Products" ],
-  dinner: [ "Beef Products", "Fats and Oils", "Cereal Grains and Pasta" ]
+  dinner: [ "Beef Products", "Fats and Oils", "Vegetables and Vegetable Products", "Vegetables and Vegetable Products" ]
 }
-macro_targets = MacroTargets.new(carbs: 100, protein: 150, fat: 95)
-result = ThreeIngredientComposer.new.compose_daily_meals(macro_targets: macro_targets, meal_structure: meal_structure)
+macro_targets = MacroTargets.new(carbs: 25, protein: 60, fat: 180)
+result = FlexibleMealComposer.new.compose_daily_meals(
+  macro_targets: macro_targets,
+  meal_structure: meal_structure
+)
+
 if result.composed?
   puts result.daily_plan.pretty_print
 else
@@ -108,34 +74,103 @@ end
 ```
 
 Sample output:
+
 ```
+Plan uses 10 foods totaling 754.2g
+
 === BREAKFAST ===
-55.5g of Egg, white, dried
-28.3g of Oil, coconut
-202.6g of Corn, sweet, yellow and white kernels,  fresh, raw
-Breakfast macros: carbs=33.3g, protein=50.0g, fat=31.7g
+73.1g of Cheese, American, restaurant
+23.1g of Oil, soybean
+98.5g of Brussels sprouts, raw
+Breakfast macros: carbs=14.0g, protein=17.0g, fat=45.0g
 
 === LUNCH ===
-256.1g of Fish, cod, Atlantic, wild caught, raw
-30.6g of Oil, corn
-449.7g of Beans, snap, green, raw
-Lunch macros: carbs=33.3g, protein=50.0g, fat=31.7g
+99.0g of Fish, tilapia, farm raised, raw
+69.2g of Oil, olive, extra light
+99.9g of Collards, raw
+Lunch macros: carbs=7.0g, protein=22.0g, fat=68.0g
 
 === DINNER ===
-188.1g of Beef, round, eye of round roast, boneless, separable lean only, trimmed to 0" fat, select, raw
-25.8g of Oil, corn
-47.8g of Oats, whole grain, steel cut
-Dinner macros: carbs=33.3g, protein=50.0g, fat=31.7g
+74.2g of Beef, short loin, t-bone steak, bone-in, separable lean only, trimmed to 1/8" fat, choice, cooked, grilled
+67.6g of Oil, soybean
+74.8g of Beans, snap, green, raw
+74.8g of Mushrooms, shiitake
+Dinner macros: carbs=12.0g, protein=24.0g, fat=73.0g
 
 === DAILY TOTALS ===
-Target: 100.0g carbs, 150.0g protein, 95.0g fat
-Actual: 99.99999999999999g carbs, 149.99999999999997g protein, 94.99999999999997g fat
-Difference: carbs 0.0g, protein 0.0g, fat 0.0g
+Target: 25.0g carbs, 60.0g protein, 180.0g fat
+Actual: 33.0g carbs, 62.0g protein, 185.0g fat
+Difference: carbs 8.0g, protein 2.0g, fat 5.0g
 Within tolerance: true
 ```
+
+Visual from ChatGPT
+
+![strict keto](docs/images/strict-keto.png "strict keto")
+
+**High Protein Athlete**
+
+```ruby
+meal_structure = {
+  breakfast: ["Dairy and Egg Products", "Cereal Grains and Pasta", "Fruits and Fruit Juices", "Nut and Seed Products"],
+  lunch: ["Poultry Products", "Vegetables and Vegetable Products", "Legumes and Legume Products", "Cereal Grains and Pasta"],
+  dinner: ["Beef Products", "Vegetables and Vegetable Products", "Cereal Grains and Pasta", "Dairy and Egg Products", "Nut and Seed Products"]
+}
+macro_targets = MacroTargets.new(carbs: 250, protein: 180, fat: 70)
+result = FlexibleMealComposer.new.compose_daily_meals(
+  macro_targets: macro_targets,
+  meal_structure: meal_structure
+)
+
+if result.composed?
+  puts result.daily_plan.pretty_print
+else
+  puts "Failed: #{result.error}"
+end
+```
+
+Sample output:
+
+```
+=== BREAKFAST ===
+164.9g of Eggs, Grade A, Large, egg white
+85.6g of Flour, whole wheat, unenriched
+62.4g of Cranberry juice, not fortified, from concentrate, shelf stable
+33.6g of Almond butter, creamy
+Breakfast macros: carbs=77.0g, protein=38.0g, fat=20.0g
+
+=== LUNCH ===
+143.4g of Chicken, breast, meat and skin, raw
+75.8g of Tomato, roma
+35.3g of Peanut butter, smooth style, with salt
+110.3g of Flour, whole wheat, unenriched
+Lunch macros: carbs=89.0g, protein=56.0g, fat=28.0g
+
+=== DINNER ===
+233.5g of Beef, flank, steak, boneless, choice, raw
+85.9g of Mushrooms, shiitake
+109.3g of Oats, whole grain, rolled, old fashioned
+78.8g of Milk, reduced fat, fluid, 2% milkfat, with added vitamin A and vitamin D
+10.0g of Almond butter, creamy
+Dinner macros: carbs=88.0g, protein=69.0g, fat=35.0g
+
+=== DAILY TOTALS ===
+Target: 250.0g carbs, 180.0g protein, 70.0g fat
+Actual: 254.0g carbs, 162.0g protein, 84.0g fat
+Difference: carbs 4.0g, protein -18.0g, fat 14.0g
+Within tolerance: false
+```
+
+Visual from ChatGPT (assume flour === bread)
+
+![high protein athlete](docs/images/high-protein-athlete.png "high protein athlete")
 
 ## Current Status
 
 Early development. The algorithm successfully generates meal plans within macro tolerances but may require multiple attempts for very restrictive targets.
 
-The meal structures can be customized wrt categories at each meal, but are limited to exactly three categories per meal. Future versions may include flexibility to customize the number of meals per day and the number of foods from each category within each meal.
+The meal structures can be customized wrt categories at each meal, with exactly one food per category. Future versions may include flexibility to customize the number of meals per day and the number of foods from each category within each meal.
+
+## Reference Data
+
+[FoodData Central Download Datasets](https://fdc.nal.usda.gov/download-datasets)
