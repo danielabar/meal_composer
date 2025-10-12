@@ -1,3 +1,4 @@
+# TODO: Unused?
 class MealPreferences
   attr_reader :breakfast_categories, :lunch_categories, :dinner_categories
 

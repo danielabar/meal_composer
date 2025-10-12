@@ -26,6 +26,7 @@ class FlexibleMealComposer
   LEARNING_RATE = 0.5    # Increased learning rate
   PLATEAU_THRESHOLD = 0.01 # For early stopping
 
+  # TODO: Either remove the concept of default or update to match FNDDS categories
   # Define meal structure using category descriptions (can be customized)
   # All categories confirmed to exist in food_category.csv
   DEFAULT_MEAL_STRUCTURE = {
