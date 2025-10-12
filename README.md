@@ -112,16 +112,30 @@ Visual from ChatGPT - needs update after switch to FNDDS
 
 ```ruby
 meal_structure = {
-  breakfast: ["Dairy and Egg Products", "Cereal Grains and Pasta", "Fruits and Fruit Juices", "Nut and Seed Products"],
-  lunch: ["Poultry Products", "Vegetables and Vegetable Products", "Legumes and Legume Products", "Cereal Grains and Pasta"],
-  dinner: ["Beef Products", "Vegetables and Vegetable Products", "Cereal Grains and Pasta", "Dairy and Egg Products", "Nut and Seed Products"]
+  breakfast: [
+    "Eggs and omelets",
+    "Grits and other cooked cereals",
+    "Citrus fruits",
+    "Yeast breads"
+  ],
+  lunch: [
+    "Cold cuts and cured meats",
+    "Lettuce and lettuce salads",
+    "Beans, peas, legumes",
+    "Rice"
+  ],
+  dinner: [
+    "Beef, excludes ground",
+    "Other dark green vegetables",
+    "Pasta, noodles, cooked grains",
+    "Other red and orange vegetables"
+  ]
 }
 macro_targets = MacroTargets.new(carbs: 250, protein: 180, fat: 70)
 result = FlexibleMealComposer.new.compose_daily_meals(
   macro_targets: macro_targets,
   meal_structure: meal_structure
 )
-
 if result.composed?
   puts result.daily_plan.pretty_print
 else
@@ -133,35 +147,34 @@ Sample output:
 
 ```
 === BREAKFAST ===
-164.9g of Eggs, Grade A, Large, egg white
-85.6g of Flour, whole wheat, unenriched
-62.4g of Cranberry juice, not fortified, from concentrate, shelf stable
-33.6g of Almond butter, creamy
-Breakfast macros: carbs=77.0g, protein=38.0g, fat=20.0g
+242.3g of Egg, white, cooked, fat added
+93.2g of Wheat cereal, chocolate flavored, cooked
+65.3g of Orange, canned, in syrup
+140.6g of Focaccia, Italian, plain
+Breakfast macros: carbs=75.0g, protein=39.0g, fat=25.0g
 
 === LUNCH ===
-143.4g of Chicken, breast, meat and skin, raw
-75.8g of Tomato, roma
-35.3g of Peanut butter, smooth style, with salt
-110.3g of Flour, whole wheat, unenriched
-Lunch macros: carbs=89.0g, protein=56.0g, fat=28.0g
+170.8g of Beef, prepackaged or deli, luncheon meat, reduced sodium
+91.6g of Mixed salad greens, raw
+194.6g of White beans, from dried, fat added
+163.6g of Rice, brown and wild, cooked, fat added
+Lunch macros: carbs=89.0g, protein=55.0g, fat=25.0g
 
 === DINNER ===
-233.5g of Beef, flank, steak, boneless, choice, raw
-85.9g of Mushrooms, shiitake
-109.3g of Oats, whole grain, rolled, old fashioned
-78.8g of Milk, reduced fat, fluid, 2% milkfat, with added vitamin A and vitamin D
-10.0g of Almond butter, creamy
-Dinner macros: carbs=88.0g, protein=69.0g, fat=35.0g
+191.7g of Beef, oxtails
+118.0g of Mustard greens, raw
+198.2g of Noodles, whole grain, cooked
+131.9g of Sweet potato, baked, no added fat
+Dinner macros: carbs=89.0g, protein=67.0g, fat=36.0g
 
 === DAILY TOTALS ===
 Target: 250.0g carbs, 180.0g protein, 70.0g fat
-Actual: 254.0g carbs, 162.0g protein, 84.0g fat
-Difference: carbs 4.0g, protein -18.0g, fat 14.0g
+Actual: 253.0g carbs, 161.0g protein, 86.0g fat
+Difference: carbs 3.0g, protein -19.0g, fat 16.0g
 Within tolerance: false
 ```
 
-Visual from ChatGPT (assume flour === bread)
+Visual from ChatGPT TODO needs update after fndds foods
 
 ![high protein athlete](docs/images/high-protein-athlete.png "high protein athlete")
 
