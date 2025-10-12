@@ -75,7 +75,7 @@ else
 end
 ```
 
-Sample output: TODO Update after some foods cleanup
+Sample output:
 
 ```
 === BREAKFAST ===
