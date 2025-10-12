@@ -12,4 +12,7 @@ load Rails.root.join("db/seeds/fndds/cleanup_composite_foods.rb")
 puts "Step 3: Removing fast food and restaurant items..."
 load Rails.root.join("db/seeds/fndds/cleanup_restaurant_foods.rb")
 
+puts "Step 4: Removing mock and imitation food items..."
+load Rails.root.join("db/seeds/fndds/cleanup_fake_foods.rb")
+
 puts "✅ FNDDS data cleanup completed!"

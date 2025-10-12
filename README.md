@@ -79,29 +79,29 @@ Sample output: TODO Update after some foods cleanup
 
 ```
 === BREAKFAST ===
-97.4g of Clementine, raw
-42.2g of Butter, tub
-89.2g of Egg, whole, fried, from fast food / restaurant
-Breakfast macros: carbs=14.0g, protein=11.0g, fat=47.0g
+98.4g of Raspberries, raw
+39.8g of Animal fat or drippings
+93.5g of Egg, whole, boiled or poached
+Breakfast macros: carbs=14.0g, protein=13.0g, fat=46.0g
 
 === LUNCH ===
-100.0g of Beet greens, raw
-91.3g of Chicken thigh, rotisserie, skin eaten
-47.8g of Almond oil
-Lunch macros: carbs=4.0g, protein=23.0g, fat=62.0g
+99.8g of Cress, raw
+97.9g of Chicken leg, drumstick and thigh, stewed, skin not eaten
+98.1g of Caesar dressing
+Lunch macros: carbs=9.0g, protein=28.0g, fat=65.0g
 
 === DINNER ===
-72.3g of Beef, steak, flank
-59.3g of Ghee, clarified butter
-53.6g of Sweet potato, canned, fat added
-65.3g of Dandelion greens, raw
-Dinner macros: carbs=17.0g, protein=24.0g, fat=72.0g
+75.0g of Beef, NFS
+75.0g of Fat back, cooked
+75.0g of Seaweed, cooked, no added fat
+75.0g of Turrnip greens, NS as to form, cooked
+Dinner macros: carbs=9.0g, protein=26.0g, fat=74.0g
 
 === DAILY TOTALS ===
 Target: 25.0g carbs, 60.0g protein, 180.0g fat
-Actual: 35.0g carbs, 58.0g protein, 181.0g fat
-Difference: carbs 10.0g, protein -2.0g, fat 1.0g
-Within tolerance: false
+Actual: 31.0g carbs, 68.0g protein, 185.0g fat
+Difference: carbs 6.0g, protein 8.0g, fat 5.0g
+Within tolerance: true
 ```
 
 Visual from ChatGPT - needs update after switch to FNDDS
