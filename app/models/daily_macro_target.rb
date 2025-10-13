@@ -1,4 +1,3 @@
-# app/models/daily_macro_target.rb
 class DailyMacroTarget < ApplicationRecord
   belongs_to :user
 
