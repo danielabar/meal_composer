@@ -12,7 +12,14 @@ Rails.application.routes.draw do
   # Public home page
   root "home#index"
 
+  # Application
   resources :daily_macro_targets, except: [ :show ]
+
+  resources :daily_meal_structures do
+    member do
+      get :duplicate
+    end
+  end
 
   # Health check endpoint
   get "up" => "rails/health#show", as: :rails_health_check

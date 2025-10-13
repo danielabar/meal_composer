@@ -1,0 +1,18 @@
+<%# No longer used? %>
+<div class="flex items-center space-x-2" data-nested-form-target="item">
+  <%= form.hidden_field :_destroy %>
+  <%= form.hidden_field :position, value: form.index %>
+
+  <%= form.select :food_category_id,
+                  options_from_collection_for_select(food_categories, :id, :description, form.object.food_category_id),
+                  { prompt: "Select a food category" },
+                  class: "flex-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+
+  <button type="button"
+          data-action="click->nested-form#remove"
+          class="text-red-600 hover:text-red-900">
+    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+    </svg>
+  </button>
+</div>

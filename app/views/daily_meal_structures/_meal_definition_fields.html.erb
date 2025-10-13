@@ -1,0 +1,79 @@
+<% food_categories ||= FoodCategory.order(:description) %>
+<div class="border border-gray-200 rounded-lg p-4 bg-gray-50"
+     data-nested-form-target="item">
+  <%= form.hidden_field :_destroy %>
+  <%= form.hidden_field :position, value: form.index || 0 %>
+
+  <div class="flex justify-between items-start mb-4">
+    <%= form.label :label, "Meal Name", class: "block text-sm font-medium text-gray-700" %>
+    <button type="button"
+            data-action="click->nested-form#remove"
+            class="text-red-600 hover:text-red-900 text-sm font-medium">
+      Remove
+    </button>
+  </div>
+
+  <%= form.text_field :label,
+                      class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm mb-4",
+                      placeholder: "e.g., breakfast, lunch, snack1" %>
+
+  <div class="border-t border-gray-300 pt-4 mt-4">
+    <div data-controller="category-form" class="space-y-2">
+      <div class="flex justify-between items-center mb-3">
+        <label class="block text-sm font-medium text-gray-700">Food Categories</label>
+        <button type="button"
+                data-action="click->category-form#add"
+                class="text-xs text-indigo-600 hover:text-indigo-900 font-medium">
+          + Add Category
+        </button>
+      </div>
+      <div data-category-form-target="container">
+        <%= form.fields_for :meal_definition_categories do |category_form| %>
+          <div class="flex items-center space-x-2" data-category-form-target="item">
+            <%= category_form.hidden_field :_destroy %>
+            <%= category_form.hidden_field :position, value: category_form.index || 0 %>
+
+            <%= category_form.collection_select :food_category_id,
+                                                food_categories,
+                                                :id,
+                                                :description,
+                                                { prompt: "Select a food category" },
+                                                class: "flex-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+
+            <button type="button"
+                    data-action="click->category-form#remove"
+                    class="text-red-600 hover:text-red-900">
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+        <% end %>
+      </div>
+
+      <template data-category-form-target="template">
+        <%= form.fields_for :meal_definition_categories, MealDefinitionCategory.new, child_index: "TEMPLATE_RECORD" do |category_form| %>
+          <div class="flex items-center space-x-2" data-category-form-target="item">
+            <%= category_form.hidden_field :_destroy %>
+            <%= category_form.hidden_field :position, value: "TEMPLATE_RECORD" %>
+
+            <%= category_form.collection_select :food_category_id,
+                                                food_categories,
+                                                :id,
+                                                :description,
+                                                { prompt: "Select a food category" },
+                                                class: "flex-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+
+            <button type="button"
+                    data-action="click->category-form#remove"
+                    class="text-red-600 hover:text-red-900">
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+        <% end %>
+      </template>
+    </div>
+  </div>
+</div>

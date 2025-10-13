@@ -1,0 +1,62 @@
+<%= form_with(model: daily_meal_structure, class: "space-y-6") do |form| %>
+  <% if daily_meal_structure.errors.any? %>
+    <div class="rounded-md bg-red-50 p-4">
+      <div class="flex">
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">
+            <%= pluralize(daily_meal_structure.errors.count, "error") %> prohibited this meal structure from being saved:
+          </h3>
+          <div class="mt-2 text-sm text-red-700">
+            <ul class="list-disc pl-5 space-y-1">
+              <% daily_meal_structure.errors.each do |error| %>
+                <li><%= error.full_message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="bg-white shadow-sm rounded-lg border border-gray-200 p-6">
+    <div class="mb-6">
+      <%= form.label :name, class: "block text-sm font-medium text-gray-700 mb-2" %>
+      <%= form.text_field :name,
+                          class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                          placeholder: "e.g., Standard 3-Meal Plan" %>
+    </div>
+
+    <div class="border-t border-gray-200 pt-6">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-medium text-gray-900">Meals</h3>
+        <button type="button"
+                data-action="click->nested-form#add"
+                class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          + Add Meal
+        </button>
+      </div>
+
+      <div data-controller="nested-form" class="space-y-4">
+        <div data-nested-form-target="container">
+          <%= form.fields_for :meal_definitions do |meal_form| %>
+            <%= render "meal_definition_fields", form: meal_form, food_categories: @food_categories %>
+          <% end %>
+        </div>
+
+        <template data-nested-form-target="template">
+          <%= form.fields_for :meal_definitions, MealDefinition.new, child_index: "TEMPLATE_RECORD" do |meal_form| %>
+            <%= render "meal_definition_fields", form: meal_form, food_categories: @food_categories %>
+          <% end %>
+        </template>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-end space-x-3">
+    <%= link_to "Cancel",
+                daily_meal_structures_path,
+                class: "inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+    <%= form.submit "Save Meal Structure",
+                    class: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+  </div>
+<% end %>

@@ -62,6 +62,38 @@ ALTER SEQUENCE public.daily_macro_targets_id_seq OWNED BY public.daily_macro_tar
 
 
 --
+-- Name: daily_meal_structures; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.daily_meal_structures (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    name character varying NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
+);
+
+
+--
+-- Name: daily_meal_structures_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.daily_meal_structures_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: daily_meal_structures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.daily_meal_structures_id_seq OWNED BY public.daily_meal_structures.id;
+
+
+--
 -- Name: food_categories; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -158,6 +190,72 @@ CREATE SEQUENCE public.foods_id_seq
 --
 
 ALTER SEQUENCE public.foods_id_seq OWNED BY public.foods.id;
+
+
+--
+-- Name: meal_definition_categories; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.meal_definition_categories (
+    id bigint NOT NULL,
+    meal_definition_id bigint NOT NULL,
+    food_category_id bigint NOT NULL,
+    "position" integer DEFAULT 1 NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
+);
+
+
+--
+-- Name: meal_definition_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.meal_definition_categories_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: meal_definition_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.meal_definition_categories_id_seq OWNED BY public.meal_definition_categories.id;
+
+
+--
+-- Name: meal_definitions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.meal_definitions (
+    id bigint NOT NULL,
+    daily_meal_structure_id bigint NOT NULL,
+    label character varying NOT NULL,
+    "position" integer DEFAULT 1 NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
+);
+
+
+--
+-- Name: meal_definitions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.meal_definitions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: meal_definitions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.meal_definitions_id_seq OWNED BY public.meal_definitions.id;
 
 
 --
@@ -276,6 +374,13 @@ ALTER TABLE ONLY public.daily_macro_targets ALTER COLUMN id SET DEFAULT nextval(
 
 
 --
+-- Name: daily_meal_structures id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.daily_meal_structures ALTER COLUMN id SET DEFAULT nextval('public.daily_meal_structures_id_seq'::regclass);
+
+
+--
 -- Name: food_categories id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -294,6 +399,20 @@ ALTER TABLE ONLY public.food_nutrients ALTER COLUMN id SET DEFAULT nextval('publ
 --
 
 ALTER TABLE ONLY public.foods ALTER COLUMN id SET DEFAULT nextval('public.foods_id_seq'::regclass);
+
+
+--
+-- Name: meal_definition_categories id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.meal_definition_categories ALTER COLUMN id SET DEFAULT nextval('public.meal_definition_categories_id_seq'::regclass);
+
+
+--
+-- Name: meal_definitions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.meal_definitions ALTER COLUMN id SET DEFAULT nextval('public.meal_definitions_id_seq'::regclass);
 
 
 --
@@ -334,6 +453,14 @@ ALTER TABLE ONLY public.daily_macro_targets
 
 
 --
+-- Name: daily_meal_structures daily_meal_structures_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.daily_meal_structures
+    ADD CONSTRAINT daily_meal_structures_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: food_categories food_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -355,6 +482,22 @@ ALTER TABLE ONLY public.food_nutrients
 
 ALTER TABLE ONLY public.foods
     ADD CONSTRAINT foods_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: meal_definition_categories meal_definition_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.meal_definition_categories
+    ADD CONSTRAINT meal_definition_categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: meal_definitions meal_definitions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.meal_definitions
+    ADD CONSTRAINT meal_definitions_pkey PRIMARY KEY (id);
 
 
 --
@@ -390,6 +533,13 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: idx_on_meal_definition_id_position_3ff18b251a; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_meal_definition_id_position_3ff18b251a ON public.meal_definition_categories USING btree (meal_definition_id, "position");
+
+
+--
 -- Name: index_daily_macro_targets_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -401,6 +551,20 @@ CREATE INDEX index_daily_macro_targets_on_user_id ON public.daily_macro_targets 
 --
 
 CREATE UNIQUE INDEX index_daily_macro_targets_on_user_id_and_name ON public.daily_macro_targets USING btree (user_id, name);
+
+
+--
+-- Name: index_daily_meal_structures_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_daily_meal_structures_on_user_id ON public.daily_meal_structures USING btree (user_id);
+
+
+--
+-- Name: index_daily_meal_structures_on_user_id_and_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_daily_meal_structures_on_user_id_and_name ON public.daily_meal_structures USING btree (user_id, name);
 
 
 --
@@ -443,6 +607,48 @@ CREATE UNIQUE INDEX index_foods_on_fdc_id ON public.foods USING btree (fdc_id);
 --
 
 CREATE INDEX index_foods_on_food_category_id ON public.foods USING btree (food_category_id);
+
+
+--
+-- Name: index_meal_def_cats_on_meal_and_category; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_meal_def_cats_on_meal_and_category ON public.meal_definition_categories USING btree (meal_definition_id, food_category_id);
+
+
+--
+-- Name: index_meal_definition_categories_on_food_category_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_meal_definition_categories_on_food_category_id ON public.meal_definition_categories USING btree (food_category_id);
+
+
+--
+-- Name: index_meal_definition_categories_on_meal_definition_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_meal_definition_categories_on_meal_definition_id ON public.meal_definition_categories USING btree (meal_definition_id);
+
+
+--
+-- Name: index_meal_definitions_on_daily_meal_structure_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_meal_definitions_on_daily_meal_structure_id ON public.meal_definitions USING btree (daily_meal_structure_id);
+
+
+--
+-- Name: index_meal_definitions_on_daily_meal_structure_id_and_position; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_meal_definitions_on_daily_meal_structure_id_and_position ON public.meal_definitions USING btree (daily_meal_structure_id, "position");
+
+
+--
+-- Name: index_meal_defs_on_structure_and_label; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_meal_defs_on_structure_and_label ON public.meal_definitions USING btree (daily_meal_structure_id, label);
 
 
 --
@@ -489,6 +695,22 @@ ALTER TABLE ONLY public.food_nutrients
 
 
 --
+-- Name: daily_meal_structures fk_rails_17de8fbaad; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.daily_meal_structures
+    ADD CONSTRAINT fk_rails_17de8fbaad FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: meal_definition_categories fk_rails_39646d6c64; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.meal_definition_categories
+    ADD CONSTRAINT fk_rails_39646d6c64 FOREIGN KEY (food_category_id) REFERENCES public.food_categories(id);
+
+
+--
 -- Name: daily_macro_targets fk_rails_612f14eaf4; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -505,11 +727,27 @@ ALTER TABLE ONLY public.sessions
 
 
 --
+-- Name: meal_definitions fk_rails_9cf9a50da3; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.meal_definitions
+    ADD CONSTRAINT fk_rails_9cf9a50da3 FOREIGN KEY (daily_meal_structure_id) REFERENCES public.daily_meal_structures(id);
+
+
+--
 -- Name: foods fk_rails_a28abb337f; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.foods
     ADD CONSTRAINT fk_rails_a28abb337f FOREIGN KEY (food_category_id) REFERENCES public.food_categories(id);
+
+
+--
+-- Name: meal_definition_categories fk_rails_a6701acdc6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.meal_definition_categories
+    ADD CONSTRAINT fk_rails_a6701acdc6 FOREIGN KEY (meal_definition_id) REFERENCES public.meal_definitions(id);
 
 
 --
@@ -527,6 +765,9 @@ ALTER TABLE ONLY public.food_nutrients
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251013134446'),
+('20251013134308'),
+('20251013134214'),
 ('20251013001011'),
 ('20251012233902'),
 ('20251012212052'),
