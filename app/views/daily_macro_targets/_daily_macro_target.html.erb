@@ -19,6 +19,7 @@
     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
       <%= link_to "Edit",
                   edit_daily_macro_target_path(daily_macro_target),
+                  data: { turbo_frame: dom_id(daily_macro_target) },
                   class: "text-indigo-600 hover:text-indigo-900 mr-4" %>
       <%= button_to "Delete",
                     daily_macro_target_path(daily_macro_target),
