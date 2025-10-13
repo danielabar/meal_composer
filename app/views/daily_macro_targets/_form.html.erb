@@ -1,0 +1,91 @@
+<%= form_with model: daily_macro_target,
+              class: "space-y-4",
+              data: {
+                turbo_frame: "_top",
+                controller: "macro-calculator"
+              } do |form| %>
+  <% if daily_macro_target.errors.any? %>
+    <div class="rounded-lg bg-red-50 p-4 border border-red-200">
+      <h3 class="text-sm font-medium text-red-800 mb-2">
+        <%= pluralize(daily_macro_target.errors.count, "error") %> prevented this target from being saved:
+      </h3>
+      <ul class="list-disc list-inside text-sm text-red-700">
+        <% daily_macro_target.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+    <div class="lg:col-span-2">
+      <%= form.label :name, class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= form.text_field :name,
+                         required: true,
+                         placeholder: "e.g., Strict Keto, High Protein",
+                         class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border" %>
+    </div>
+
+    <div>
+      <%= form.label :carbs_grams, "Carbs (g)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= form.number_field :carbs_grams,
+                           required: true,
+                           step: 0.1,
+                           min: 0,
+                           value: daily_macro_target.carbs_grams || 0,
+                           placeholder: "25",
+                           data: {
+                             macro_calculator_target: "carbs",
+                             action: "input->macro-calculator#calculate"
+                           },
+                           class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border" %>
+    </div>
+
+    <div>
+      <%= form.label :protein_grams, "Protein (g)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= form.number_field :protein_grams,
+                           required: true,
+                           step: 0.1,
+                           min: 0,
+                           value: daily_macro_target.protein_grams || 0,
+                           placeholder: "60",
+                           data: {
+                             macro_calculator_target: "protein",
+                             action: "input->macro-calculator#calculate"
+                           },
+                           class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border" %>
+    </div>
+
+    <div>
+      <%= form.label :fat_grams, "Fat (g)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= form.number_field :fat_grams,
+                           required: true,
+                           step: 0.1,
+                           min: 0,
+                           value: daily_macro_target.fat_grams || 0,
+                           placeholder: "180",
+                           data: {
+                             macro_calculator_target: "fat",
+                             action: "input->macro-calculator#calculate"
+                           },
+                           class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border" %>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Calories</label>
+      <div class="flex items-center h-[42px] px-3 py-2 bg-gray-50 border border-gray-300 rounded-md">
+        <span class="text-sm font-semibold text-gray-900" data-macro-calculator-target="calories">0</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <%= form.submit class: "rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 cursor-pointer" %>
+
+    <% if daily_macro_target.persisted? %>
+      <%= link_to "Cancel",
+                  daily_macro_targets_path,
+                  class: "rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 border border-gray-300" %>
+    <% end %>
+  </div>
+<% end %>

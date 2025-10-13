@@ -1,0 +1,30 @@
+<%= turbo_frame_tag dom_id(daily_macro_target) do %>
+  <tr class="hover:bg-gray-50">
+    <td class="px-6 py-4 whitespace-nowrap">
+      <div class="text-sm font-medium text-gray-900"><%= daily_macro_target.name %></div>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+      <div class="text-sm text-gray-900"><%= daily_macro_target.carbs_grams %></div>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+      <div class="text-sm text-gray-900"><%= daily_macro_target.protein_grams %></div>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+      <div class="text-sm text-gray-900"><%= daily_macro_target.fat_grams %></div>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap">
+      <div class="text-sm text-gray-900"><%= daily_macro_target.total_calories %></div>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+      <%= link_to "Edit",
+                  edit_daily_macro_target_path(daily_macro_target),
+                  data: { turbo_frame: dom_id(daily_macro_target) },
+                  class: "text-indigo-600 hover:text-indigo-900 mr-4" %>
+      <%= button_to "Delete",
+                    daily_macro_target_path(daily_macro_target),
+                    method: :delete,
+                    form: { data: { turbo_confirm: "Are you sure?" } },
+                    class: "text-red-600 hover:text-red-900" %>
+    </td>
+  </tr>
+<% end %>
