@@ -34,9 +34,9 @@ CREATE TABLE public.daily_macro_targets (
     id bigint NOT NULL,
     user_id bigint NOT NULL,
     name character varying NOT NULL,
-    carbs_grams numeric(8,2) NOT NULL,
-    protein_grams numeric(8,2) NOT NULL,
-    fat_grams numeric(8,2) NOT NULL,
+    carbs_grams numeric(8,2) DEFAULT 0.0 NOT NULL,
+    protein_grams numeric(8,2) DEFAULT 0.0 NOT NULL,
+    fat_grams numeric(8,2) DEFAULT 0.0 NOT NULL,
     created_at timestamp(6) with time zone NOT NULL,
     updated_at timestamp(6) with time zone NOT NULL
 );
@@ -527,6 +527,7 @@ ALTER TABLE ONLY public.food_nutrients
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251013001011'),
 ('20251012233902'),
 ('20251012212052'),
 ('20251012212051'),
