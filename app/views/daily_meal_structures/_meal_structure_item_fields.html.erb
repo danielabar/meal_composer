@@ -15,7 +15,7 @@
       <%= form.label :meal_label, "Meal Type", class: "block text-sm font-medium text-gray-700 mb-1" %>
       <%= form.select :meal_label,
                       options_for_select(
-                        [["Breakfast", "breakfast"], ["Lunch", "lunch"], ["Dinner", "dinner"], ["Snack", "snack"]],
+                        MealStructureItem::MEAL_LABELS.map { |k, v| [v, k] },
                         form.object.meal_label
                       ),
                       { prompt: "Select meal type" },

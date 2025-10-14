@@ -1,4 +1,12 @@
 class MealStructureItem < ApplicationRecord
+  MEAL_LABELS = {
+    "breakfast" => "Breakfast",
+    "brunch" => "Brunch",
+    "lunch" => "Lunch",
+    "dinner" => "Dinner",
+    "snack" => "Snack"
+  }.freeze
+
   belongs_to :daily_meal_structure
 
   validates :meal_label, presence: true
@@ -7,7 +15,7 @@ class MealStructureItem < ApplicationRecord
 
   # Ensure meal_label is one of the expected values (can be relaxed later)
   validates :meal_label, inclusion: {
-    in: %w[breakfast lunch dinner snack],
+    in: MEAL_LABELS.keys,
     message: "%{value} is not a valid meal label"
   }
 
