@@ -7,12 +7,9 @@ puts "Seeding nutrients..."
 load Rails.root.join("db/seeds/fndds/nutrients.rb")
 
 puts "Seeding foods..."
-load Rails.root.join("db/seeds/fndds/foods.rb")
+load Rails.root.join("db/seeds/fndds/fast_foods.rb")
 
 puts "Seeding food nutrients..."
-load Rails.root.join("db/seeds/fndds/fast_food_nutrients.rb")
-
-# puts "Cleaning up food data..."
-# load Rails.root.join("db/seeds/fndds/cleanup.rb")
+load Rails.root.join("db/seeds/fndds/food_nutrients.rb")
 
 puts "🎉 FNDDS data seeding completed!"

@@ -1,9 +1,9 @@
 require "csv"
 
-# SLOW!
+# FAST version using Rails built-in insert_all for bulk inserts
 
-puts "Seeding FNDDS food nutrients..."
-csv_path = Rails.root.join("db/data/fndds/food_nutrient.csv")
+puts "Seeding FNDDS food nutrients (fast bulk insert)..."
+csv_path = Rails.root.join("db/data/fndds/food_nutrient_clean.csv")
 if File.exist?(csv_path)
   # Create a mapping from nutrient_nbr to the actual database id
   # This is needed because in FNDDS, food_nutrient.nutrient_id references nutrient.nutrient_nbr, not nutrient.id
@@ -33,7 +33,11 @@ if File.exist?(csv_path)
 
   nutrient_count = 0
   skipped_count = 0
+  batch = []
+  BATCH_SIZE = 5000
+  timestamp = Time.current
 
+  puts "  Processing CSV rows..."
   CSV.foreach(csv_path, headers: true) do |row|
     fdc_id = row["fdc_id"].to_i
     nutrient_nbr = row["nutrient_id"].to_s
@@ -50,13 +54,29 @@ if File.exist?(csv_path)
     # Handle amount
     amount = row["amount"].present? ? [ row["amount"].to_f, 0.0 ].max : 0.0
 
-    FoodNutrient.find_or_create_by!(fdc_id: fdc_id, nutrient_id: nutrient_id) do |fn|
-      fn.amount = amount
-      nutrient_count += 1
+    batch << {
+      fdc_id: fdc_id,
+      nutrient_id: nutrient_id,
+      amount: amount,
+      created_at: timestamp,
+      updated_at: timestamp
+    }
+
+    if batch.size >= BATCH_SIZE
+      FoodNutrient.insert_all(batch, unique_by: [:fdc_id, :nutrient_id])
+      nutrient_count += batch.size
+      batch.clear
+      print "."  # Progress indicator
     end
   end
 
-  puts "✅ #{nutrient_count} FNDDS food nutrients seeded (skipped #{skipped_count})."
+  # Insert remaining records
+  if batch.any?
+    FoodNutrient.insert_all(batch, unique_by: [:fdc_id, :nutrient_id])
+    nutrient_count += batch.size
+  end
+
+  puts "\n✅ #{nutrient_count} FNDDS food nutrients seeded (skipped #{skipped_count})."
   puts "  Note: If this count is 0, make sure your Nutrient model has a nutrient_nbr column."
 else
   puts "⚠️ food_nutrient.csv not found in FNDDS data directory."
