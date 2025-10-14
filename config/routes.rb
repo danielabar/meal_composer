@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   root "home#index"
 
   resources :daily_macro_targets, except: [ :show ]
+  resources :daily_meal_structures, except: [ :show ]
 
   # Health check endpoint
   get "up" => "rails/health#show", as: :rails_health_check

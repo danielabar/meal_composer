@@ -1,0 +1,50 @@
+<div class="meal-item border border-gray-300 rounded-lg p-4 bg-gray-50" data-meal-structure-form-target="mealItem">
+  <div class="flex justify-between items-start mb-4">
+    <h4 class="text-md font-medium text-gray-900">Meal</h4>
+    <button type="button"
+            data-action="click->meal-structure-form#removeMeal"
+            class="text-red-600 hover:text-red-800 text-sm font-medium">
+      Remove
+    </button>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div>
+      <%= form.label :meal_label, "Meal Type", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= form.select :meal_label,
+                      options_for_select(
+                        [["Breakfast", "breakfast"], ["Lunch", "lunch"], ["Dinner", "dinner"], ["Snack", "snack"]],
+                        form.object.meal_label
+                      ),
+                      { prompt: "Select meal type" },
+                      required: true,
+                      class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
+
+    <div>
+      <%= form.label :position, "Order", class: "block text-sm font-medium text-gray-700 mb-1" %>
+      <%= form.number_field :position,
+                           value: form.object.position || 0,
+                           min: 0,
+                           class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <%= form.label :food_category_ids, "Food Categories", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <div class="border border-gray-300 rounded-md p-3 bg-white max-h-64 overflow-y-auto">
+      <% food_categories.each do |category| %>
+        <label class="flex items-center py-1 hover:bg-gray-50 px-2 rounded">
+          <%= check_box_tag "#{form.object_name}[food_category_ids][]",
+                           category.id,
+                           form.object.food_category_ids&.include?(category.id),
+                           class: "rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 mr-2" %>
+          <span class="text-sm text-gray-700"><%= category.description %></span>
+        </label>
+      <% end %>
+    </div>
+    <p class="mt-1 text-xs text-gray-500">Select one or more food categories for this meal</p>
+  </div>
+
+  <%= form.hidden_field :_destroy %>
+</div>
