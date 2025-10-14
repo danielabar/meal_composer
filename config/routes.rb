@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   resources :daily_macro_targets, except: [ :show ]
   resources :daily_meal_structures, except: [ :show ]
+  resources :meal_plans, except: [ :edit, :update ]
 
   # Health check endpoint
   get "up" => "rails/health#show", as: :rails_health_check

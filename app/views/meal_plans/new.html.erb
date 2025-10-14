@@ -1,0 +1,100 @@
+<div class="max-w-2xl mx-auto">
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">Generate New Meal Plan</h1>
+    <p class="text-gray-600">Create a macro-precise meal plan using your saved macro targets and meal structures.</p>
+  </div>
+
+  <% if @macro_targets.empty? || @meal_structures.empty? %>
+    <div class="bg-yellow-50 border border-yellow-200 rounded-md p-4">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-yellow-800">Before generating a meal plan</h3>
+          <div class="mt-2 text-sm text-yellow-700">
+            <p>You need to create at least one macro target and one meal structure first.</p>
+            <div class="mt-4 space-x-4">
+              <% if @macro_targets.empty? %>
+                <%= link_to "Create Macro Target", daily_macro_targets_path, class: "font-medium underline" %>
+              <% end %>
+              <% if @meal_structures.empty? %>
+                <%= link_to "Create Meal Structure", new_daily_meal_structure_path, class: "font-medium underline" %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <%= form_with(model: @meal_plan, url: meal_plans_path, local: true) do |form| %>
+        <div class="space-y-6">
+          <%# Plan Name %>
+          <div>
+            <%= form.label :name, "Plan Name", class: "block text-sm font-medium text-gray-700" %>
+            <%= form.text_field :name,
+                                class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+                                placeholder: "e.g., Monday Keto Plan, High Protein Week",
+                                required: true %>
+          </div>
+
+          <%# Macro Target Selection %>
+          <div>
+            <%= form.label :daily_macro_target_id, "Macro Target", class: "block text-sm font-medium text-gray-700" %>
+            <%= form.select :daily_macro_target_id,
+                            options_from_collection_for_select(
+                              @macro_targets,
+                              :id,
+                              ->(target) { "#{target.name} (#{target.carbs_grams.round}g C, #{target.protein_grams.round}g P, #{target.fat_grams.round}g F)" },
+                              @meal_plan.daily_macro_target_id
+                            ),
+                            { prompt: "Select a macro target" },
+                            { class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm", required: true } %>
+            <p class="mt-1 text-sm text-gray-500">Choose the daily macronutrient goals for this plan.</p>
+          </div>
+
+          <%# Meal Structure Selection %>
+          <div>
+            <%= form.label :daily_meal_structure_id, "Meal Structure", class: "block text-sm font-medium text-gray-700" %>
+            <%= form.select :daily_meal_structure_id,
+                            options_from_collection_for_select(
+                              @meal_structures,
+                              :id,
+                              ->(structure) { "#{structure.name} (#{pluralize(structure.meal_structure_items.count, 'meal')})" },
+                              @meal_plan.daily_meal_structure_id
+                            ),
+                            { prompt: "Select a meal structure" },
+                            { class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm", required: true } %>
+            <p class="mt-1 text-sm text-gray-500">Choose which food categories to include in each meal.</p>
+          </div>
+
+          <%# Info Box %>
+          <div class="bg-blue-50 border border-blue-200 rounded-md p-4">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-blue-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <p class="text-sm text-blue-700">
+                  Generation may take 5-15 seconds. The algorithm will optimize ingredient quantities to precisely match your macro targets.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <%# Submit Button %>
+          <div class="flex items-center justify-end space-x-3">
+            <%= link_to "Cancel", meal_plans_path, class: "px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900" %>
+            <%= form.submit "Generate Meal Plan",
+                            class: "inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
