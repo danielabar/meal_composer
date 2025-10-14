@@ -1,5 +1,6 @@
 # Meal Plan Generation TODOs
 
+- composer service currently only works with specific: breakfast, lunch, dinner
 - plan show: also show/link to macro target and meal structure (a few more details mini view to remind user what it was)
 - edge case: don't allow deletion of meal structures or macro targets that are in use by plan(s)
   - nicer: show which plans and offer to delete plans as well - modal experience
@@ -11,3 +12,5 @@
 - swap a food (finds another one at random from that category)
 - replace a food with something specific - calculate amount based on holding everything else in the plan fixed
 - failure case - plan could not be generated - what happens
+- showing order incorrectly in meal plan
+- if plan is way off from tolerance - should that really be considered successfully generated? Maybe fail if not within tolerance?
