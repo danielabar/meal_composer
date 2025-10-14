@@ -1,4 +1,6 @@
-<div class="meal-item border border-gray-300 rounded-lg p-4 bg-gray-50" data-meal-structure-form-target="mealItem">
+<div class="meal-item border border-gray-300 rounded-lg p-4 bg-gray-50"
+     data-meal-structure-form-target="mealItem"
+     data-controller="category-selector">
   <div class="flex justify-between items-start mb-4">
     <h4 class="text-md font-medium text-gray-900">Meal</h4>
     <button type="button"
@@ -32,16 +34,34 @@
 
   <div class="mt-4">
     <%= form.label :food_category_ids, "Food Categories", class: "block text-sm font-medium text-gray-700 mb-2" %>
-    <div class="border border-gray-300 rounded-md p-3 bg-white max-h-64 overflow-y-auto">
-      <% food_categories.each do |category| %>
-        <label class="flex items-center py-1 hover:bg-gray-50 px-2 rounded">
-          <%= check_box_tag "#{form.object_name}[food_category_ids][]",
-                           category.id,
-                           form.object.food_category_ids&.include?(category.id),
-                           class: "rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 mr-2" %>
-          <span class="text-sm text-gray-700"><%= category.description %></span>
-        </label>
-      <% end %>
+
+    <!-- Selected Categories Display -->
+    <div class="mb-3 p-3 bg-indigo-50 border border-indigo-200 rounded-md min-h-[3rem]" data-category-selector-target="selectedDisplay">
+      <div class="text-xs font-medium text-indigo-900 mb-1">
+        Selected (<span data-category-selector-target="selectedCount">0</span>):
+      </div>
+      <div class="flex flex-wrap gap-1" data-category-selector-target="selectedTags">
+        <span class="text-xs text-gray-500 italic" data-category-selector-target="emptyMessage">None selected yet</span>
+      </div>
+    </div>
+
+    <!-- Category Checkboxes in Multi-Column Layout -->
+    <div class="border border-gray-300 rounded-md p-3 bg-white max-h-96 overflow-y-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4">
+        <% food_categories.each do |category| %>
+          <label class="flex items-start py-1 hover:bg-gray-50 px-2 rounded cursor-pointer">
+            <%= check_box_tag "#{form.object_name}[food_category_ids][]",
+                             category.id,
+                             form.object.food_category_ids&.include?(category.id),
+                             class: "rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 mr-2 mt-0.5 flex-shrink-0",
+                             data: {
+                               action: "change->category-selector#updateSelected",
+                               category_name: category.description
+                             } %>
+            <span class="text-sm text-gray-700 leading-tight"><%= category.description %></span>
+          </label>
+        <% end %>
+      </div>
     </div>
     <p class="mt-1 text-xs text-gray-500">Select one or more food categories for this meal</p>
   </div>
