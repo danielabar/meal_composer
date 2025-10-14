@@ -1,3 +1,4 @@
+# TODO: No longer needed
 # This script is responsible for cleaning up composite foods
 # that are too specific for general meal planning purposes
 

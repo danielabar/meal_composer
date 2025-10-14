@@ -1,3 +1,4 @@
+# TODO: No longer needed
 # This script is responsible for removing FNDDS food data
 # related to mock or imitation foods that are not real natural foods
 # These are typically processed foods with highly variable nutritional profiles

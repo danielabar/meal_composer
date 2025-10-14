@@ -1,3 +1,4 @@
+# TODO: No longer needed
 # This script is responsible for removing FNDDS food data
 # that is not relevant for adult meal planning (baby foods, infant formula, etc.)
 

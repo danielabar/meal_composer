@@ -1,3 +1,4 @@
+# TODO: No longer needed
 # This script is responsible for removing FNDDS food data
 # related to fast food restaurants and restaurant items
 # These are often branded items or highly variable in nutrition

@@ -1,7 +1,7 @@
 require "csv"
 
 puts "Seeding FNDDS foods..."
-csv_path = Rails.root.join("db/data/fndds/food.csv")
+csv_path = Rails.root.join("db/data/fndds/food_clean.csv")
 food_count = 0
 skipped_count = 0
 
