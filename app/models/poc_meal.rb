@@ -1,4 +1,4 @@
-class Meal
+class PocMeal
   attr_reader :food_portions, :macros
 
   def initialize(food_portions:, macros:)

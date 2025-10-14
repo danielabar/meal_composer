@@ -1,4 +1,4 @@
-class FoodPortion
+class PocFoodPortion
   attr_reader :food, :grams
 
   def initialize(food:, grams:)

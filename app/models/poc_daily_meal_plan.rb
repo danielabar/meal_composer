@@ -1,4 +1,4 @@
-class DailyMealPlan
+class PocDailyMealPlan
   attr_reader :breakfast, :lunch, :dinner, :target_macros, :actual_macros
 
   def initialize(breakfast:, lunch:, dinner:, target_macros:, actual_macros:)

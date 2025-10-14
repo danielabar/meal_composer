@@ -105,7 +105,7 @@ class FlexibleMealComposer
 
     Result.new(
       composed: true,
-      daily_plan: DailyMealPlan.new(
+      daily_plan: PocDailyMealPlan.new(
         breakfast: composed_meals[:breakfast],
         lunch: composed_meals[:lunch],
         dinner: composed_meals[:dinner],
@@ -181,7 +181,7 @@ class FlexibleMealComposer
           protein: meal_macros[:protein].round,
           fat: meal_macros[:fat].round
         )
-        return Meal.new(food_portions: food_portions, macros: macros_obj)
+        return PocMeal.new(food_portions: food_portions, macros: macros_obj)
       else
         Rails.logger.info("=== FlexibleMealComposer: #{meal_type} - Attempt #{attempts} failed")
       end
@@ -199,7 +199,7 @@ class FlexibleMealComposer
             protein: meal_macros[:protein].round,
             fat: meal_macros[:fat].round
           )
-          return Meal.new(food_portions: food_portions, macros: macros_obj)
+          return PocMeal.new(food_portions: food_portions, macros: macros_obj)
         end
       end
     end
@@ -258,7 +258,7 @@ class FlexibleMealComposer
       end
 
       # Create a food portion with initial size of 0g (will be determined by optimization)
-      food_portions << FoodPortion.new(food: selected_food, grams: 0)
+      food_portions << PocFoodPortion.new(food: selected_food, grams: 0)
     end
 
     food_portions
