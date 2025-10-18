@@ -62,6 +62,79 @@ ALTER SEQUENCE public.daily_macro_targets_id_seq OWNED BY public.daily_macro_tar
 
 
 --
+-- Name: daily_meal_plans; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.daily_meal_plans (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    daily_macro_target_id bigint NOT NULL,
+    daily_meal_structure_id bigint NOT NULL,
+    name character varying NOT NULL,
+    target_carbs_grams numeric(8,2) NOT NULL,
+    target_protein_grams numeric(8,2) NOT NULL,
+    target_fat_grams numeric(8,2) NOT NULL,
+    actual_carbs_grams numeric(8,2) NOT NULL,
+    actual_protein_grams numeric(8,2) NOT NULL,
+    actual_fat_grams numeric(8,2) NOT NULL,
+    within_tolerance boolean DEFAULT false NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
+);
+
+
+--
+-- Name: daily_meal_plans_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.daily_meal_plans_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: daily_meal_plans_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.daily_meal_plans_id_seq OWNED BY public.daily_meal_plans.id;
+
+
+--
+-- Name: daily_meal_structures; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.daily_meal_structures (
+    id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    name character varying NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
+);
+
+
+--
+-- Name: daily_meal_structures_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.daily_meal_structures_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: daily_meal_structures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.daily_meal_structures_id_seq OWNED BY public.daily_meal_structures.id;
+
+
+--
 -- Name: food_categories; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -127,6 +200,39 @@ ALTER SEQUENCE public.food_nutrients_id_seq OWNED BY public.food_nutrients.id;
 
 
 --
+-- Name: food_portions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.food_portions (
+    id bigint NOT NULL,
+    meal_id bigint NOT NULL,
+    food_id bigint NOT NULL,
+    grams numeric(8,2) NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
+);
+
+
+--
+-- Name: food_portions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.food_portions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: food_portions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.food_portions_id_seq OWNED BY public.food_portions.id;
+
+
+--
 -- Name: foods; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -158,6 +264,75 @@ CREATE SEQUENCE public.foods_id_seq
 --
 
 ALTER SEQUENCE public.foods_id_seq OWNED BY public.foods.id;
+
+
+--
+-- Name: meal_structure_items; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.meal_structure_items (
+    id bigint NOT NULL,
+    daily_meal_structure_id bigint NOT NULL,
+    meal_label character varying NOT NULL,
+    food_category_ids integer[] DEFAULT '{}'::integer[] NOT NULL,
+    "position" integer DEFAULT 0,
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
+);
+
+
+--
+-- Name: meal_structure_items_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.meal_structure_items_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: meal_structure_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.meal_structure_items_id_seq OWNED BY public.meal_structure_items.id;
+
+
+--
+-- Name: meals; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.meals (
+    id bigint NOT NULL,
+    daily_meal_plan_id bigint NOT NULL,
+    meal_type character varying NOT NULL,
+    actual_carbs_grams numeric(8,2) NOT NULL,
+    actual_protein_grams numeric(8,2) NOT NULL,
+    actual_fat_grams numeric(8,2) NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
+);
+
+
+--
+-- Name: meals_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.meals_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: meals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.meals_id_seq OWNED BY public.meals.id;
 
 
 --
@@ -276,6 +451,20 @@ ALTER TABLE ONLY public.daily_macro_targets ALTER COLUMN id SET DEFAULT nextval(
 
 
 --
+-- Name: daily_meal_plans id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.daily_meal_plans ALTER COLUMN id SET DEFAULT nextval('public.daily_meal_plans_id_seq'::regclass);
+
+
+--
+-- Name: daily_meal_structures id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.daily_meal_structures ALTER COLUMN id SET DEFAULT nextval('public.daily_meal_structures_id_seq'::regclass);
+
+
+--
 -- Name: food_categories id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -290,10 +479,31 @@ ALTER TABLE ONLY public.food_nutrients ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
+-- Name: food_portions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.food_portions ALTER COLUMN id SET DEFAULT nextval('public.food_portions_id_seq'::regclass);
+
+
+--
 -- Name: foods id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.foods ALTER COLUMN id SET DEFAULT nextval('public.foods_id_seq'::regclass);
+
+
+--
+-- Name: meal_structure_items id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.meal_structure_items ALTER COLUMN id SET DEFAULT nextval('public.meal_structure_items_id_seq'::regclass);
+
+
+--
+-- Name: meals id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.meals ALTER COLUMN id SET DEFAULT nextval('public.meals_id_seq'::regclass);
 
 
 --
@@ -334,6 +544,22 @@ ALTER TABLE ONLY public.daily_macro_targets
 
 
 --
+-- Name: daily_meal_plans daily_meal_plans_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.daily_meal_plans
+    ADD CONSTRAINT daily_meal_plans_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: daily_meal_structures daily_meal_structures_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.daily_meal_structures
+    ADD CONSTRAINT daily_meal_structures_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: food_categories food_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -350,11 +576,35 @@ ALTER TABLE ONLY public.food_nutrients
 
 
 --
+-- Name: food_portions food_portions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.food_portions
+    ADD CONSTRAINT food_portions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: foods foods_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.foods
     ADD CONSTRAINT foods_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: meal_structure_items meal_structure_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.meal_structure_items
+    ADD CONSTRAINT meal_structure_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: meals meals_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.meals
+    ADD CONSTRAINT meals_pkey PRIMARY KEY (id);
 
 
 --
@@ -404,6 +654,48 @@ CREATE UNIQUE INDEX index_daily_macro_targets_on_user_id_and_name ON public.dail
 
 
 --
+-- Name: index_daily_meal_plans_on_daily_macro_target_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_daily_meal_plans_on_daily_macro_target_id ON public.daily_meal_plans USING btree (daily_macro_target_id);
+
+
+--
+-- Name: index_daily_meal_plans_on_daily_meal_structure_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_daily_meal_plans_on_daily_meal_structure_id ON public.daily_meal_plans USING btree (daily_meal_structure_id);
+
+
+--
+-- Name: index_daily_meal_plans_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_daily_meal_plans_on_user_id ON public.daily_meal_plans USING btree (user_id);
+
+
+--
+-- Name: index_daily_meal_plans_on_user_id_and_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_daily_meal_plans_on_user_id_and_name ON public.daily_meal_plans USING btree (user_id, name);
+
+
+--
+-- Name: index_daily_meal_structures_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_daily_meal_structures_on_user_id ON public.daily_meal_structures USING btree (user_id);
+
+
+--
+-- Name: index_daily_meal_structures_on_user_id_and_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_daily_meal_structures_on_user_id_and_name ON public.daily_meal_structures USING btree (user_id, name);
+
+
+--
 -- Name: index_food_categories_on_code; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -432,6 +724,20 @@ CREATE INDEX index_food_nutrients_on_nutrient_id ON public.food_nutrients USING 
 
 
 --
+-- Name: index_food_portions_on_food_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_food_portions_on_food_id ON public.food_portions USING btree (food_id);
+
+
+--
+-- Name: index_food_portions_on_meal_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_food_portions_on_meal_id ON public.food_portions USING btree (meal_id);
+
+
+--
 -- Name: index_foods_on_fdc_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -443,6 +749,34 @@ CREATE UNIQUE INDEX index_foods_on_fdc_id ON public.foods USING btree (fdc_id);
 --
 
 CREATE INDEX index_foods_on_food_category_id ON public.foods USING btree (food_category_id);
+
+
+--
+-- Name: index_meal_structure_items_on_daily_meal_structure_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_meal_structure_items_on_daily_meal_structure_id ON public.meal_structure_items USING btree (daily_meal_structure_id);
+
+
+--
+-- Name: index_meal_structure_items_on_food_category_ids; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_meal_structure_items_on_food_category_ids ON public.meal_structure_items USING gin (food_category_ids);
+
+
+--
+-- Name: index_meals_on_daily_meal_plan_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_meals_on_daily_meal_plan_id ON public.meals USING btree (daily_meal_plan_id);
+
+
+--
+-- Name: index_meals_on_daily_meal_plan_id_and_meal_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_meals_on_daily_meal_plan_id_and_meal_type ON public.meals USING btree (daily_meal_plan_id, meal_type);
 
 
 --
@@ -481,11 +815,35 @@ CREATE UNIQUE INDEX index_users_on_email_address ON public.users USING btree (em
 
 
 --
+-- Name: meals fk_rails_0381c7b5fa; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.meals
+    ADD CONSTRAINT fk_rails_0381c7b5fa FOREIGN KEY (daily_meal_plan_id) REFERENCES public.daily_meal_plans(id);
+
+
+--
 -- Name: food_nutrients fk_rails_09286a8cac; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.food_nutrients
     ADD CONSTRAINT fk_rails_09286a8cac FOREIGN KEY (fdc_id) REFERENCES public.foods(fdc_id);
+
+
+--
+-- Name: daily_meal_structures fk_rails_17de8fbaad; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.daily_meal_structures
+    ADD CONSTRAINT fk_rails_17de8fbaad FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: food_portions fk_rails_32d8fab94e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.food_portions
+    ADD CONSTRAINT fk_rails_32d8fab94e FOREIGN KEY (meal_id) REFERENCES public.meals(id);
 
 
 --
@@ -497,11 +855,43 @@ ALTER TABLE ONLY public.daily_macro_targets
 
 
 --
+-- Name: daily_meal_plans fk_rails_6394a62f50; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.daily_meal_plans
+    ADD CONSTRAINT fk_rails_6394a62f50 FOREIGN KEY (daily_macro_target_id) REFERENCES public.daily_macro_targets(id);
+
+
+--
+-- Name: daily_meal_plans fk_rails_714addb488; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.daily_meal_plans
+    ADD CONSTRAINT fk_rails_714addb488 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: daily_meal_plans fk_rails_747578593c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.daily_meal_plans
+    ADD CONSTRAINT fk_rails_747578593c FOREIGN KEY (daily_meal_structure_id) REFERENCES public.daily_meal_structures(id);
+
+
+--
 -- Name: sessions fk_rails_758836b4f0; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT fk_rails_758836b4f0 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: meal_structure_items fk_rails_7d1c1c201d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.meal_structure_items
+    ADD CONSTRAINT fk_rails_7d1c1c201d FOREIGN KEY (daily_meal_structure_id) REFERENCES public.daily_meal_structures(id);
 
 
 --
@@ -521,12 +911,24 @@ ALTER TABLE ONLY public.food_nutrients
 
 
 --
+-- Name: food_portions fk_rails_cc7784b4ab; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.food_portions
+    ADD CONSTRAINT fk_rails_cc7784b4ab FOREIGN KEY (food_id) REFERENCES public.foods(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251014223321'),
+('20251014223247'),
+('20251014223212'),
+('20251014133702'),
 ('20251013001011'),
 ('20251012233902'),
 ('20251012212052'),
