@@ -88,7 +88,7 @@ class ThreeIngredientComposer
 
     Result.new(
       composed: true,
-      daily_plan: DailyMealPlan.new(
+      daily_plan: PocDailyMealPlan.new(
         breakfast: composed_meals[:breakfast],
         lunch: composed_meals[:lunch],
         dinner: composed_meals[:dinner],
@@ -162,7 +162,7 @@ class ThreeIngredientComposer
         meal_macros = calculate_meal_macros(selected_foods)
         return SingleMealResult.new(
           composed: true,
-          meal: Meal.new(food_portions: selected_foods, macros: meal_macros)
+          meal: PocMeal.new(food_portions: selected_foods, macros: meal_macros)
         )
       end
     end
@@ -203,7 +203,7 @@ class ThreeIngredientComposer
       selected_food = foods_with_macros.sample
       Rails.logger.info("=== TEMP: Selected '#{selected_food.description}' from category #{category_name}")
 
-      selected_foods << FoodPortion.new(food: selected_food, grams: 50.0) # Start with 50g
+      selected_foods << PocFoodPortion.new(food: selected_food, grams: 50.0) # Start with 50g
     end
 
     Rails.logger.info("=== TEMP: Total foods selected: #{selected_foods.length} out of #{category_ids.length} categories")

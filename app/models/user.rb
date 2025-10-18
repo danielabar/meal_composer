@@ -4,6 +4,7 @@ class User < ApplicationRecord
 
   has_many :daily_macro_targets, dependent: :destroy
   has_many :daily_meal_structures, dependent: :destroy
+  has_many :daily_meal_plans, dependent: :destroy
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 end

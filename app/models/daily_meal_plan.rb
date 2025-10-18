@@ -1,67 +1,41 @@
-class DailyMealPlan
-  attr_reader :breakfast, :lunch, :dinner, :target_macros, :actual_macros
+class DailyMealPlan < ApplicationRecord
+  belongs_to :user
+  belongs_to :daily_macro_target
+  belongs_to :daily_meal_structure
+  has_many :meals, dependent: :destroy
 
-  def initialize(breakfast:, lunch:, dinner:, target_macros:, actual_macros:)
-    @breakfast = breakfast
-    @lunch = lunch
-    @dinner = dinner
-    @target_macros = target_macros
-    @actual_macros = actual_macros
-  end
+  validates :name, presence: true
+  validates :name, uniqueness: { scope: :user_id }
+  validates :target_carbs_grams, :target_protein_grams, :target_fat_grams,
+            :actual_carbs_grams, :actual_protein_grams, :actual_fat_grams,
+            presence: true,
+            numericality: { greater_than_or_equal_to: 0 }
 
+  # Helper method to check if macros are within acceptable tolerance
   def within_tolerance?
-    tolerance = ::FlexibleMealComposer::MACRO_TOLERANCE_GRAMS
+    tolerance = FlexibleMealComposer::MACRO_TOLERANCE_GRAMS
 
-    (actual_macros.carbs - target_macros.carbs).abs <= tolerance &&
-    (actual_macros.protein - target_macros.protein).abs <= tolerance &&
-    (actual_macros.fat - target_macros.fat).abs <= tolerance
+    (actual_carbs_grams - target_carbs_grams).abs <= tolerance &&
+    (actual_protein_grams - target_protein_grams).abs <= tolerance &&
+    (actual_fat_grams - target_fat_grams).abs <= tolerance
   end
 
-  def total_foods
-    breakfast.food_count + lunch.food_count + dinner.food_count
-  end
-
+  # Total weight of all food in grams
   def total_grams
-    breakfast.total_grams + lunch.total_grams + dinner.total_grams
+    meals.sum(&:total_grams)
   end
 
+  # Total number of individual food items across all meals
+  def total_foods
+    meals.sum(&:food_count)
+  end
+
+  # Calculate differences between target and actual macros
   def macro_differences
     {
-      carbs: actual_macros.carbs - target_macros.carbs,
-      protein: actual_macros.protein - target_macros.protein,
-      fat: actual_macros.fat - target_macros.fat
+      carbs: actual_carbs_grams - target_carbs_grams,
+      protein: actual_protein_grams - target_protein_grams,
+      fat: actual_fat_grams - target_fat_grams
     }
-  end
-
-  def pretty_print
-    output = []
-    output << "Plan uses #{total_foods} foods totaling #{total_grams}g"
-
-    output << "\n=== BREAKFAST ==="
-    breakfast.food_portions.each do |portion|
-      output << "#{portion.grams.round(1)}g of #{portion.food.description}"
-    end
-    output << "Breakfast macros: carbs=#{breakfast.macros.carbs.round(1)}g, protein=#{breakfast.macros.protein.round(1)}g, fat=#{breakfast.macros.fat.round(1)}g"
-
-    output << "\n=== LUNCH ==="
-    lunch.food_portions.each do |portion|
-      output << "#{portion.grams.round(1)}g of #{portion.food.description}"
-    end
-    output << "Lunch macros: carbs=#{lunch.macros.carbs.round(1)}g, protein=#{lunch.macros.protein.round(1)}g, fat=#{lunch.macros.fat.round(1)}g"
-
-    output << "\n=== DINNER ==="
-    dinner.food_portions.each do |portion|
-      output << "#{portion.grams.round(1)}g of #{portion.food.description}"
-    end
-    output << "Dinner macros: carbs=#{dinner.macros.carbs.round(1)}g, protein=#{dinner.macros.protein.round(1)}g, fat=#{dinner.macros.fat.round(1)}g"
-
-    output << "\n=== DAILY TOTALS ==="
-    output << "Target: #{target_macros}"
-    output << "Actual: #{actual_macros}"
-    differences = macro_differences
-    output << "Difference: carbs #{differences[:carbs].round(1)}g, protein #{differences[:protein].round(1)}g, fat #{differences[:fat].round(1)}g"
-    output << "Within tolerance: #{within_tolerance?}"
-
-    output.join("\n")
   end
 end

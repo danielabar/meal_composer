@@ -9,43 +9,51 @@
     </p>
   </div>
 
-  <%# Quick actions or feature cards %>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <%# Example card - you can add your actual features here %>
+  <%# Main workflow cards - the three steps to create a meal plan %>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <%# Step 1: Set Macro Targets %>
     <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-      <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
-        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+      <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
         </svg>
       </div>
-      <h3 class="text-lg font-semibold text-gray-900 mb-2">Create Meal Plan</h3>
-      <p class="text-gray-600 text-sm mb-4">Start planning your weekly meals</p>
-      <%# <%= link_to "Get Started", new_meal_path, class: "text-indigo-600 hover:text-indigo-700 font-medium text-sm" %>
-      <span class="text-gray-400 text-sm">Coming soon</span>
+      <div class="flex items-center mb-2">
+        <span class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-blue-600 text-white text-xs font-bold mr-2">1</span>
+        <h3 class="text-lg font-semibold text-gray-900">Macro Targets</h3>
+      </div>
+      <p class="text-gray-600 text-sm mb-4">Set your daily carbs, protein, and fat goals</p>
+      <%= link_to "Set Targets", daily_macro_targets_path, class: "text-blue-600 hover:text-blue-700 font-medium text-sm" %>
     </div>
 
+    <%# Step 2: Define Meal Structure %>
     <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
       <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
         <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17.001c0 5.591 3.824 10.29 9 11.622m0-13c5.5 0 10-4.745 10-10.999C22 5.159 18.627 2 12 2m0 13v13m0 0c5.592 0 10-4.745 10-11.999 0-1.042-.11-2.062-.327-3.061M12 15v13m0-13c-5.591 0-10-4.745-10-11 0-1.042.11-2.062.327-3.061"/>
         </svg>
       </div>
-      <h3 class="text-lg font-semibold text-gray-900 mb-2">Browse Recipes</h3>
-      <p class="text-gray-600 text-sm mb-4">Explore and save your favorite recipes</p>
-      <%# <%= link_to "Browse", recipes_path, class: "text-indigo-600 hover:text-indigo-700 font-medium text-sm" %>
-      <span class="text-gray-400 text-sm">Coming soon</span>
+      <div class="flex items-center mb-2">
+        <span class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-green-600 text-white text-xs font-bold mr-2">2</span>
+        <h3 class="text-lg font-semibold text-gray-900">Meal Structure</h3>
+      </div>
+      <p class="text-gray-600 text-sm mb-4">Choose which food categories for each meal</p>
+      <%= link_to "Configure", daily_meal_structures_path, class: "text-green-600 hover:text-green-700 font-medium text-sm" %>
     </div>
 
+    <%# Step 3: Generate Meal Plan %>
     <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
       <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
         <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 1112 2.944a11.954 11.954 0 018.618 3.04M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
         </svg>
       </div>
-      <h3 class="text-lg font-semibold text-gray-900 mb-2">Shopping List</h3>
-      <p class="text-gray-600 text-sm mb-4">Generate lists from your meal plans</p>
-      <%# <%= link_to "View List", shopping_list_path, class: "text-indigo-600 hover:text-indigo-700 font-medium text-sm" %>
-      <span class="text-gray-400 text-sm">Coming soon</span>
+      <div class="flex items-center mb-2">
+        <span class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-purple-600 text-white text-xs font-bold mr-2">3</span>
+        <h3 class="text-lg font-semibold text-gray-900">Generate Plan</h3>
+      </div>
+      <p class="text-gray-600 text-sm mb-4">Create your macro-precise meal plan with ingredient quantities</p>
+      <%= link_to "Create Plan", new_meal_plan_path, class: "text-purple-600 hover:text-purple-700 font-medium text-sm" %>
     </div>
   </div>
 
@@ -63,13 +71,19 @@
         <svg class="w-5 h-5 text-gray-400 mt-0.5 mr-2" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
         </svg>
-        <span class="text-gray-500">Start creating your first meal plan</span>
+        <span class="text-gray-500">Set your daily macronutrient targets (carbs, protein, fat)</span>
       </li>
       <li class="flex items-start">
         <svg class="w-5 h-5 text-gray-400 mt-0.5 mr-2" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
         </svg>
-        <span class="text-gray-500">Add your favorite recipes</span>
+        <span class="text-gray-500">Configure your meal structure by selecting food categories</span>
+      </li>
+      <li class="flex items-start">
+        <svg class="w-5 h-5 text-gray-400 mt-0.5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+        </svg>
+        <span class="text-gray-500">Generate your first meal plan with precise ingredient quantities</span>
       </li>
     </ul>
   </div>

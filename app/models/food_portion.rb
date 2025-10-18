@@ -1,17 +1,13 @@
-class FoodPortion
-  attr_reader :food, :grams
+class FoodPortion < ApplicationRecord
+  belongs_to :meal
+  belongs_to :food
 
-  def initialize(food:, grams:)
-    @food = food
-    @grams = grams.to_f
-  end
+  validates :grams, presence: true, numericality: { greater_than: 0 }
 
-  def grams=(new_grams)
-    @grams = new_grams.to_f
-  end
-
+  # TODO: Unused for now, not too crazy about AR model calling service, think about this later.
+  # Calculate macros for this food portion
   def macros
-    food_macros = food.macronutrients
+    food_macros = NutrientLookupService.macronutrients_for(food)
     multiplier = grams / 100.0
 
     {
@@ -21,6 +17,7 @@ class FoodPortion
     }
   end
 
+  # Human-readable representation
   def to_s
     "#{grams}g of #{food.description}"
   end

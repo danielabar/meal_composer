@@ -68,7 +68,7 @@ Where cᵢ, pᵢ, fᵢ are macro coefficients per gram and pᵢ are portion size
 1. `compose_daily_meals` - Entry point, distributes daily macros across 3 meals
 2. `compose_single_meal` - Selects foods and optimizes portions per meal (up to 10 attempts)
 3. `optimize_portions_iterative` - Gradient descent to find portion sizes meeting targets
-4. Returns `Result` with `DailyMealPlan` containing 3 `Meal` objects
+4. Returns `Result` with `PocDailyMealPlan` containing 3 `PocMeal` objects
 
 ### Data Models
 
@@ -80,11 +80,11 @@ Where cᵢ, pᵢ, fᵢ are macro coefficients per gram and pᵢ are portion size
 - `User` - Authentication (uses Rails 8 authentication generator)
 - `DailyMacroTarget` - User's macro goals (belongs_to :user)
 
-**Value Objects** (Plain Ruby Classes):
+**Value Objects** (Plain Ruby Classes - POC namespace):
 - `MacroTargets` - Stores carbs/protein/fat values
-- `DailyMealPlan` - Contains 3 meals + target/actual macros
-- `Meal` - Contains food_portions array + calculated macros
-- `FoodPortion` - Food + grams amount
+- `PocDailyMealPlan` - Contains 3 meals + target/actual macros
+- `PocMeal` - Contains food_portions array + calculated macros
+- `PocFoodPortion` - Food + grams amount
 
 ### Services
 
