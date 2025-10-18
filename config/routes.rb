@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   resource :session, only: [ :new, :create, :destroy ]
   resources :passwords, param: :token, only: [ :new, :create, :edit, :update ]
 
-  # User registration
-  resources :registrations, only: [ :new, :create ]
+  # User registration - not implemented for now
+  # resources :registrations, only: [ :new, :create ]
 
   # Dashboard (for authenticated users)
   get "dashboard", to: "dashboard#index"
@@ -12,9 +12,12 @@ Rails.application.routes.draw do
   # Public home page
   root "home#index"
 
+  # Application
   resources :daily_macro_targets, except: [ :show ]
   resources :daily_meal_structures, except: [ :show ]
-  resources :meal_plans, except: [ :edit, :update ]
+  resources :meal_plans, except: [ :edit, :update ] do
+    resources :regenerations, only: [ :create ]
+  end
 
   # Health check endpoint
   get "up" => "rails/health#show", as: :rails_health_check

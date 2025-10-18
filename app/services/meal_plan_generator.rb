@@ -34,6 +34,33 @@ class MealPlanGenerator
     Rails.logger.info("=== MealPlanGenerator: Starting generation for user #{@user.id}")
     Rails.logger.info("=== MealPlanGenerator: Targets: #{@daily_macro_target.carbs_grams}g C, #{@daily_macro_target.protein_grams}g P, #{@daily_macro_target.fat_grams}g F")
 
+    composition_result = compose_meals
+
+    if composition_result.nil?
+      return Result.new(success?: false, error: "Failed to compose meals after multiple attempts")
+    end
+
+    # Calculate total actual macros
+    actual_carbs = composition_result[:actual_carbs]
+    actual_protein = composition_result[:actual_protein]
+    actual_fat = composition_result[:actual_fat]
+
+    # Persist to database
+    daily_meal_plan = persist_meal_plan(composition_result[:composed_meals], actual_carbs, actual_protein, actual_fat)
+
+    Result.new(success?: true, daily_meal_plan: daily_meal_plan)
+  rescue StandardError => e
+    Rails.logger.error("MealPlanGenerator failed: #{e.message}")
+    Rails.logger.error(e.backtrace.join("\n"))
+    Result.new(success?: false, error: "An unexpected error occurred: #{e.message}")
+  end
+
+  # Public method to compose meals without persisting
+  # Returns hash with :composed_meals, :actual_carbs, :actual_protein, :actual_fat
+  # or nil if composition fails
+  def compose_meals
+    Rails.logger.info("=== MealPlanGenerator: Composing meals for user #{@user.id}")
+
     # Distribute daily macros across meals
     meal_targets = distribute_macros_across_meals
 
@@ -50,25 +77,24 @@ class MealPlanGenerator
       )
 
       unless meal_result
-        return Result.new(success?: false, error: "Failed to compose #{meal_type} meal after multiple attempts")
+        Rails.logger.error("Failed to compose #{meal_type} meal after multiple attempts")
+        return nil
       end
 
       composed_meals[meal_type] = meal_result
     end
 
     # Calculate total actual macros
-    actual_carbs = composed_meals.values.sum { |m| m[:actual_carbs] }
-    actual_protein = composed_meals.values.sum { |m| m[:actual_protein] }
-    actual_fat = composed_meals.values.sum { |m| m[:actual_fat] }
-
-    # Persist to database
-    daily_meal_plan = persist_meal_plan(composed_meals, actual_carbs, actual_protein, actual_fat)
-
-    Result.new(success?: true, daily_meal_plan: daily_meal_plan)
+    {
+      composed_meals: composed_meals,
+      actual_carbs: composed_meals.values.sum { |m| m[:actual_carbs] },
+      actual_protein: composed_meals.values.sum { |m| m[:actual_protein] },
+      actual_fat: composed_meals.values.sum { |m| m[:actual_fat] }
+    }
   rescue StandardError => e
-    Rails.logger.error("MealPlanGenerator failed: #{e.message}")
+    Rails.logger.error("MealPlanGenerator#compose_meals failed: #{e.message}")
     Rails.logger.error(e.backtrace.join("\n"))
-    Result.new(success?: false, error: "An unexpected error occurred: #{e.message}")
+    nil
   end
 
   private
