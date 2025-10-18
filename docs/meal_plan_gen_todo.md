@@ -6,7 +6,6 @@
   - nicer: show which plans and offer to delete plans as well - modal experience
 - edge case: what should happen if user edits a meal structure or macro target that is used in a plan - regenerate plan?
   - if fails, leave original plan?
-- actually, user should be able to regenerate a plan at any time for new random selections
 - let user specify how many days to generate? but everything is only daily based...
 - let user specify tolerance (overall? per macro?) - need to modify plan schema/model
 - edit a plan, at the very least the title
