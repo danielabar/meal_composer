@@ -1,6 +1,6 @@
 <div class="meal-item border border-gray-300 rounded-lg p-4 bg-gray-50"
      data-meal-structure-form-target="mealItem"
-     data-controller="category-selector">
+     data-controller="category-selector meal-mode-switcher">
   <div class="flex justify-between items-start mb-4">
     <h4 class="text-md font-medium text-gray-900">Meal</h4>
     <button type="button"
@@ -32,7 +32,27 @@
     </div>
   </div>
 
-  <div class="mt-4">
+  <!-- Mode Selector -->
+  <div class="mt-4 p-3 bg-white border border-gray-200 rounded-md">
+    <%= form.label :mode, "Selection Mode", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <div class="flex gap-6">
+      <label class="flex items-center">
+        <%= form.radio_button :mode, "category",
+                             data: { action: "change->meal-mode-switcher#toggleSection" },
+                             class: "rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" %>
+        <span class="ml-2 text-sm text-gray-700">Categories (system picks specific foods)</span>
+      </label>
+      <label class="flex items-center">
+        <%= form.radio_button :mode, "food",
+                             data: { action: "change->meal-mode-switcher#toggleSection" },
+                             class: "rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" %>
+        <span class="ml-2 text-sm text-gray-700">Specific Foods (you pick exact foods)</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Category-based Selection -->
+  <div class="mt-4" data-meal-mode-switcher-target="categoriesSection">
     <%= form.label :food_category_ids, "Food Categories", class: "block text-sm font-medium text-gray-700 mb-2" %>
 
     <!-- Selected Categories Display -->
@@ -65,6 +85,21 @@
     </div>
     <p class="mt-1 text-xs text-gray-500">Select one or more food categories for this meal</p>
   </div>
+  <!-- End categoriesSection -->
+
+  <!-- Food-based Selection (Coming Soon) -->
+  <div class="mt-4 hidden" data-meal-mode-switcher-target="foodsSection">
+    <div class="p-6 bg-blue-50 border-2 border-blue-200 rounded-md text-center">
+      <div class="text-lg font-semibold text-blue-900 mb-2">🚀 Coming Soon</div>
+      <p class="text-sm text-blue-800">
+        Food-based meal planning is coming soon! You'll be able to search and select specific foods for this meal.
+      </p>
+      <p class="text-xs text-blue-700 mt-2">
+        For now, please use the Categories mode to define your meal preferences.
+      </p>
+    </div>
+  </div>
+  <!-- End foodsSection -->
 
   <%= form.hidden_field :_destroy %>
 </div>

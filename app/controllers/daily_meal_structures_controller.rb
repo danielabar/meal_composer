@@ -53,9 +53,25 @@ class DailyMealStructuresController < ApplicationController
         :id,
         :meal_label,
         :position,
+        :mode,
         :_destroy,
-        food_category_ids: []
+        food_category_ids: [],
+        food_ids: []
       ]
-    )
+    ).tap do |allowed|
+      # Clean up empty arrays based on mode
+      allowed[:meal_structure_items_attributes]&.each do |_index, attrs|
+        next unless attrs.is_a?(Hash)
+
+        case attrs[:mode]
+        when "food"
+          attrs.delete(:food_category_ids)
+        else
+          # Default to category mode
+          attrs[:mode] = "category" if attrs[:mode].blank?
+          attrs.delete(:food_ids)
+        end
+      end
+    end
   end
 end

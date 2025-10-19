@@ -20,26 +20,28 @@ class MealStructureItem < ApplicationRecord
     message: "%{value} is not a valid meal label"
   }
 
-  validates :mode, presence: true, inclusion: {
+  validates :mode, inclusion: {
     in: MODES.keys,
     message: "%{value} is not a valid mode"
   }
 
-  # Validate that either food_category_ids or food_ids is present, but not both
-  validate :has_either_categories_or_foods
+  # Validate that the correct field is present based on mode
+  validate :validate_by_mode
   validate :food_categories_exist
   validate :foods_exist
 
   private
 
-  def has_either_categories_or_foods
-    has_categories = food_category_ids.present?
-    has_foods = food_ids.present?
-
-    if has_categories && has_foods
-      errors.add(:base, "Cannot mix category and food selection within a meal")
-    elsif !has_categories && !has_foods
-      errors.add(:base, "Must select either categories or specific foods for a meal")
+  def validate_by_mode
+    case mode
+    when "category"
+      if food_category_ids.blank?
+        errors.add(:food_category_ids, "required - select at least one category")
+      end
+    when "food"
+      if food_ids.blank?
+        errors.add(:food_ids, "required - select at least one food")
+      end
     end
   end
 
