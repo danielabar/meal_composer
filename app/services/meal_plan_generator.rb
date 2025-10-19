@@ -122,13 +122,25 @@ class MealPlanGenerator
 
   # Compose a single meal by selecting foods and optimizing portions
   def compose_single_meal(meal_type:, target_carbs:, target_protein:, target_fat:)
-    # Get category IDs for this meal from the meal structure
+    # Get meal structure item for this meal
     meal_structure_item = daily_meal_structure.meal_structure_items.find_by(meal_label: meal_type.to_s)
     unless meal_structure_item
       Rails.logger.error("No meal structure item found for #{meal_type}")
       return nil
     end
 
+    # Route based on meal's mode
+    if meal_structure_item.mode == "food"
+      Rails.logger.info("=== MealPlanGenerator: #{meal_type} - Using food-based mode")
+      compose_meal_by_foods(meal_type, meal_structure_item, target_carbs, target_protein, target_fat)
+    else
+      Rails.logger.info("=== MealPlanGenerator: #{meal_type} - Using category-based mode")
+      compose_meal_by_categories(meal_type, meal_structure_item, target_carbs, target_protein, target_fat)
+    end
+  end
+
+  # Compose meal using category-based selection (existing logic, extracted)
+  def compose_meal_by_categories(meal_type, meal_structure_item, target_carbs, target_protein, target_fat)
     category_ids = meal_structure_item.food_category_ids
     max_attempts = 10
 
@@ -187,6 +199,66 @@ class MealPlanGenerator
     nil
   end
 
+  # Compose meal using food-based selection (new logic)
+  def compose_meal_by_foods(meal_type, meal_structure_item, target_carbs, target_protein, target_fat)
+    food_ids = meal_structure_item.food_ids
+    max_attempts = 10
+
+    max_attempts.times do |attempt|
+      Rails.logger.info("=== MealPlanGenerator: #{meal_type} - Food-based attempt #{attempt + 1}/#{max_attempts}")
+
+      # Use explicit food selections instead of random selection
+      foods_with_grams = prepare_selected_foods(food_ids)
+
+      # Try to optimize portions
+      if optimize_portions(foods_with_grams, target_carbs, target_protein, target_fat)
+        Rails.logger.info("=== MealPlanGenerator: #{meal_type} - Food-based success at attempt #{attempt + 1}")
+
+        # Calculate actual macros
+        actual_macros = calculate_macros(foods_with_grams)
+
+        return {
+          foods_with_grams: foods_with_grams,
+          actual_carbs: actual_macros[:carbs],
+          actual_protein: actual_macros[:protein],
+          actual_fat: actual_macros[:fat]
+        }
+      end
+
+      # Try with relaxed constraints after several attempts
+      if attempt >= max_attempts / 2
+        Rails.logger.info("=== MealPlanGenerator: #{meal_type} - Food-based trying with relaxed constraints")
+        if optimize_portions(foods_with_grams, target_carbs, target_protein, target_fat, relaxed: true)
+          Rails.logger.info("=== MealPlanGenerator: #{meal_type} - Food-based success with relaxed constraints")
+          actual_macros = calculate_macros(foods_with_grams)
+          return {
+            foods_with_grams: foods_with_grams,
+            actual_carbs: actual_macros[:carbs],
+            actual_protein: actual_macros[:protein],
+            actual_fat: actual_macros[:fat]
+          }
+        end
+      end
+    end
+
+    # Last resort with very relaxed constraints
+    Rails.logger.info("=== MealPlanGenerator: #{meal_type} - Food-based last attempt with very relaxed constraints")
+    foods_with_grams = prepare_selected_foods(food_ids)
+    if optimize_portions(foods_with_grams, target_carbs, target_protein, target_fat, last_resort: true)
+      Rails.logger.info("=== MealPlanGenerator: #{meal_type} - Food-based success with very relaxed constraints")
+      actual_macros = calculate_macros(foods_with_grams)
+      return {
+        foods_with_grams: foods_with_grams,
+        actual_carbs: actual_macros[:carbs],
+        actual_protein: actual_macros[:protein],
+        actual_fat: actual_macros[:fat]
+      }
+    end
+
+    Rails.logger.error("=== MealPlanGenerator: #{meal_type} - Food-based failed after all attempts")
+    nil
+  end
+
   # Randomly select one food from each category
   def randomly_select_foods(category_ids)
     foods = []
@@ -215,6 +287,23 @@ class MealPlanGenerator
       end
 
       foods << FoodWithGrams.new(food: selected_food, grams: 0)
+    end
+
+    foods
+  end
+
+  # Prepare explicitly selected foods (food-based mode)
+  def prepare_selected_foods(food_ids)
+    foods = []
+
+    food_ids.each do |food_id|
+      food = Food.find(food_id)
+
+      unless food_has_complete_macro_data?(food)
+        Rails.logger.warn("=== MealPlanGenerator: Food #{food.description} (#{food_id}) has incomplete macro data")
+      end
+
+      foods << FoodWithGrams.new(food: food, grams: 0)
     end
 
     foods
