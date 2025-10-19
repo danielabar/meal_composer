@@ -1,11 +1,12 @@
 # Meal Plan Generation TODOs
 
+- WIP instead of categories, allow food selection
+
+- swap a food (finds another one at random from that category) -> only for category based planning
+- replace a food with something specific - calculate amount based on holding everything else in the plan fixed -> only for food based planning
+
 - Show calories on Daily Macro Summary on meal plan show view
 - plan show: also show/link to macro target and meal structure (a few more details mini view to remind user what it was)
-
-- instead of categories, allow food selection
-- swap a food (finds another one at random from that category)
-- replace a food with something specific - calculate amount based on holding everything else in the plan fixed
 
 - `Generated 4 days ago` needs to update to use updated_at instead of created_at (or regenerate not updating updated_at date?)
 
