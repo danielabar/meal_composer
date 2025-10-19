@@ -66,7 +66,8 @@ class MealPlanGenerator
 
     # Compose each meal
     composed_meals = {}
-    [ :breakfast, :lunch, :dinner ].each do |meal_type|
+    get_meal_labels.each do |meal_label|
+      meal_type = meal_label.to_sym
       Rails.logger.info("=== MealPlanGenerator: Composing #{meal_type}")
 
       meal_result = compose_single_meal(
@@ -101,25 +102,22 @@ class MealPlanGenerator
 
   attr_reader :user, :name, :daily_macro_target, :daily_meal_structure
 
-  # Distribute daily macros across meals using fixed percentages
+  # Distribute daily macros across meals evenly
+  # TODO: Future feature - allow users to specify custom distribution percentages instead of even split
   def distribute_macros_across_meals
-    {
-      breakfast: {
-        carbs: (daily_macro_target.carbs_grams * 0.30).round,
-        protein: (daily_macro_target.protein_grams * 0.25).round,
-        fat: (daily_macro_target.fat_grams * 0.25).round
-      },
-      lunch: {
-        carbs: (daily_macro_target.carbs_grams * 0.35).round,
-        protein: (daily_macro_target.protein_grams * 0.35).round,
-        fat: (daily_macro_target.fat_grams * 0.35).round
-      },
-      dinner: {
-        carbs: (daily_macro_target.carbs_grams * 0.35).round,
-        protein: (daily_macro_target.protein_grams * 0.40).round,
-        fat: (daily_macro_target.fat_grams * 0.40).round
+    meal_labels = get_meal_labels
+    percentage_per_meal = 1.0 / meal_labels.count
+
+    result = {}
+    meal_labels.each do |label|
+      result[label.to_sym] = {
+        carbs: (daily_macro_target.carbs_grams * percentage_per_meal).round,
+        protein: (daily_macro_target.protein_grams * percentage_per_meal).round,
+        fat: (daily_macro_target.fat_grams * percentage_per_meal).round
       }
-    }
+    end
+
+    result
   end
 
   # Compose a single meal by selecting foods and optimizing portions
@@ -373,5 +371,10 @@ class MealPlanGenerator
 
       daily_meal_plan
     end
+  end
+
+  # Get meal labels from the daily meal structure, ordered by position
+  def get_meal_labels
+    daily_meal_structure.meal_structure_items.order(:position).pluck(:meal_label)
   end
 end
