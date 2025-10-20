@@ -13,7 +13,7 @@ class MealStructureItem < ApplicationRecord
   }.freeze
 
   MIN_FOODS = 2
-  MAX_FOODS = 5
+  MAX_FOODS = 6
 
   belongs_to :daily_meal_structure
 

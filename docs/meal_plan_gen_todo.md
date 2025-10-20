@@ -3,11 +3,14 @@
 - WIP instead of categories, allow food selection
 - minor: wipe out text when search dropdown closes
 - major: Can we allow more than 5 foods? where does it start to break down?
+- allow deletion of selected categories or foods in meal structure item
 
 - BIG: convert grams to some kind of better understood portions - it is possible from data csv's, need to import more in seeds
 
 - swap a food (finds another one at random from that category) -> only for category based planning
 - replace a food with something specific - calculate amount based on holding everything else in the plan fixed -> only for food based planning
+
+- currently it assumes all macros to be distributed evenly across all meals, this wouldn't make sense for snacks, and user may want to customize this, eg: small breakfast, medium lunch, big dinner
 
 - Show calories on Daily Macro Summary on meal plan show view
 - plan show: also show/link to macro target and meal structure (a few more details mini view to remind user what it was)
