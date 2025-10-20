@@ -45,6 +45,15 @@ export default class extends Controller {
     }
 
     this.updateSelectedDisplay()
+
+    // Add event listeners for closing dropdown
+    document.addEventListener("click", this.handleClickOutside.bind(this))
+    document.addEventListener("keydown", this.handleKeyDown.bind(this))
+  }
+
+  disconnect() {
+    document.removeEventListener("click", this.handleClickOutside.bind(this))
+    document.removeEventListener("keydown", this.handleKeyDown.bind(this))
   }
 
   // Fetch foods when input gets focus (show first 20 alphabetically)
@@ -218,10 +227,18 @@ export default class extends Controller {
     console.log(`=== Total food_id fields created: ${this.selectedFoodIds.size}`)
   }
 
-  // Hide dropdown when clicking outside
+  // Hide dropdown when clicking outside the controller element
   handleClickOutside(event) {
     if (!this.element.contains(event.target)) {
       this.resultsDropdownTarget.classList.add("hidden")
+    }
+  }
+
+  // Handle Escape key to close dropdown
+  handleKeyDown(event) {
+    if (event.key === "Escape") {
+      this.resultsDropdownTarget.classList.add("hidden")
+      this.searchInputTarget.blur()
     }
   }
 
@@ -230,9 +247,5 @@ export default class extends Controller {
     const div = document.createElement("div")
     div.textContent = text
     return div.innerHTML
-  }
-
-  disconnect() {
-    document.removeEventListener("click", this.handleClickOutside)
   }
 }
