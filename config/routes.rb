@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   # Application
   resources :daily_macro_targets, except: [ :show ]
   resources :daily_meal_structures, except: [ :show ]
+  resources :food_searches, only: [ :index ]
   resources :meal_plans, except: [ :edit, :update ] do
     resources :regenerations, only: [ :create ]
   end

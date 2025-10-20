@@ -25,6 +25,9 @@ class DailyMealStructuresController < ApplicationController
   end
 
   def edit
+    # Build a map of all food IDs to their names for hydrating the edit view
+    # This is used by the food_selector Stimulus controller to display food names
+    @food_id_to_name_map = build_food_id_to_name_map(@daily_meal_structure)
   end
 
   def update
@@ -44,6 +47,15 @@ class DailyMealStructuresController < ApplicationController
 
   def set_daily_meal_structure
     @daily_meal_structure = Current.user.daily_meal_structures.find(params[:id])
+  end
+
+  def build_food_id_to_name_map(daily_meal_structure)
+    # Collect all food IDs from all meal structure items
+    all_food_ids = daily_meal_structure.meal_structure_items.flat_map(&:food_ids).compact.uniq
+
+    # Fetch the foods and build a map
+    foods = Food.where(id: all_food_ids)
+    foods.index_by(&:id).transform_values(&:description)
   end
 
   def daily_meal_structure_params

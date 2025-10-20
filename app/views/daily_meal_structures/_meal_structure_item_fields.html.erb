@@ -87,17 +87,51 @@
   </div>
   <!-- End categoriesSection -->
 
-  <!-- Food-based Selection (Coming Soon) -->
-  <div class="mt-4 hidden" data-meal-mode-switcher-target="foodsSection">
-    <div class="p-6 bg-blue-50 border-2 border-blue-200 rounded-md text-center">
-      <div class="text-lg font-semibold text-blue-900 mb-2">🚀 Coming Soon</div>
-      <p class="text-sm text-blue-800">
-        Food-based meal planning is coming soon! You'll be able to search and select specific foods for this meal.
-      </p>
-      <p class="text-xs text-blue-700 mt-2">
-        For now, please use the Categories mode to define your meal preferences.
-      </p>
+  <!-- Food-based Selection -->
+  <div class="mt-4 hidden"
+       data-meal-mode-switcher-target="foodsSection"
+       data-controller="food-selector"
+       data-food-selector-search-url-value="<%= food_searches_path %>"
+       data-food-selector-min-foods-value="<%= MealStructureItem::MIN_FOODS %>"
+       data-food-selector-max-foods-value="<%= MealStructureItem::MAX_FOODS %>"
+       data-food-selector-initial-food-ids-value="<%= form.object.food_ids&.to_json || '[]' %>"
+       data-food-selector-food-name-map-value="<%= @food_id_to_name_map&.to_json || '{}' %>">
+
+    <%= form.label :food_ids, "Search Foods", class: "block text-sm font-medium text-gray-700 mb-2" %>
+
+    <!-- Selected Foods Display -->
+    <div class="mb-3 p-3 bg-indigo-50 border border-indigo-200 rounded-md min-h-[3rem]" data-food-selector-target="selectedDisplay">
+      <div class="text-xs font-medium text-indigo-900 mb-1">
+        Selected (<span data-food-selector-target="selectedCount">0</span>):
+      </div>
+      <div class="flex flex-wrap gap-1" data-food-selector-target="selectedTags">
+        <span class="text-xs text-gray-500 italic" data-food-selector-target="emptyMessage">None selected yet</span>
+      </div>
     </div>
+
+    <!-- Search Input -->
+    <div class="mb-3 relative">
+      <input type="text"
+             placeholder="Click to see foods, or type to search..."
+             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border"
+             data-food-selector-target="searchInput"
+             data-action="focus->food-selector#onInputFocus input->food-selector#onInputChange:debounce(300ms)"
+             autocomplete="off">
+    </div>
+
+    <!-- Results Dropdown -->
+    <div class="border border-gray-300 rounded-md bg-white max-h-96 overflow-y-auto hidden"
+         data-food-selector-target="resultsDropdown">
+    </div>
+
+    <!-- Hidden field to reference for form field name (Stimulus will create multiple hidden fields) -->
+    <!-- Disabled so it won't be submitted - Stimulus uses it only to get the field name -->
+    <%= form.hidden_field :food_ids,
+                         value: "",
+                         disabled: true,
+                         data: { "food-selector-target": "foodIdsField" } %>
+
+    <p class="mt-2 text-xs text-gray-500">Select between <%= MealStructureItem::MIN_FOODS %>-<%= MealStructureItem::MAX_FOODS %> specific foods for this meal</p>
   </div>
   <!-- End foodsSection -->
 

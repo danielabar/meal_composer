@@ -12,6 +12,9 @@ class MealStructureItem < ApplicationRecord
     "food" => "Food-based (you select specific foods)"
   }.freeze
 
+  MIN_FOODS = 2
+  MAX_FOODS = 5
+
   belongs_to :daily_meal_structure
 
   validates :meal_label, presence: true

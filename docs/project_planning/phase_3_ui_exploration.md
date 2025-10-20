@@ -241,3 +241,95 @@ food_ids: []                 # Array of food IDs (for food-based mode)
 3. Focus on single-meal first, then multi-meal
 
 This keeps complexity manageable while giving users maximum control.
+
+---
+
+## Phase 3B: Food Search UI Implementation (PAUSED - AWAITING DECISIONS)
+
+**Status:** Implementation paused. The per-meal mode toggle is complete with "Coming Soon" placeholder. Before building the food search UI, these decisions must be made:
+
+### Implementation Status
+
+✅ **Completed:**
+- Per-meal mode toggle (radio buttons: "Categories" vs "Specific Foods")
+- Mode-aware validation in MealStructureItem model
+- Controller parameter cleanup based on mode
+- Stimulus controller for toggling visibility between sections
+- "Coming Soon" placeholder message for foods mode
+
+🚀 **Next Phase:** Build the food search/autocomplete UI for foods mode
+
+### Design Decisions Required (MUST ANSWER BEFORE PROCEEDING)
+
+**Question 1: Search Trigger**
+When should the autocomplete dropdown appear?
+- A) Only when user types (≥2 characters)?
+- B) When they click the input (show recent/all foods)?
+- C) Both?
+
+**Question 2: Food Info Display in Dropdown**
+What should each food result show?
+- Option A: Just name: `"Scrambled eggs"`
+- Option B: With macros: `"Scrambled eggs (13g C, 11g P, 11g F per 100g)"`
+- Option C: With category: `"Scrambled eggs - Eggs and omelets"`
+- Option D: All three: `"Scrambled eggs - Eggs and omelets (13g C, 11g P, 11g F per 100g)"`
+
+**Question 3: Selection Limits**
+What are the practical min/max foods per meal?
+- Minimum: 1? 2?
+- Maximum: 5? 10?
+
+**Question 4: API Endpoint Design**
+For the food search backend, create:
+- New endpoint: `GET /foods/search?q=scrambled` returning JSON?
+- Or leverage existing? (if any exist)
+- Response format: `[{id: 123, description: "...", carbs: 13, protein: 11, fat: 11}, ...]`?
+
+**Question 5: Selected Foods Display**
+For the tag-style UI showing selected foods:
+- Match category tag styling exactly (indigo bg, gray text)?
+- Show food name only on tag?
+- Show macros on tag as well, or just in results?
+- Include remove button (X) like categories do?
+
+### Technical Plan (Once Decisions Made)
+
+1. **Backend Work:**
+   - Create `FoodsController#search` endpoint
+   - Query: `Food.where("description ILIKE ?", "%#{query}%")`
+   - Include macro data via `NutrientLookupService`
+   - Return JSON with food id, description, macros per 100g
+   - Rate limiting: Only search if ≥2 characters typed
+
+2. **Frontend Work:**
+   - Create new Stimulus controller: `food_selector_controller.js`
+   - Text input for search
+   - Dropdown for autocomplete results
+   - Selected foods displayed as tags (similar to `category_selector_controller.js`)
+   - Remove button on each tag
+   - Enforce min/max selection limits
+
+3. **View Updates:**
+   - Update `_meal_structure_item_fields.html.erb`
+   - Replace "Coming Soon" div with actual food search UI
+   - Add search input and results container
+   - Add selected foods tag display
+
+### Key Files to Modify When Ready
+
+- `app/controllers/daily_meal_structures_controller.rb` - already updated ✅
+- `app/models/meal_structure_item.rb` - already updated ✅
+- `app/views/daily_meal_structures/_meal_structure_item_fields.html.erb` - replace Coming Soon section
+- `app/javascript/controllers/food_selector_controller.js` - NEW controller to create
+- Potentially create: `app/controllers/foods_controller.rb` with search action
+
+### Context for Next Session
+
+When resuming:
+1. Answer the 5 design questions above
+2. Reference this section in the docs for implementation details
+3. Start with backend: FoodsController#search endpoint
+4. Then build frontend: food_selector_controller.js
+5. Update the view to use the new controller
+
+The groundwork is complete - mode toggle works, validation is in place, parameters are cleaned up. Just needs the search UI on top.
