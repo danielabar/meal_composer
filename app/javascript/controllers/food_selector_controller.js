@@ -44,6 +44,13 @@ export default class extends Controller {
       this.selectedFoodIds = new Set()
     }
 
+    // Initialize pagination state
+    this.currentPage = 0
+    this.totalResults = 0
+    this.currentQuery = ""
+    this.isLoading = false
+    this.allResultsLoaded = false
+
     this.updateSelectedDisplay()
 
     // Add event listeners for closing dropdown
@@ -54,6 +61,14 @@ export default class extends Controller {
   disconnect() {
     document.removeEventListener("click", this.handleClickOutside.bind(this))
     document.removeEventListener("keydown", this.handleKeyDown.bind(this))
+    this.removeScrollListener()
+  }
+
+  removeScrollListener() {
+    if (this.scrollListener) {
+      this.resultsDropdownTarget.removeEventListener("scroll", this.scrollListener)
+      this.scrollListener = null
+    }
   }
 
   // Fetch foods when input gets focus (show first 20 alphabetically)
@@ -61,7 +76,8 @@ export default class extends Controller {
     console.log(`=== ON INPUT FOCUS called`)
     if (this.searchInputTarget.value.trim() === "") {
       console.log(`=== Fetching all foods`)
-      this.fetchFoods("")
+      this.resetPagination()
+      this.fetchFoodsPage("")
     }
   }
 
@@ -75,16 +91,36 @@ export default class extends Controller {
       return
     }
 
-    await this.fetchFoods(query)
+    // New search, reset to page 1
+    this.resetPagination()
+    await this.fetchFoodsPage(query)
   }
 
-  async fetchFoods(query) {
+  resetPagination() {
+    this.currentPage = 0
+    this.totalResults = 0
+    this.isLoading = false
+    this.allResultsLoaded = false
+    this.resultsDropdownTarget.innerHTML = ""
+    this.removeScrollListener()
+  }
+
+  async fetchFoodsPage(query) {
+    if (this.isLoading || this.allResultsLoaded) {
+      console.log(`=== Skipping fetch: isLoading=${this.isLoading}, allLoaded=${this.allResultsLoaded}`)
+      return
+    }
+
+    this.isLoading = true
+    this.currentPage += 1
+    this.currentQuery = query
+
     try {
-      console.log(`=== FETCH FOODS CALLED with query: "${query}"`)
-      console.log(`=== this.searchUrlValue: ${this.searchUrlValue}`)
+      console.log(`=== FETCH FOODS PAGE CALLED - query: "${query}", page: ${this.currentPage}`)
 
       const url = new URL(this.searchUrlValue, window.location.origin)
       url.searchParams.set("q", query)
+      url.searchParams.set("page", this.currentPage)
 
       console.log(`=== Final URL: ${url.toString()}`)
 
@@ -94,27 +130,70 @@ export default class extends Controller {
 
       if (!response.ok) throw new Error("Food search failed")
 
-      const foods = await response.json()
-      this.renderResults(foods)
+      const data = await response.json()
+      console.log(`=== Received data: foods=${data.foods.length}, total=${data.total_count}, page=${data.page}`)
+
+      this.totalResults = data.total_count
+      this.renderResultsAppend(data.foods)
+
+      // Check if we've loaded all results
+      const loadedCount = this.currentPage * data.per_page
+      if (loadedCount >= this.totalResults) {
+        this.allResultsLoaded = true
+        console.log(`=== All results loaded`)
+      }
+
+      // Add scroll listener if not already added and there are more results
+      if (!this.scrollListener && !this.allResultsLoaded) {
+        this.attachScrollListener()
+      }
     } catch (error) {
       console.error("Food search error:", error)
-      this.resultsDropdownTarget.innerHTML = '<div class="p-2 text-sm text-red-600">Error loading foods</div>'
-      this.resultsDropdownTarget.classList.remove("hidden")
+      if (this.currentPage === 1) {
+        // Only show error on first page
+        this.resultsDropdownTarget.innerHTML = '<div class="p-2 text-sm text-red-600">Error loading foods</div>'
+      }
+    } finally {
+      this.isLoading = false
     }
   }
 
-  renderResults(foods) {
-    console.log(`=== RENDER RESULTS called with ${foods.length} foods`)
-    this.lastResults = foods // Store for re-rendering
+  attachScrollListener() {
+    console.log(`=== Attaching scroll listener`)
+    this.scrollListener = this.handleDropdownScroll.bind(this)
+    this.resultsDropdownTarget.addEventListener("scroll", this.scrollListener)
+  }
+
+  handleDropdownScroll(event) {
+    const dropdown = this.resultsDropdownTarget
+    const scrollTop = dropdown.scrollTop
+    const scrollHeight = dropdown.scrollHeight
+    const clientHeight = dropdown.clientHeight
+
+    // When scroll is 80% down, fetch next page
+    const scrollPercent = (scrollTop + clientHeight) / scrollHeight
+    if (scrollPercent > 0.8) {
+      console.log(`=== Scroll threshold reached (${(scrollPercent * 100).toFixed(1)}%), fetching next page`)
+      this.fetchFoodsPage(this.currentQuery)
+    }
+  }
+
+  renderResultsAppend(foods) {
+    console.log(`=== RENDER RESULTS APPEND called with ${foods.length} foods`)
 
     // Store food names for display in tags
     foods.forEach(food => {
       this.foodNames[food.id] = food.description
     })
 
-    if (foods.length === 0) {
+    if (this.currentPage === 1 && foods.length === 0) {
+      // First page and no results
       this.resultsDropdownTarget.innerHTML = '<div class="p-2 text-sm text-gray-500">No foods found</div>'
+    } else if (foods.length === 0) {
+      // No more results on subsequent pages, don't change HTML
+      return
     } else {
+      // Append new food buttons to existing dropdown
       const html = foods.map(food => {
         const isSelected = this.selectedFoodIds.has(food.id)
         const canSelect = !isSelected && this.selectedFoodIds.size >= this.maxFoodsValue
@@ -131,7 +210,7 @@ export default class extends Controller {
         `
       }).join("")
 
-      this.resultsDropdownTarget.innerHTML = html
+      this.resultsDropdownTarget.innerHTML += html
     }
 
     this.resultsDropdownTarget.classList.remove("hidden")
@@ -165,8 +244,31 @@ export default class extends Controller {
     console.log(`=== Updated selectedFoodIds: `, Array.from(this.selectedFoodIds))
 
     this.updateSelectedDisplay()
-    this.renderResults(this.lastResults || []) // Re-render to update checkboxes
+    this.updateButtonStates() // Re-render button states without losing scroll position
     this.searchInputTarget.focus()
+  }
+
+  updateButtonStates() {
+    // Update the selected/disabled state of all buttons without replacing HTML
+    const buttons = this.resultsDropdownTarget.querySelectorAll('button')
+    buttons.forEach(button => {
+      const foodId = parseInt(button.dataset.foodId)
+      const isSelected = this.selectedFoodIds.has(foodId)
+      const canSelect = !isSelected && this.selectedFoodIds.size >= this.maxFoodsValue
+
+      // Update classes
+      button.classList.toggle('bg-indigo-100', isSelected)
+      button.classList.toggle('font-medium', isSelected)
+      button.classList.toggle('opacity-50', canSelect)
+      button.classList.toggle('cursor-not-allowed', canSelect)
+
+      // Update disabled state
+      if (canSelect) {
+        button.setAttribute('disabled', '')
+      } else {
+        button.removeAttribute('disabled')
+      }
+    })
   }
 
   showLimitMessage() {
