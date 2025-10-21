@@ -277,7 +277,9 @@ CREATE TABLE public.meal_structure_items (
     food_category_ids integer[] DEFAULT '{}'::integer[] NOT NULL,
     "position" integer DEFAULT 0,
     created_at timestamp(6) with time zone NOT NULL,
-    updated_at timestamp(6) with time zone NOT NULL
+    updated_at timestamp(6) with time zone NOT NULL,
+    food_ids integer[] DEFAULT '{}'::integer[],
+    mode character varying DEFAULT 'category'::character varying
 );
 
 
@@ -925,6 +927,7 @@ ALTER TABLE ONLY public.food_portions
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20251019134047'),
 ('20251014223321'),
 ('20251014223247'),
 ('20251014223212'),

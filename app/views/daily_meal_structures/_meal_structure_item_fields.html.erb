@@ -1,6 +1,6 @@
 <div class="meal-item border border-gray-300 rounded-lg p-4 bg-gray-50"
      data-meal-structure-form-target="mealItem"
-     data-controller="category-selector">
+     data-controller="category-selector meal-mode-switcher">
   <div class="flex justify-between items-start mb-4">
     <h4 class="text-md font-medium text-gray-900">Meal</h4>
     <button type="button"
@@ -32,7 +32,27 @@
     </div>
   </div>
 
-  <div class="mt-4">
+  <!-- Mode Selector -->
+  <div class="mt-4 p-3 bg-white border border-gray-200 rounded-md">
+    <%= form.label :mode, "Selection Mode", class: "block text-sm font-medium text-gray-700 mb-2" %>
+    <div class="flex gap-6">
+      <label class="flex items-center">
+        <%= form.radio_button :mode, "category",
+                             data: { action: "change->meal-mode-switcher#toggleSection" },
+                             class: "rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" %>
+        <span class="ml-2 text-sm text-gray-700">Categories (system picks specific foods)</span>
+      </label>
+      <label class="flex items-center">
+        <%= form.radio_button :mode, "food",
+                             data: { action: "change->meal-mode-switcher#toggleSection" },
+                             class: "rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" %>
+        <span class="ml-2 text-sm text-gray-700">Specific Foods (you pick exact foods)</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- Category-based Selection -->
+  <div class="mt-4" data-meal-mode-switcher-target="categoriesSection">
     <%= form.label :food_category_ids, "Food Categories", class: "block text-sm font-medium text-gray-700 mb-2" %>
 
     <!-- Selected Categories Display -->
@@ -65,6 +85,55 @@
     </div>
     <p class="mt-1 text-xs text-gray-500">Select one or more food categories for this meal</p>
   </div>
+  <!-- End categoriesSection -->
+
+  <!-- Food-based Selection -->
+  <div class="mt-4 hidden"
+       data-meal-mode-switcher-target="foodsSection"
+       data-controller="food-selector"
+       data-food-selector-search-url-value="<%= food_searches_path %>"
+       data-food-selector-min-foods-value="<%= MealStructureItem::MIN_FOODS %>"
+       data-food-selector-max-foods-value="<%= MealStructureItem::MAX_FOODS %>"
+       data-food-selector-initial-food-ids-value="<%= form.object.food_ids&.to_json || '[]' %>"
+       data-food-selector-food-name-map-value="<%= @food_id_to_name_map&.to_json || '{}' %>">
+
+    <%= form.label :food_ids, "Search Foods", class: "block text-sm font-medium text-gray-700 mb-2" %>
+
+    <!-- Selected Foods Display -->
+    <div class="mb-3 p-3 bg-indigo-50 border border-indigo-200 rounded-md min-h-[3rem]" data-food-selector-target="selectedDisplay">
+      <div class="text-xs font-medium text-indigo-900 mb-1">
+        Selected (<span data-food-selector-target="selectedCount">0</span>):
+      </div>
+      <div class="flex flex-wrap gap-1" data-food-selector-target="selectedTags">
+        <span class="text-xs text-gray-500 italic" data-food-selector-target="emptyMessage">None selected yet</span>
+      </div>
+    </div>
+
+    <!-- Search Input -->
+    <div class="mb-3 relative">
+      <input type="text"
+             placeholder="Click to see foods, or type to search..."
+             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border"
+             data-food-selector-target="searchInput"
+             data-action="focus->food-selector#onInputFocus input->food-selector#onInputChange:debounce(300ms)"
+             autocomplete="off">
+    </div>
+
+    <!-- Results Dropdown -->
+    <div class="border border-gray-300 rounded-md bg-white max-h-96 overflow-y-auto hidden"
+         data-food-selector-target="resultsDropdown">
+    </div>
+
+    <!-- Hidden field to reference for form field name (Stimulus will create multiple hidden fields) -->
+    <!-- Disabled so it won't be submitted - Stimulus uses it only to get the field name -->
+    <%= form.hidden_field :food_ids,
+                         value: "",
+                         disabled: true,
+                         data: { "food-selector-target": "foodIdsField" } %>
+
+    <p class="mt-2 text-xs text-gray-500">Select between <%= MealStructureItem::MIN_FOODS %>-<%= MealStructureItem::MAX_FOODS %> specific foods for this meal</p>
+  </div>
+  <!-- End foodsSection -->
 
   <%= form.hidden_field :_destroy %>
 </div>
