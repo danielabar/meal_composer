@@ -1,8 +1,12 @@
 # Meal Plan Generation TODOs
 
 - WIP instead of categories, allow food selection
+
+- why does algorithm sometimes come in below on protein?
+
 - minor: wipe out text when search dropdown closes
-- major: Can we allow more than 5 foods? where does it start to break down?
+- Can we allow more than 5 foods? where does it start to break down?
+- Set consistent min/max limits on category selection to match food selection (currently there are no limits)
 - allow deletion of selected categories or foods in meal structure item
 
 - BIG: convert grams to some kind of better understood portions - it is possible from data csv's, need to import more in seeds
