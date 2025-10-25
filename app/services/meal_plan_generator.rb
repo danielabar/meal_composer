@@ -10,7 +10,7 @@ class MealPlanGenerator
   MACRO_TOLERANCE_GRAMS = 8.0
   MIN_PORTION_SIZE = 10.0
   MAX_PORTION_SIZE = 500.0
-  MAX_ITERATIONS = 200
+  MAX_ITERATIONS = 50
   LEARNING_RATE = 0.5
 
   # Result object to return from the service
@@ -109,6 +109,36 @@ class MealPlanGenerator
       daily_within_tolerance = daily_carb_diff <= MACRO_TOLERANCE_GRAMS &&
                                daily_protein_diff <= MACRO_TOLERANCE_GRAMS &&
                                daily_fat_diff <= MACRO_TOLERANCE_GRAMS
+
+      # PHASE 2: If daily totals exceed tolerance, try adjusting portions before giving up
+      unless daily_within_tolerance
+        Rails.logger.info("=== Phase 2: Attempting daily adjustment to fix deviations")
+        adjusted = adjust_portions_for_daily_targets(
+          composed_meals,
+          daily_macro_target.carbs_grams,
+          daily_macro_target.protein_grams,
+          daily_macro_target.fat_grams
+        )
+
+        if adjusted
+          # Recalculate after adjustment
+          actual_carbs = composed_meals.values.sum { |m| m[:actual_carbs] }
+          actual_protein = composed_meals.values.sum { |m| m[:actual_protein] }
+          actual_fat = composed_meals.values.sum { |m| m[:actual_fat] }
+
+          daily_carb_diff = (actual_carbs - daily_macro_target.carbs_grams).abs
+          daily_protein_diff = (actual_protein - daily_macro_target.protein_grams).abs
+          daily_fat_diff = (actual_fat - daily_macro_target.fat_grams).abs
+
+          daily_within_tolerance = daily_carb_diff <= MACRO_TOLERANCE_GRAMS &&
+                                   daily_protein_diff <= MACRO_TOLERANCE_GRAMS &&
+                                   daily_fat_diff <= MACRO_TOLERANCE_GRAMS
+
+          Rails.logger.info("=== Phase 2 #{daily_within_tolerance ? 'SUCCESS' : 'did not achieve tolerance'}")
+        else
+          Rails.logger.info("=== Phase 2 adjustment not possible with current constraints")
+        end
+      end
 
       Rails.logger.info("=== Daily totals: C:#{actual_carbs.round(1)}g (#{daily_carb_diff.round(1)}g diff), " \
                        "P:#{actual_protein.round(1)}g (#{daily_protein_diff.round(1)}g diff), " \
@@ -443,9 +473,300 @@ class MealPlanGenerator
     )
   end
 
-  # Optimize portion sizes using gradient descent
+  # Optimize portion sizes using gradient descent with multiple random restarts
   def optimize_portions(foods_with_grams, target_carbs, target_protein, target_fat,
-                       convergence_tolerance:, acceptance_tolerance:, relaxed: false, last_resort: false)
+                       convergence_tolerance:, acceptance_tolerance:, relaxed: false, last_resort: false, num_restarts: 5)
+    best_error = Float::INFINITY
+    best_foods = nil
+
+    Rails.logger.info("=== Starting optimization with #{num_restarts} restarts")
+
+    num_restarts.times do |restart|
+      Rails.logger.info("=== Optimization restart #{restart + 1}/#{num_restarts}")
+
+      # Create fresh copy of foods for this attempt
+      test_foods = foods_with_grams.map { |f| FoodWithGrams.new(food: f.food, grams: 0) }
+
+      # Run single optimization attempt
+      success = optimize_portions_once(
+        test_foods, target_carbs, target_protein, target_fat,
+        convergence_tolerance: convergence_tolerance,
+        acceptance_tolerance: acceptance_tolerance,
+        relaxed: relaxed,
+        last_resort: last_resort,
+        restart_seed: restart
+      )
+
+      # Calculate error for this solution (whether it passed tolerance or not)
+      actual_macros = calculate_macros(test_foods)
+      carb_error = target_carbs - actual_macros[:carbs]
+      protein_error = target_protein - actual_macros[:protein]
+      fat_error = target_fat - actual_macros[:fat]
+      current_error = carb_error**2 + protein_error**2 + fat_error**2
+
+      if success
+        Rails.logger.info("=== Restart #{restart + 1} SUCCESS with error: #{current_error.round(2)} " \
+                         "(C:#{carb_error.round(1)}g P:#{protein_error.round(1)}g F:#{fat_error.round(1)}g)")
+      else
+        Rails.logger.info("=== Restart #{restart + 1} FAILED tolerance but achieved error: #{current_error.round(2)} " \
+                         "(C:#{carb_error.round(1)}g P:#{protein_error.round(1)}g F:#{fat_error.round(1)}g)")
+      end
+
+      # Keep best solution even if it failed tolerance - it's still better than nothing
+      if current_error < best_error
+        best_error = current_error
+        best_foods = test_foods
+        Rails.logger.info("=== New best solution found at restart #{restart + 1} (within tolerance: #{success})")
+      end
+    end
+
+    # We should always have a best solution (even if all restarts failed tolerance)
+    if best_foods
+      foods_with_grams.each_with_index do |item, i|
+        item.grams = best_foods[i].grams
+      end
+      Rails.logger.info("=== Using best solution from #{num_restarts} restarts with error: #{best_error.round(2)}")
+
+      # Check if this best solution meets acceptance tolerance
+      actual_macros = calculate_macros(foods_with_grams)
+      within_tolerance = (actual_macros[:carbs] - target_carbs).abs <= acceptance_tolerance &&
+                         (actual_macros[:protein] - target_protein).abs <= acceptance_tolerance &&
+                         (actual_macros[:fat] - target_fat).abs <= acceptance_tolerance
+
+      return within_tolerance
+    end
+
+    # This should never happen since we always try at least 1 restart
+    Rails.logger.error("=== No solution found after #{num_restarts} restarts (unexpected!)")
+    false
+  end
+
+  # Phase 2: Adjust portions across all meals to meet daily targets
+  # Returns true if adjustment succeeded, false otherwise
+  def adjust_portions_for_daily_targets(composed_meals, target_carbs, target_protein, target_fat)
+    # Calculate current daily totals
+    current_carbs = composed_meals.values.sum { |m| m[:actual_carbs] }
+    current_protein = composed_meals.values.sum { |m| m[:actual_protein] }
+    current_fat = composed_meals.values.sum { |m| m[:actual_fat] }
+
+    # Calculate errors (positive = too much, negative = too little)
+    carb_error = current_carbs - target_carbs
+    protein_error = current_protein - target_protein
+    fat_error = current_fat - target_fat
+
+    Rails.logger.info("=== Phase 2 errors: C:#{carb_error > 0 ? '+' : ''}#{carb_error.round(1)}g " \
+                     "P:#{protein_error > 0 ? '+' : ''}#{protein_error.round(1)}g " \
+                     "F:#{fat_error > 0 ? '+' : ''}#{fat_error.round(1)}g")
+
+    # Try up to 10 micro-adjustments
+    10.times do |iteration|
+      # Find the macro with the worst error
+      worst_macro = nil
+      worst_error = 0.0
+
+      if carb_error.abs > MACRO_TOLERANCE_GRAMS && carb_error.abs > worst_error.abs
+        worst_macro = :carbs
+        worst_error = carb_error
+      end
+
+      if protein_error.abs > MACRO_TOLERANCE_GRAMS && protein_error.abs > worst_error.abs
+        worst_macro = :protein
+        worst_error = protein_error
+      end
+
+      if fat_error.abs > MACRO_TOLERANCE_GRAMS && fat_error.abs > worst_error.abs
+        worst_macro = :fat
+        worst_error = fat_error
+      end
+
+      # If all macros within tolerance, success!
+      break unless worst_macro
+
+      Rails.logger.info("=== Phase 2 iteration #{iteration + 1}: Adjusting #{worst_macro} (error: #{worst_error > 0 ? '+' : ''}#{worst_error.round(1)}g)")
+
+      # Find meals and foods that can help fix this macro
+      adjustment_made = adjust_single_macro(composed_meals, worst_macro, worst_error)
+
+      unless adjustment_made
+        Rails.logger.info("=== Phase 2: No valid adjustment found for #{worst_macro}")
+        return false
+      end
+
+      # Recalculate errors after adjustment
+      current_carbs = composed_meals.values.sum { |m| m[:actual_carbs] }
+      current_protein = composed_meals.values.sum { |m| m[:actual_protein] }
+      current_fat = composed_meals.values.sum { |m| m[:actual_fat] }
+
+      carb_error = current_carbs - target_carbs
+      protein_error = current_protein - target_protein
+      fat_error = current_fat - target_fat
+    end
+
+    # Check if we succeeded
+    carb_error.abs <= MACRO_TOLERANCE_GRAMS &&
+      protein_error.abs <= MACRO_TOLERANCE_GRAMS &&
+      fat_error.abs <= MACRO_TOLERANCE_GRAMS
+  end
+
+  # Adjust portions to fix a single macro across all meals
+  def adjust_single_macro(composed_meals, macro, error)
+    # error > 0 means too much of this macro, need to reduce
+    # error < 0 means too little, need to increase
+
+    # Find all foods across all meals, sorted by their contribution to this macro
+    food_contributions = []
+
+    composed_meals.each do |meal_type, meal_data|
+      meal_data[:foods_with_grams].each_with_index do |food_with_grams, food_idx|
+        macros = NutrientLookupService.macronutrients_for(food_with_grams.food)
+        macro_per_gram = case macro
+        when :carbs then (macros[:carbohydrates] || 0) / 100.0
+        when :protein then (macros[:protein] || 0) / 100.0
+        when :fat then (macros[:fat] || 0) / 100.0
+        end
+
+        food_contributions << {
+          meal_type: meal_type,
+          food_idx: food_idx,
+          food_with_grams: food_with_grams,
+          macro_per_gram: macro_per_gram.to_f,
+          current_grams: food_with_grams.grams.to_f
+        }
+      end
+    end
+
+    # Sort by macro contribution (descending) - we want foods that provide most of this macro
+    food_contributions.sort_by! { |fc| -fc[:macro_per_gram] }
+
+    # Try to adjust the food that contributes most to this macro
+    food_contributions.each do |fc|
+      next if fc[:macro_per_gram] < 0.01 # Skip foods with negligible contribution
+
+      # Calculate how many grams we need to adjust
+      # error > 0 (too much) -> reduce portions (negative adjustment)
+      # error < 0 (too little) -> increase portions (positive adjustment)
+      grams_to_adjust = -(error / fc[:macro_per_gram]).to_f
+
+      # Clamp adjustment to reasonable bounds
+      new_grams = (fc[:current_grams] + grams_to_adjust).to_f
+      new_grams = [ [ new_grams, MIN_PORTION_SIZE.to_f ].max, MAX_PORTION_SIZE.to_f ].min
+
+      # Only apply if it's a meaningful change (at least 5g difference)
+      if (new_grams - fc[:current_grams]).abs >= 5.0
+        Rails.logger.info("=== Phase 2: Adjusting #{fc[:food_with_grams].food.description} in #{fc[:meal_type]} " \
+                         "from #{fc[:current_grams].round(0)}g to #{new_grams.round(0)}g")
+
+        # Update the food portion
+        fc[:food_with_grams].grams = new_grams
+
+        # Recalculate meal macros
+        meal_data = composed_meals[fc[:meal_type]]
+        recalculate_meal_macros(meal_data)
+
+        return true
+      end
+    end
+
+    false
+  end
+
+  # Recalculate a meal's actual macros after portion adjustment
+  def recalculate_meal_macros(meal_data)
+    total_carbs = 0.0
+    total_protein = 0.0
+    total_fat = 0.0
+
+    meal_data[:foods_with_grams].each do |food_with_grams|
+      macros = NutrientLookupService.macronutrients_for(food_with_grams.food)
+      grams = food_with_grams.grams.to_f
+
+      total_carbs += ((macros[:carbohydrates] || 0) / 100.0) * grams
+      total_protein += ((macros[:protein] || 0) / 100.0) * grams
+      total_fat += ((macros[:fat] || 0) / 100.0) * grams
+    end
+
+    meal_data[:actual_carbs] = total_carbs.to_f
+    meal_data[:actual_protein] = total_protein.to_f
+    meal_data[:actual_fat] = total_fat.to_f
+  end
+
+  # Calculate smart initial portions based on macro scarcity
+  # Foods high in abundant macros start larger, foods high in scarce macros start smaller
+  def calculate_smart_initial_portions(coefficients, target_carbs, target_protein, target_fat, restart_seed: 0)
+    # Calculate max available for each macro if all foods at max portion
+    max_available_carbs = coefficients.sum { |c| c[:carbs] * MAX_PORTION_SIZE }
+    max_available_protein = coefficients.sum { |c| c[:protein] * MAX_PORTION_SIZE }
+    max_available_fat = coefficients.sum { |c| c[:fat] * MAX_PORTION_SIZE }
+
+    # Calculate scarcity ratios (higher = more scarce/constrained)
+    # Avoid division by zero - if max_available is 0, macro is impossible so scarcity is 0
+    carb_scarcity = max_available_carbs > 0 ? (target_carbs / max_available_carbs).to_f : 0.0
+    protein_scarcity = max_available_protein > 0 ? (target_protein / max_available_protein).to_f : 0.0
+    fat_scarcity = max_available_fat > 0 ? (target_fat / max_available_fat).to_f : 0.0
+
+    # Normalize scarcity ratios to 0-1 range based on the most scarce macro
+    max_scarcity = [ carb_scarcity, protein_scarcity, fat_scarcity ].max
+    if max_scarcity > 0
+      carb_scarcity = (carb_scarcity / max_scarcity).to_f
+      protein_scarcity = (protein_scarcity / max_scarcity).to_f
+      fat_scarcity = (fat_scarcity / max_scarcity).to_f
+    end
+
+    Rails.logger.info("=== Scarcity ratios: C:#{(carb_scarcity * 100).round(1)}% P:#{(protein_scarcity * 100).round(1)}% F:#{(fat_scarcity * 100).round(1)}%")
+
+    # Calculate initial portions for each food based on its macro density and scarcity
+    portions = coefficients.map.with_index do |coef, i|
+      # Calculate how much this food contributes to each macro (weighted by scarcity)
+      # Foods HIGH in SCARCE macros should start LARGER (we need more of them to meet targets)
+      # Foods HIGH in ABUNDANT macros should start SMALLER (we need less of them)
+      carb_contribution = coef[:carbs] * carb_scarcity
+      protein_contribution = coef[:protein] * protein_scarcity
+      fat_contribution = coef[:fat] * fat_scarcity
+
+      total_contribution = carb_contribution + protein_contribution + fat_contribution
+
+      # Base portion logic (CORRECTED):
+      # - High contribution to SCARCE macros (high scarcity) -> LARGER portion (150g+)
+      #   Example: Oil is 100% fat, fat is scarce on keto -> start oil at 150g
+      # - Low contribution to scarce macros -> SMALLER portion (60g)
+      #   Example: Lettuce is mostly carbs/water, carbs abundant on keto -> start at 60g
+      # - Balanced contribution -> medium portion (100g)
+
+      if total_contribution > 0.15  # High in scarce macros - START LARGER
+        base_portion = 150.0
+      elsif total_contribution < 0.05  # Low in scarce macros - START SMALLER
+        base_portion = 60.0
+      else  # Medium contribution
+        base_portion = 100.0
+      end
+
+      base_portion.to_f
+    end
+
+    # Add randomization for restarts > 0
+    if restart_seed > 0
+      Rails.logger.info("=== Applying random variation for restart #{restart_seed}")
+      portions = portions.map do |p|
+        # Random variation between 0.3x and 2.0x (±70% range)
+        variation_factor = (0.3 + rand * 1.7).to_f
+        new_p = (p * variation_factor).to_f
+        # Clamp to valid range
+        if new_p < MIN_PORTION_SIZE
+          MIN_PORTION_SIZE.to_f
+        elsif new_p > MAX_PORTION_SIZE
+          MAX_PORTION_SIZE.to_f
+        else
+          new_p
+        end
+      end
+    end
+
+    portions
+  end
+
+  # Single optimization attempt using gradient descent
+  def optimize_portions_once(foods_with_grams, target_carbs, target_protein, target_fat,
+                             convergence_tolerance:, acceptance_tolerance:, relaxed: false, last_resort: false, restart_seed: 0)
     # Extract macro coefficients per gram for each food
     coefficients = foods_with_grams.map do |item|
       macros = NutrientLookupService.macronutrients_for(item.food)
@@ -456,18 +777,12 @@ class MealPlanGenerator
       }
     end
 
-    Rails.logger.info("=== coefficients class: #{coefficients.class}, size: #{coefficients.size}")
-    Rails.logger.info("=== coefficients[0] class: #{coefficients[0].class}")
-
-    # Initialize with equal portions totaling 300g
+    # Use smart scarcity-based initialization instead of equal portions
     n = foods_with_grams.length
-    initial_portion = 300.0 / n
-    portions = Array.new(n) { initial_portion.to_f }  # Force to Float to avoid BigDecimal
+    portions = calculate_smart_initial_portions(coefficients, target_carbs, target_protein, target_fat, restart_seed: restart_seed)
+
     best_portions = portions.dup
     best_error = Float::INFINITY
-
-    Rails.logger.info("=== initial_portion class: #{initial_portion.class}, value: #{initial_portion}")
-    Rails.logger.info("=== portions[0] class: #{portions[0].class}, value: #{portions[0]}")
 
     # Tolerances are passed in from compose_single_meal, already distributed from daily tolerance
     # They are already scaled by relaxed/last_resort flags in the calling methods
@@ -478,18 +793,6 @@ class MealPlanGenerator
 
     MAX_ITERATIONS.times do |iter|
       final_iter = iter
-
-      if iter == 10
-        puts "\n=== DEBUG: Checking coefficients[0] at iter 10"
-        puts "coefficients[0][:carbs] = #{coefficients[0][:carbs].inspect}"
-        puts "portions[0] = #{portions[0].inspect}"
-
-        test_start = Time.now
-        test_result = portions[0] * coefficients[0][:carbs]
-        test_time = ((Time.now - test_start) * 1000000).round(1)  # microseconds
-        puts "Single multiplication took #{test_time} microseconds"
-        puts "Result: #{test_result}"
-      end
 
       # Calculate current macros - use simple loop instead of enumerator
       current_carbs = 0.0

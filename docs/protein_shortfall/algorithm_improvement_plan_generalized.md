@@ -278,3 +278,39 @@ For each, verify ALL three macros are within tolerance, not just one or two.
 3. **Proportional thinking** - Being 25% off target is significant regardless of absolute grams
 4. **Test with diverse diets** - If it only works for keto, it's not macro-agnostic
 5. **Daily tolerance is sacred** - Business requirement must always be met
+
+## Additional Notes
+
+The new algorithm is stuck in a local minimum for the lunch meal. It needs:
+
+  1. Multiple random restarts - Try 5 different initializations for the same food set
+    - Current: Single attempt per food combination
+    - Needed: If first initialization gets stuck at +6.8g, try again with different starting portions
+  2. Smart initialization - Start protein/fat sources larger, carb sources smaller for keto
+    - Current: All foods start at 60g
+    - Needed: High-fat foods (butter, oil) should start at 80-100g, vegetables at 40-50g
+  3. Convergence detection - Stop early when stuck
+    - Current: Runs all 200 iterations even when stuck at iteration 60
+    - Needed: Detect plateau and restart with different initialization
+  4. Simulated annealing - Random perturbations to escape local minimum
+    - Current: Pure gradient descent gets trapped
+    - Needed: Occasionally jump to nearby solution to explore
+
+  Conclusion
+
+  The new algorithm is actually MORE CORRECT from a business requirements perspective:
+  - ✓ It enforces the daily ±8g tolerance properly
+  - ✓ It distributes tolerance fairly across meals
+  - ✓ It validates that the sum of all meals meets the requirement
+
+  But it's less CAPABLE because:
+  - ✗ It gets stuck in local minima (lunch can't get below +6.8g carbs)
+  - ✗ It lacks exploration mechanisms to escape
+  - ✗ It only tries one initialization per food set
+
+  The solution is NOT to revert the distributed tolerance system (that's a correct business requirement). Instead, we need to implement the remaining Priority 1 improvements:
+  1. Multiple random restarts (5-10 attempts with different initializations)
+  2. Smart scarcity-based initialization
+  3. Convergence detection to stop wasting iterations
+
+  These will give the optimizer the exploration capability to find solutions that meet the stricter (but more correct) per-meal constraints.
