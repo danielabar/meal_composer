@@ -10,7 +10,7 @@ class MealPlanGenerator
   MACRO_TOLERANCE_GRAMS = 8.0
   MIN_PORTION_SIZE = 10.0
   MAX_PORTION_SIZE = 500.0
-  MAX_ITERATIONS = 50  # Temporarily reduced from 200 to debug performance
+  MAX_ITERATIONS = 200
   LEARNING_RATE = 0.5
 
   # Result object to return from the service
