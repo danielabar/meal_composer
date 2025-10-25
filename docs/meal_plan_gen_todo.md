@@ -1,8 +1,6 @@
 # Meal Plan Generation TODOs
 
-- WIP instead of categories, allow food selection
-
-- why does algorithm sometimes come in below on protein?
+- WIP why does algorithm sometimes come in below on protein?
 
 - minor: wipe out text when search dropdown closes
 - Can we allow more than 5 foods? where does it start to break down?
