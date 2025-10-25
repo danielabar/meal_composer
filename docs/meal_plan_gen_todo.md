@@ -1,6 +1,9 @@
 # Meal Plan Generation TODOs
 
-- WIP why does algorithm sometimes come in below on protein?
+Cleanup category/food data to only have whole foods.
+
+Other algorithm improvements: docs/protein_shortfall/algorithm_improvement_plan_generalized.md
+- Will be easier to evaluate once data is cleaned up and it's easier to try out different scenarios
 
 - minor: wipe out text when search dropdown closes
 - Can we allow more than 5 foods? where does it start to break down?
