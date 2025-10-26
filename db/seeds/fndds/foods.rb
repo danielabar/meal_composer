@@ -3,7 +3,7 @@ require "csv"
 # FAST version using Rails built-in insert_all for bulk inserts
 
 puts "Seeding FNDDS foods (fast bulk insert)..."
-csv_path = Rails.root.join("db/data/fndds/food_clean.csv")
+csv_path = Rails.root.join("db/data/fndds/food_deduplicated.csv")
 
 if File.exist?(csv_path)
   # Pre-load all food categories into a hash for O(1) lookups
@@ -65,5 +65,6 @@ if File.exist?(csv_path)
 
   puts "\n✅ #{food_count} FNDDS foods seeded (skipped #{skipped_count})."
 else
-  puts "⚠️ food_clean.csv not found in FNDDS data directory."
+  puts "⚠️ food_deduplicated.csv not found in FNDDS data directory."
+  puts "   Run: ruby script/fndds/preprocess_all.rb"
 end

@@ -1,9 +1,9 @@
 # Meal Plan Generation TODOs
 
-Cleanup category/food data to only have whole foods.
+WIP Cleanup category/food data to only have whole foods.
 
-Other algorithm improvements: docs/protein_shortfall/algorithm_improvement_plan_generalized.md
-- Will be easier to evaluate once data is cleaned up and it's easier to try out different scenarios
+Ready to use Meal Structures that user's can copy to their account (like Egg/Veg/Butter for typical keto/low-carb breakfast, deli/cheese/salad/dressing for low-carb lunch, steak/butter/veg for low-carb dinner)
+  - UI to let user browser system meal structures if they don't want to create their own from scratch (template vs have a system user or special user id like -1?)
 
 - minor: wipe out text when search dropdown closes
 - Can we allow more than 5 foods? where does it start to break down?

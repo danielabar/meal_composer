@@ -1,0 +1,920 @@
+fdc_id,data_type,description,food_category_id,publication_date
+2705594,survey_fndds_food,"Cream, half and half",8008,2022-10-28
+2705595,survey_fndds_food,"Cream, half and half, flavored",8008,2022-10-28
+2705596,survey_fndds_food,"Cream, half and half, fat free",8008,2022-10-28
+2705705,survey_fndds_food,"Cheese, Blue or Roquefort",1602,2022-10-28
+2705711,survey_fndds_food,"Cheese, Cheddar, nonfat or fat free",1602,2022-10-28
+2705717,survey_fndds_food,"Cheese, Gouda or Edam",1602,2022-10-28
+2705725,survey_fndds_food,"Cheese, Mozzarella, nonfat or fat free",1602,2022-10-28
+2705738,survey_fndds_food,"Cheese, Swiss, nonfat or fat free",1602,2022-10-28
+2705748,survey_fndds_food,"Cheese, cottage, creamed, large or small curd",1604,2022-10-28
+2705763,survey_fndds_food,"Cheese, American and Swiss blends",1602,2022-10-28
+2705766,survey_fndds_food,"Cheese, American, nonfat or fat free",1602,2022-10-28
+2705768,survey_fndds_food,"Cheese spread, American or Cheddar cheese base, reduced fat",1602,2022-10-28
+2705773,survey_fndds_food,"Cheese spread, American or Cheddar cheese base",1602,2022-10-28
+2705817,survey_fndds_food,"Mozzarella sticks, breaded, baked, or fried",1602,2022-10-28
+2705829,survey_fndds_food,"Beef, steak, ribeye, lean and fat eaten",2002,2022-10-28
+2705833,survey_fndds_food,"Beef, steak, sirloin, lean and fat eaten",2002,2022-10-28
+2705836,survey_fndds_food,"Beef, steak, strip, lean and fat eaten",2002,2022-10-28
+2705839,survey_fndds_food,"Beef, steak, T-bone,  lean and fat eaten",2002,2022-10-28
+2705867,survey_fndds_food,"Pork, chop, lean and fat eaten",2006,2022-10-28
+2705870,survey_fndds_food,"Pork, chop, coated, lean and fat eaten",2006,2022-10-28
+2705874,survey_fndds_food,"Pork, steak, lean and fat eaten",2006,2022-10-28
+2705880,survey_fndds_food,"Ham, canned",2602,2022-10-28
+2705887,survey_fndds_food,"Pork bacon, NS as to fresh, smoked or cured, cooked",2604,2022-10-28
+2705888,survey_fndds_food,"Pork bacon, NS as to fresh, smoked or cured, reduced sodium, cooked",2604,2022-10-28
+2705889,survey_fndds_food,"Pork bacon, smoked or cured, cooked",2604,2022-10-28
+2705891,survey_fndds_food,"Pork bacon, smoked or cured, reduced sodium, cooked",2604,2022-10-28
+2705899,survey_fndds_food,"Pork, pig's feet, pickled",2006,2022-10-28
+2705949,survey_fndds_food,"Chicken, NS as to part, fried, coated, skin / coating eaten",2202,2022-10-28
+2705950,survey_fndds_food,"Chicken, NS as to part, fried, coated, skin / coating not eaten",2202,2022-10-28
+2705951,survey_fndds_food,"Chicken, NS as to part, baked, coated, skin / coating eaten",2202,2022-10-28
+2705952,survey_fndds_food,"Chicken, NS as to part, baked, coated, skin / coating not eaten",2202,2022-10-28
+2705957,survey_fndds_food,"Chicken breast, baked or broiled, skin eaten, from pre-cooked",2202,2022-10-28
+2705958,survey_fndds_food,"Chicken breast, baked or broiled, skin not eaten, from pre-cooked",2202,2022-10-28
+2705973,survey_fndds_food,"Chicken breast, fried, coated, skin / coating eaten, from raw",2202,2022-10-28
+2705974,survey_fndds_food,"Chicken breast, fried, coated, skin / coating not eaten, from raw",2202,2022-10-28
+2705975,survey_fndds_food,"Chicken breast, fried, coated, prepared skinless, coating eaten, from raw",2202,2022-10-28
+2705976,survey_fndds_food,"Chicken breast, fried, coated, skin / coating eaten, from pre-cooked",2202,2022-10-28
+2705977,survey_fndds_food,"Chicken breast, fried, coated, skin / coating not eaten, from pre-cooked",2202,2022-10-28
+2705980,survey_fndds_food,"Chicken breast, baked, coated, skin / coating eaten",2202,2022-10-28
+2705981,survey_fndds_food,"Chicken breast, baked, coated, skin / coating not eaten",2202,2022-10-28
+2705982,survey_fndds_food,"Chicken leg, drumstick and thigh, NS as to cooking method, skin eaten",2202,2022-10-28
+2705983,survey_fndds_food,"Chicken leg, drumstick and thigh, NS as to cooking method, skin not eaten",2202,2022-10-28
+2705984,survey_fndds_food,"Chicken leg, drumstick and thigh, baked or broiled, skin eaten",2202,2022-10-28
+2705985,survey_fndds_food,"Chicken leg, drumstick and thigh, baked or broiled, skin not eaten",2202,2022-10-28
+2705986,survey_fndds_food,"Chicken leg, drumstick and thigh, rotisserie, skin eaten",2202,2022-10-28
+2705987,survey_fndds_food,"Chicken leg, drumstick and thigh, rotisserie, skin not eaten",2202,2022-10-28
+2705988,survey_fndds_food,"Chicken leg, drumstick and thigh, stewed, skin eaten",2202,2022-10-28
+2705989,survey_fndds_food,"Chicken leg, drumstick and thigh, stewed, skin not eaten",2202,2022-10-28
+2705990,survey_fndds_food,"Chicken leg, drumstick and thigh, grilled without sauce, skin eaten",2202,2022-10-28
+2705991,survey_fndds_food,"Chicken leg, drumstick and thigh, grilled without sauce, skin not eaten",2202,2022-10-28
+2705994,survey_fndds_food,"Chicken leg, drumstick and thigh, sauteed, skin eaten",2202,2022-10-28
+2705995,survey_fndds_food,"Chicken leg, drumstick and thigh, sauteed, skin not eaten",2202,2022-10-28
+2705996,survey_fndds_food,"Chicken leg, drumstick and thigh, fried, coated, skin / coating eaten",2202,2022-10-28
+2705997,survey_fndds_food,"Chicken leg, drumstick and thigh, fried, coated, skin / coating not eaten",2202,2022-10-28
+2705998,survey_fndds_food,"Chicken leg, drumstick and thigh, baked, coated, skin / coating eaten",2202,2022-10-28
+2705999,survey_fndds_food,"Chicken leg, drumstick and thigh, baked, coated, skin / coating not eaten",2202,2022-10-28
+2706004,survey_fndds_food,"Chicken drumstick, baked or broiled, skin eaten, from pre-cooked",2202,2022-10-28
+2706005,survey_fndds_food,"Chicken drumstick, baked or broiled, skin not eaten, from pre-cooked",2202,2022-10-28
+2706018,survey_fndds_food,"Chicken drumstick, fried, coated, skin / coating eaten, from raw",2202,2022-10-28
+2706019,survey_fndds_food,"Chicken drumstick, fried, coated, skin / coating not eaten, from raw",2202,2022-10-28
+2706020,survey_fndds_food,"Chicken drumstick, fried, coated, prepared skinless, coating eaten, from raw",2202,2022-10-28
+2706021,survey_fndds_food,"Chicken drumstick, fried, coated, skin / coating eaten, from pre-cooked",2202,2022-10-28
+2706022,survey_fndds_food,"Chicken drumstick, fried, coated, skin / coating not eaten, from pre-cooked",2202,2022-10-28
+2706025,survey_fndds_food,"Chicken drumstick, baked, coated, skin / coating eaten",2202,2022-10-28
+2706026,survey_fndds_food,"Chicken drumstick, baked, coated, skin / coating not eaten",2202,2022-10-28
+2706031,survey_fndds_food,"Chicken thigh, baked or broiled, skin eaten, from pre-cooked",2202,2022-10-28
+2706032,survey_fndds_food,"Chicken thigh, baked or broiled, skin not eaten, from pre-cooked",2202,2022-10-28
+2706045,survey_fndds_food,"Chicken thigh, fried, coated, skin / coating eaten, from raw",2202,2022-10-28
+2706046,survey_fndds_food,"Chicken thigh, fried, coated, skin / coating not eaten, from raw",2202,2022-10-28
+2706047,survey_fndds_food,"Chicken thigh, fried, coated, prepared skinless, coating eaten, from raw",2202,2022-10-28
+2706048,survey_fndds_food,"Chicken thigh, fried, coated, skin / coating eaten, from pre-cooked",2202,2022-10-28
+2706049,survey_fndds_food,"Chicken thigh, fried, coated, skin / coating not eaten, from pre-cooked",2202,2022-10-28
+2706054,survey_fndds_food,"Chicken thigh, baked, coated, skin / coating eaten",2202,2022-10-28
+2706055,survey_fndds_food,"Chicken thigh, baked, coated, skin / coating not eaten",2202,2022-10-28
+2706058,survey_fndds_food,"Chicken wing, baked or broiled, from pre-cooked",2202,2022-10-28
+2706065,survey_fndds_food,"Chicken wing, fried, coated, from raw",2202,2022-10-28
+2706066,survey_fndds_food,"Chicken wing, fried, coated, from pre-cooked",2202,2022-10-28
+2706075,survey_fndds_food,"Chicken ""wings"", plain, from precooked",2202,2022-10-28
+2706082,survey_fndds_food,"Chicken, neck or ribs",2202,2022-10-28
+2706086,survey_fndds_food,"Chicken, canned, meat only",2202,2022-10-28
+2706088,survey_fndds_food,"Chicken patty, breaded",2204,2022-10-28
+2706089,survey_fndds_food,"Chicken fillet, breaded",2204,2022-10-28
+2706101,survey_fndds_food,"Chicken tenders or strips, breaded, from school lunch",2204,2022-10-28
+2706102,survey_fndds_food,"Chicken tenders or strips, breaded, from frozen",2204,2022-10-28
+2706103,survey_fndds_food,"Chicken tenders or strips, breaded, from other sources",2204,2022-10-28
+2706107,survey_fndds_food,"Turkey, light meat, breaded, baked or fried, skin not eaten",2206,2022-10-28
+2706108,survey_fndds_food,"Turkey, light meat, breaded, baked or fried, skin eaten",2206,2022-10-28
+2706113,survey_fndds_food,"Turkey, light and dark meat, roasted, skin not eaten",2206,2022-10-28
+2706114,survey_fndds_food,"Turkey, light and dark meat, roasted, skin eaten",2206,2022-10-28
+2706115,survey_fndds_food,"Turkey, light or dark meat, fried, coated, skin not eaten",2206,2022-10-28
+2706116,survey_fndds_food,"Turkey, light or dark meat, fried, coated, skin eaten",2206,2022-10-28
+2706117,survey_fndds_food,"Turkey, light or dark meat, stewed, skin not eaten",2206,2022-10-28
+2706119,survey_fndds_food,"Turkey, light or dark meat, smoked, skin eaten",2206,2022-10-28
+2706120,survey_fndds_food,"Turkey, light or dark meat, smoked, skin not eaten",2206,2022-10-28
+2706132,survey_fndds_food,"Turkey, canned",2206,2022-10-28
+2706155,survey_fndds_food,"Liver, paste or pate",2010,2022-10-28
+2706168,survey_fndds_food,"Hot dog, meat and poultry",2606,2022-10-28
+2706203,survey_fndds_food,"Vienna sausage, canned",2608,2022-10-28
+2706204,survey_fndds_food,Pickled sausage,2608,2022-10-28
+2706206,survey_fndds_food,"Ham, prepackaged or deli, luncheon meat",2602,2022-10-28
+2706207,survey_fndds_food,"Ham, prepackaged or deli, luncheon meat, reduced sodium",2602,2022-10-28
+2706208,survey_fndds_food,"Chicken, prepackaged or deli, luncheon meat",2602,2022-10-28
+2706209,survey_fndds_food,"Chicken, prepackaged or deli, luncheon meat, reduced sodium",2602,2022-10-28
+2706215,survey_fndds_food,"Turkey, prepackaged or deli, luncheon meat",2602,2022-10-28
+2706216,survey_fndds_food,"Turkey, prepackaged or deli, luncheon meat, reduced sodium",2602,2022-10-28
+2706217,survey_fndds_food,"Turkey ham, prepackaged or deli, luncheon meat",2602,2022-10-28
+2706218,survey_fndds_food,"Beef, prepackaged or deli, luncheon meat",2602,2022-10-28
+2706219,survey_fndds_food,"Beef, prepackaged or deli, luncheon meat, reduced sodium",2602,2022-10-28
+2706225,survey_fndds_food,"Fish, NS as to type, baked or broiled",2402,2022-10-28
+2706226,survey_fndds_food,"Fish, NS as to type, baked or broiled, coated",2402,2022-10-28
+2706229,survey_fndds_food,"Fish, canned",2402,2022-10-28
+2706235,survey_fndds_food,"Fish, catfish, baked or broiled",2402,2022-10-28
+2706237,survey_fndds_food,"Fish, catfish, baked or broiled, coated",2402,2022-10-28
+2706241,survey_fndds_food,"Fish, cod, baked or broiled",2402,2022-10-28
+2706243,survey_fndds_food,"Fish, cod, baked or broiled, coated",2402,2022-10-28
+2706249,survey_fndds_food,"Fish, flounder, baked or broiled",2402,2022-10-28
+2706251,survey_fndds_food,"Fish, flounder, baked or broiled, coated",2402,2022-10-28
+2706255,survey_fndds_food,"Fish, haddock, baked or broiled",2402,2022-10-28
+2706257,survey_fndds_food,"Fish, haddock, baked or broiled, coated",2402,2022-10-28
+2706262,survey_fndds_food,"Fish, pickled",2402,2022-10-28
+2706264,survey_fndds_food,"Fish, mackerel, baked or broiled",2402,2022-10-28
+2706266,survey_fndds_food,"Fish, mackerel, baked or broiled, coated",2402,2022-10-28
+2706268,survey_fndds_food,"Fish, mackerel, canned",2402,2022-10-28
+2706271,survey_fndds_food,"Fish, perch, baked or broiled",2402,2022-10-28
+2706273,survey_fndds_food,"Fish, perch, baked or broiled, coated",2402,2022-10-28
+2706278,survey_fndds_food,"Fish, pompano, baked or broiled",2402,2022-10-28
+2706280,survey_fndds_food,"Fish, pompano, baked or broiled, coated",2402,2022-10-28
+2706286,survey_fndds_food,"Fish, salmon, baked or broiled",2402,2022-10-28
+2706288,survey_fndds_food,"Fish, salmon, baked or broiled, coated",2402,2022-10-28
+2706291,survey_fndds_food,"Fish, salmon, canned",2402,2022-10-28
+2706293,survey_fndds_food,"Fish, sardines, canned",2402,2022-10-28
+2706295,survey_fndds_food,"Fish, bass, baked or broiled",2402,2022-10-28
+2706297,survey_fndds_food,"Fish, bass, baked or broiled, coated",2402,2022-10-28
+2706303,survey_fndds_food,"Fish, trout, baked or broiled",2402,2022-10-28
+2706305,survey_fndds_food,"Fish, trout, baked or broiled, coated",2402,2022-10-28
+2706311,survey_fndds_food,"Fish, tuna, canned",2402,2022-10-28
+2706313,survey_fndds_food,"Fish, whiting, baked or broiled",2402,2022-10-28
+2706315,survey_fndds_food,"Fish, whiting, baked or broiled, coated",2402,2022-10-28
+2706319,survey_fndds_food,"Fish, tilapia, baked or broiled",2402,2022-10-28
+2706321,survey_fndds_food,"Fish, tilapia, baked or broiled, coated",2402,2022-10-28
+2706325,survey_fndds_food,"Fish, white, mixed species, baked or broiled",2402,2022-10-28
+2706326,survey_fndds_food,"Fish, white, mixed species, baked or broiled, coated",2402,2022-10-28
+2706340,survey_fndds_food,"Clams, baked or broiled",2404,2022-10-28
+2706342,survey_fndds_food,"Clams, steamed or boiled",2404,2022-10-28
+2706343,survey_fndds_food,"Clams, canned",2404,2022-10-28
+2706345,survey_fndds_food,"Crab, canned",2404,2022-10-28
+2706352,survey_fndds_food,"Oysters, baked or broiled",2404,2022-10-28
+2706355,survey_fndds_food,"Oysters, canned",2404,2022-10-28
+2706356,survey_fndds_food,"Scallops, baked or broiled",2404,2022-10-28
+2706358,survey_fndds_food,"Scallops, steamed or boiled",2404,2022-10-28
+2706361,survey_fndds_food,"Shrimp, baked or broiled",2404,2022-10-28
+2706363,survey_fndds_food,"Shrimp, steamed or boiled",2404,2022-10-28
+2706365,survey_fndds_food,"Shrimp, baked or broiled, coated",2404,2022-10-28
+2706367,survey_fndds_food,"Shrimp, canned",2404,2022-10-28
+2707154,survey_fndds_food,"Egg, whole, boiled or poached",2502,2022-10-28
+2707167,survey_fndds_food,"Egg, whole, pickled",2502,2022-10-28
+2707178,survey_fndds_food,"Quail egg, canned",2502,2022-10-28
+2707350,survey_fndds_food,"Beans, from canned, NS as to type, fat added",2802,2022-10-28
+2707351,survey_fndds_food,"Beans, from canned, NS as to type, no added fat",2802,2022-10-28
+2707356,survey_fndds_food,"White beans, from canned, fat added",2802,2022-10-28
+2707357,survey_fndds_food,"White beans, from canned, no added fat",2802,2022-10-28
+2707358,survey_fndds_food,"White beans, from canned, reduced sodium",2802,2022-10-28
+2707362,survey_fndds_food,"Black beans, from canned, fat added",2802,2022-10-28
+2707363,survey_fndds_food,"Black beans, from canned, no added fat",2802,2022-10-28
+2707364,survey_fndds_food,"Black beans, from canned, reduced sodium",2802,2022-10-28
+2707374,survey_fndds_food,"Pinto beans, from canned, fat added",2802,2022-10-28
+2707375,survey_fndds_food,"Pinto beans, from canned, no added fat",2802,2022-10-28
+2707376,survey_fndds_food,"Pinto beans, from canned, reduced sodium",2802,2022-10-28
+2707382,survey_fndds_food,"Kidney beans, from canned, fat added",2802,2022-10-28
+2707383,survey_fndds_food,"Kidney beans, from canned, no added fat",2802,2022-10-28
+2707384,survey_fndds_food,"Kidney beans, from canned, reduced sodium",2802,2022-10-28
+2707399,survey_fndds_food,"Refried beans, from canned, reduced sodium",2802,2022-10-28
+2707417,survey_fndds_food,"Chickpeas, from canned, fat added",2802,2022-10-28
+2707418,survey_fndds_food,"Chickpeas, from canned, no added fat",2802,2022-10-28
+2707419,survey_fndds_food,"Chickpeas, from canned, reduced sodium",2802,2022-10-28
+2707426,survey_fndds_food,"Lentils, from canned",2802,2022-10-28
+2707429,survey_fndds_food,"Papad, grilled or broiled",2802,2022-10-28
+2707449,survey_fndds_food,"Soybean curd, breaded, fried",2806,2022-10-28
+2707469,survey_fndds_food,"Chicken, meatless, breaded, fried",2806,2022-10-28
+2707471,survey_fndds_food,"Luncheon slice, meatless-beef, chicken, salami or turkey",2806,2022-10-28
+2707542,survey_fndds_food,"Peanut butter, vitamin and mineral fortified",2804,2022-10-28
+2707571,survey_fndds_food,"Coconut cream, canned, sweetened",1902,2022-10-28
+2707610,survey_fndds_food,"Bread, French or Vienna",4202,2022-10-28
+2707611,survey_fndds_food,"Bread, French or Vienna, toasted",4202,2022-10-28
+2707622,survey_fndds_food,"Bread, cornmeal and molasses",4202,2022-10-28
+2707623,survey_fndds_food,"Bread, cornmeal and molasses, toasted",4202,2022-10-28
+2707635,survey_fndds_food,"Bread, reduced calorie and/or high fiber, white or NFS",4202,2022-10-28
+2707636,survey_fndds_food,"Bread, reduced calorie and/or high fiber, white or NFS, toasted",4202,2022-10-28
+2707661,survey_fndds_food,"Roll, French or Vienna",4204,2022-10-28
+2707713,survey_fndds_food,"Bread, chappatti or roti",4202,2022-10-28
+2707720,survey_fndds_food,"Bread, wheat or cracked wheat",4202,2022-10-28
+2707721,survey_fndds_food,"Bread, wheat or cracked wheat, toasted",4202,2022-10-28
+2707722,survey_fndds_food,"Bread, wheat or cracked wheat, made from home recipe or purchased at bakery",4202,2022-10-28
+2707723,survey_fndds_food,"Bread, wheat or cracked wheat, made from home recipe or purchased at bakery, toasted",4202,2022-10-28
+2707726,survey_fndds_food,"Bread, wheat or cracked wheat, reduced calorie and/or high fiber",4202,2022-10-28
+2707727,survey_fndds_food,"Bread, wheat or cracked wheat, reduced calorie and/or high fiber, toasted",4202,2022-10-28
+2707728,survey_fndds_food,"Bread, French or Vienna, whole wheat",4202,2022-10-28
+2707729,survey_fndds_food,"Bread, French or Vienna, whole wheat, toasted",4202,2022-10-28
+2707731,survey_fndds_food,"Bread, pita, wheat or cracked wheat",4202,2022-10-28
+2707740,survey_fndds_food,"Muffin, English, wheat or cracked wheat",4206,2022-10-28
+2707746,survey_fndds_food,"Roll, wheat or cracked wheat",4204,2022-10-28
+2707747,survey_fndds_food,"Roll, wheat or cracked wheat, hot dog bun",4204,2022-10-28
+2707748,survey_fndds_food,"Roll, wheat or cracked wheat, hamburger bun",4204,2022-10-28
+2708426,survey_fndds_food,"Rice, white and wild, cooked, no added fat",4002,2022-10-28
+2708427,survey_fndds_food,"Rice, brown and wild, cooked, no added fat",4002,2022-10-28
+2708428,survey_fndds_food,"Rice, white and wild, cooked, fat added",4002,2022-10-28
+2708429,survey_fndds_food,"Rice, white and wild, cooked, NS as to fat",4002,2022-10-28
+2708430,survey_fndds_food,"Rice, brown and wild, cooked, fat added",4002,2022-10-28
+2708431,survey_fndds_food,"Rice, brown and wild, cooked, NS as to fat",4002,2022-10-28
+2709166,survey_fndds_food,"Grapefruit, canned",6012,2022-10-28
+2709172,survey_fndds_food,"Orange, canned, NFS",6012,2022-10-28
+2709173,survey_fndds_food,"Orange, canned, juice pack",6012,2022-10-28
+2709174,survey_fndds_food,"Orange, canned, in syrup",6012,2022-10-28
+2709214,survey_fndds_food,"Fruit, pickled",6018,2022-10-28
+2709222,survey_fndds_food,"Apricot, canned",6018,2022-10-28
+2709232,survey_fndds_food,"Cherries, canned",6018,2022-10-28
+2709236,survey_fndds_food,"Fig, canned",6018,2022-10-28
+2709243,survey_fndds_food,"Mango, canned",6024,2022-10-28
+2709247,survey_fndds_food,"Papaya, canned",6024,2022-10-28
+2709250,survey_fndds_food,"Peach, canned, NFS",6008,2022-10-28
+2709251,survey_fndds_food,"Peach, canned, in syrup",6008,2022-10-28
+2709252,survey_fndds_food,"Peach, canned, juice pack",6008,2022-10-28
+2709256,survey_fndds_food,"Pear, canned, NFS",6020,2022-10-28
+2709257,survey_fndds_food,"Pear, canned, in syrup",6020,2022-10-28
+2709258,survey_fndds_food,"Pear, canned, juice pack",6020,2022-10-28
+2709261,survey_fndds_food,"Pineapple, canned, NFS",6022,2022-10-28
+2709262,survey_fndds_food,"Pineapple, canned, in syrup",6022,2022-10-28
+2709263,survey_fndds_food,"Pineapple, canned, juice pack",6022,2022-10-28
+2709266,survey_fndds_food,"Plum, canned",6018,2022-10-28
+2709276,survey_fndds_food,"Bluberries, canned",6011,2022-10-28
+2709284,survey_fndds_food,"Strawberries, canned",6009,2022-10-28
+2709287,survey_fndds_food,"Fruit salad, fresh or raw, excluding citrus fruits, no dressing",6018,2022-10-28
+2709288,survey_fndds_food,"Fruit salad, fresh or raw, including citrus fruits, no dressing",6018,2022-10-28
+2709289,survey_fndds_food,"Fruit cocktail, canned, NFS",6018,2022-10-28
+2709290,survey_fndds_food,"Fruit cocktail, canned, in syrup",6018,2022-10-28
+2709291,survey_fndds_food,"Fruit cocktail, canned, juice pack",6018,2022-10-28
+2709399,survey_fndds_food,"Potato, canned, NS as to fat",6802,2022-10-28
+2709400,survey_fndds_food,"Potato, canned, fat added, NS as to fat type",6802,2022-10-28
+2709401,survey_fndds_food,"Potato, canned, no added fat",6802,2022-10-28
+2709417,survey_fndds_food,"Potato only from Puerto Rican mixed dishes, gravy and other components reported separately",6802,2022-10-28
+2709514,survey_fndds_food,"Potato tots, from fresh, fried or baked",6804,2022-10-28
+2709598,survey_fndds_food,"Greens, canned, cooked",6411,2022-10-28
+2709617,survey_fndds_food,"Spinach, canned, cooked, no added fat",6409,2022-10-28
+2709623,survey_fndds_food,"Spinach, canned, cooked, fat added, NS as to fat type",6409,2022-10-28
+2709666,survey_fndds_food,"Carrots, canned, cooked, no added fat",6404,2022-10-28
+2709672,survey_fndds_food,"Carrots, canned, cooked, fat added, NS as to fat type",6404,2022-10-28
+2709678,survey_fndds_food,"Carrots, canned, reduced sodium, cooked, no added fat",6404,2022-10-28
+2709679,survey_fndds_food,"Carrots, canned, reduced sodium, cooked, fat added, NS as to fat type",6404,2022-10-28
+2709686,survey_fndds_food,"Peas and carrots, canned, cooked, no added fat",6420,2022-10-28
+2709690,survey_fndds_food,"Peas and carrots, canned, cooked, fat added",6420,2022-10-28
+2709691,survey_fndds_food,"Pumpkin, canned, cooked",6406,2022-10-28
+2709705,survey_fndds_food,"Sweet potato, canned, NS as to fat",6406,2022-10-28
+2709706,survey_fndds_food,"Sweet potato, canned, no added fat",6406,2022-10-28
+2709707,survey_fndds_food,"Sweet potato, canned, fat added",6406,2022-10-28
+2709708,survey_fndds_food,"Sweet potato, casserole or mashed",6406,2022-10-28
+2709722,survey_fndds_food,"Tomatoes, canned, cooked",6402,2022-10-28
+2709724,survey_fndds_food,"Tomatoes, canned, reduced sodium, cooked",6402,2022-10-28
+2709836,survey_fndds_food,"Asparagus, canned, cooked, no added fat",6420,2022-10-28
+2709840,survey_fndds_food,"Asparagus, canned, cooked, fat added, NS as to fat type",6420,2022-10-28
+2709850,survey_fndds_food,"Lima beans, from canned",6418,2022-10-28
+2709854,survey_fndds_food,"Green beans, canned, cooked, no added fat",6412,2022-10-28
+2709858,survey_fndds_food,"Green beans, canned, cooked, fat added, NS as to fat type",6412,2022-10-28
+2709865,survey_fndds_food,"Green beans, canned, reduced sodium, cooked, no added fat",6412,2022-10-28
+2709866,survey_fndds_food,"Green beans, canned, reduced sodium, cooked, fat added, NS as to fat type",6412,2022-10-28
+2709873,survey_fndds_food,"Beets, canned, cooked, no added fat",6420,2022-10-28
+2709876,survey_fndds_food,"Beets, canned, cooked, fat added",6420,2022-10-28
+2709877,survey_fndds_food,"Beets, canned, reduced sodium, cooked",6420,2022-10-28
+2709912,survey_fndds_food,"Corn, canned, cooked, no added fat",6416,2022-10-28
+2709916,survey_fndds_food,"Corn, canned, cooked, fat added, NS as to fat type",6416,2022-10-28
+2709924,survey_fndds_food,"Corn, canned, reduced sodium, cooked, no added fat",6416,2022-10-28
+2709925,survey_fndds_food,"Corn, canned, reduced sodium, cooked, fat added, NS as to fat type",6416,2022-10-28
+2709940,survey_fndds_food,"Mushrooms, canned, cooked",6420,2022-10-28
+2709957,survey_fndds_food,"Blackeyed peas, from canned",6418,2022-10-28
+2709961,survey_fndds_food,"Green peas, canned, cooked, no added fat",6418,2022-10-28
+2709965,survey_fndds_food,"Green peas, canned, cooked, fat added, NS as to fat type",6418,2022-10-28
+2709972,survey_fndds_food,"Green peas, canned, reduced sodium, cooked, no added fat",6418,2022-10-28
+2709973,survey_fndds_food,"Green peas, canned, reduced sodium, cooked, fat added, NS as to fat type",6418,2022-10-28
+2709991,survey_fndds_food,"Summer squash, yellow or green, fresh, cooked, no added fat",6420,2022-10-28
+2709992,survey_fndds_food,"Summer squash, yellow or green, frozen, cooked, no added fat",6420,2022-10-28
+2709993,survey_fndds_food,"Summer squash, yellow or green, NS as to form, cooked",6420,2022-10-28
+2709994,survey_fndds_food,"Summer squash, yellow or green, fresh, cooked, fat added, NS as to fat type",6420,2022-10-28
+2709995,survey_fndds_food,"Summer squash, yellow or green, frozen, cooked, fat added, NS as to fat type",6420,2022-10-28
+2709996,survey_fndds_food,"Summer squash, yellow or green, canned, cooked, fat added, NS as to fat type",6420,2022-10-28
+2710014,survey_fndds_food,"Classic mixed vegetables, canned, cooked, no added fat",6420,2022-10-28
+2710017,survey_fndds_food,"Classic mixed vegetables, canned, cooked, fat added, NS as to fat type",6420,2022-10-28
+2710022,survey_fndds_food,"Classic mixed vegetables, canned, reduced sodium, cooked, no added fat",6420,2022-10-28
+2710023,survey_fndds_food,"Classic mixed vegetables, canned, reduced sodium, cooked, fat added, NS as to fat type",6420,2022-10-28
+2710033,survey_fndds_food,"Broccoli, cauliflower and carrots, cooked, no added fat",6420,2022-10-28
+2710034,survey_fndds_food,"Broccoli, cauliflower and carrots, cooked, fat added",6420,2022-10-28
+2705386,survey_fndds_food,"Milk, reduced fat (2%)",1004,2022-10-28
+2705391,survey_fndds_food,"Milk, lactose free, reduced fat (2%)",1004,2022-10-28
+2705400,survey_fndds_food,"Milk, evaporated, reduced fat (2%)",1004,2022-10-28
+2705399,survey_fndds_food,"Milk, evaporated, whole",1002,2022-10-28
+2705397,survey_fndds_food,"Milk, dry, reconstituted, whole",1002,2022-10-28
+2705396,survey_fndds_food,"Milk, dry, reconstituted, nonfat",1008,2022-10-28
+2705409,survey_fndds_food,"Almond milk, unsweetened",1902,2022-10-28
+2705425,survey_fndds_food,"Yogurt, NS as to type of milk, fruit",1820,2022-10-28
+2705433,survey_fndds_food,"Yogurt, NS as to type of milk, flavors other than fruit",1820,2022-10-28
+2705418,survey_fndds_food,"Yogurt, whole milk, plain",1820,2022-10-28
+2705426,survey_fndds_food,"Yogurt, whole milk, fruit",1820,2022-10-28
+2705442,survey_fndds_food,"Yogurt, liquid",1820,2022-10-28
+2705434,survey_fndds_food,"Yogurt, whole milk, flavors other than fruit",1820,2022-10-28
+2705419,survey_fndds_food,"Yogurt, low fat milk, plain",1820,2022-10-28
+2705420,survey_fndds_food,"Yogurt, nonfat milk, plain",1820,2022-10-28
+2705427,survey_fndds_food,"Yogurt, low fat milk, fruit",1820,2022-10-28
+2705428,survey_fndds_food,"Yogurt, nonfat milk, fruit",1820,2022-10-28
+2705435,survey_fndds_food,"Yogurt, low fat milk, flavors other than fruit",1820,2022-10-28
+2705436,survey_fndds_food,"Yogurt, nonfat milk, flavors other than fruit",1820,2022-10-28
+2705437,survey_fndds_food,"Yogurt, Greek, NS as to type of milk, flavors other than fruit",1822,2022-10-28
+2705422,survey_fndds_food,"Yogurt, Greek, whole milk, plain",1822,2022-10-28
+2705430,survey_fndds_food,"Yogurt, Greek, whole milk, fruit",1822,2022-10-28
+2705438,survey_fndds_food,"Yogurt, Greek, whole milk, flavors other than fruit",1822,2022-10-28
+2705423,survey_fndds_food,"Yogurt, Greek, low fat milk, plain",1822,2022-10-28
+2705424,survey_fndds_food,"Yogurt, Greek, nonfat milk, plain",1822,2022-10-28
+2705431,survey_fndds_food,"Yogurt, Greek, low fat milk, fruit",1822,2022-10-28
+2705432,survey_fndds_food,"Yogurt, Greek, nonfat milk, fruit",1822,2022-10-28
+2705439,survey_fndds_food,"Yogurt, Greek, low fat milk, flavors other than fruit",1822,2022-10-28
+2705440,survey_fndds_food,"Yogurt, Greek, nonfat milk, flavors other than fruit",1822,2022-10-28
+2705610,survey_fndds_food,"Coffee creamer, soy, liquid",8008,2022-10-28
+2705601,survey_fndds_food,"Coffee creamer, liquid, flavored",8008,2022-10-28
+2705602,survey_fndds_food,"Coffee creamer, liquid, fat free",8008,2022-10-28
+2705603,survey_fndds_food,"Coffee creamer, liquid, fat free, flavored",8008,2022-10-28
+2705604,survey_fndds_food,"Coffee creamer, liquid, fat free, sugar free, flavored",8008,2022-10-28
+2705605,survey_fndds_food,"Coffee creamer, liquid, sugar free, flavored",8008,2022-10-28
+2705607,survey_fndds_food,"Coffee creamer, powder, flavored",8008,2022-10-28
+2705608,survey_fndds_food,"Coffee creamer, powder, fat free",8008,2022-10-28
+2705609,survey_fndds_food,"Coffee creamer,powder, sugar free, flavored",8008,2022-10-28
+2705764,survey_fndds_food,"Cheese, American",1602,2022-10-28
+2705741,survey_fndds_food,"Cheese, Mexican blend",1602,2022-10-28
+2705740,survey_fndds_food,"Cheese, paneer",1602,2022-10-28
+2705736,survey_fndds_food,"Cheese, Swiss, reduced sodium",1602,2022-10-28
+2705735,survey_fndds_food,"Cheese, Swiss",1602,2022-10-28
+2705733,survey_fndds_food,"Cheese, Provolone",1602,2022-10-28
+2705732,survey_fndds_food,"Cheese, Port du Salut",1602,2022-10-28
+2705730,survey_fndds_food,"Cheese, Parmesan, hard",1602,2022-10-28
+2705728,survey_fndds_food,"Cheese, Parmesan, dry grated",1602,2022-10-28
+2705726,survey_fndds_food,"Cheese, Muenster",1602,2022-10-28
+2705723,survey_fndds_food,"Cheese, Mozzarella, part skim",1602,2022-10-28
+2705709,survey_fndds_food,"Cheese, Cheddar",1602,2022-10-28
+2705708,survey_fndds_food,"Cheese, Brie",1602,2022-10-28
+2705712,survey_fndds_food,"Cheese, Colby",1602,2022-10-28
+2705707,survey_fndds_food,"Cheese, Camembert",1602,2022-10-28
+2705713,survey_fndds_food,"Cheese, Colby Jack",1602,2022-10-28
+2705714,survey_fndds_food,"Cheese, Feta",1602,2022-10-28
+2705715,survey_fndds_food,"Cheese, Fontina",1602,2022-10-28
+2705716,survey_fndds_food,"Cheese, goat",1602,2022-10-28
+2705718,survey_fndds_food,"Cheese, Gruyere",1602,2022-10-28
+2705719,survey_fndds_food,"Cheese, Limburger",1602,2022-10-28
+2705720,survey_fndds_food,"Cheese, Monterey",1602,2022-10-28
+2705706,survey_fndds_food,"Cheese, Brick",1602,2022-10-28
+2705731,survey_fndds_food,"Cheese, Parmesan, dry grated, fat free",1602,2022-10-28
+2705767,survey_fndds_food,"Cheese, American, reduced sodium",1602,2022-10-28
+2705724,survey_fndds_food,"Cheese, Mozzarella, reduced sodium",1602,2022-10-28
+2705739,survey_fndds_food,"Cheese, Cheddar, reduced sodium",1602,2022-10-28
+2705765,survey_fndds_food,"Cheese, American, reduced fat",1602,2022-10-28
+2705737,survey_fndds_food,"Cheese, Swiss, reduced fat",1602,2022-10-28
+2705710,survey_fndds_food,"Cheese, Cheddar, reduced fat",1602,2022-10-28
+2705727,survey_fndds_food,"Cheese, Muenster, reduced fat",1602,2022-10-28
+2705721,survey_fndds_food,"Cheese, Monterey, reduced fat",1602,2022-10-28
+2705742,survey_fndds_food,"Cheese, Mexican blend, reduced fat",1602,2022-10-28
+2705734,survey_fndds_food,"Cheese, provolone, reduced fat",1602,2022-10-28
+2705729,survey_fndds_food,"Cheese, Parmesan, dry grated, reduced fat",1602,2022-10-28
+2705754,survey_fndds_food,"Cheese, cottage, salted, dry curd",1604,2022-10-28
+2705756,survey_fndds_food,"Cheese, cottage, low fat",1604,2022-10-28
+2705759,survey_fndds_food,"Cheese, cottage, lowfat, lactose reduced",1604,2022-10-28
+2705758,survey_fndds_food,"Cheese, cottage, lowfat, low sodium",1604,2022-10-28
+2705761,survey_fndds_food,"Cream cheese, regular, flavored",8006,2022-10-28
+2705828,survey_fndds_food,"Beef, steak, ribeye, NS as to fat eaten",2002,2022-10-28
+2705824,survey_fndds_food,"Beef, steak, NFS",2002,2022-10-28
+2705822,survey_fndds_food,"Beef, NFS",2002,2022-10-28
+2705852,survey_fndds_food,"Beef, sandwich steak",2002,2022-10-28
+2705851,survey_fndds_food,"Beef, brisket",2002,2022-10-28
+2705849,survey_fndds_food,"Beef, stew meat",2002,2022-10-28
+2705848,survey_fndds_food,"Beef, pot roast",2002,2022-10-28
+2705847,survey_fndds_food,"Beef, roast",2002,2022-10-28
+2705846,survey_fndds_food,"Beef, cow head",2002,2022-10-28
+2705845,survey_fndds_food,"Beef, shortribs",2002,2022-10-28
+2705844,survey_fndds_food,"Beef, neck bones",2002,2022-10-28
+2705843,survey_fndds_food,"Beef, oxtails",2002,2022-10-28
+2705842,survey_fndds_food,"Beef, steak, country fried",2002,2022-10-28
+2705841,survey_fndds_food,"Beef, steak, tenderloin",2002,2022-10-28
+2705825,survey_fndds_food,"Beef, steak, chuck",2002,2022-10-28
+2705831,survey_fndds_food,"Beef, steak, round",2002,2022-10-28
+2705826,survey_fndds_food,"Beef, steak, cube",2002,2022-10-28
+2705827,survey_fndds_food,"Beef, steak, flank",2002,2022-10-28
+2705840,survey_fndds_food,"Beef, steak, T-bone, lean only eaten",2002,2022-10-28
+2705837,survey_fndds_food,"Beef, steak, strip, lean only eaten",2002,2022-10-28
+2705834,survey_fndds_food,"Beef, steak, sirloin, lean only eaten",2002,2022-10-28
+2705830,survey_fndds_food,"Beef, steak, ribeye, lean only eaten",2002,2022-10-28
+2705873,survey_fndds_food,"Pork, steak, NS as to fat eaten",2006,2022-10-28
+2705901,survey_fndds_food,"Pork, belly",2006,2022-10-28
+2705900,survey_fndds_food,"Pork, ham hocks",2006,2022-10-28
+2705898,survey_fndds_food,"Pork, pig's feet",2006,2022-10-28
+2705897,survey_fndds_food,"Pork, bones",2006,2022-10-28
+2705896,survey_fndds_food,"Pork, ears",2006,2022-10-28
+2705895,survey_fndds_food,"Pork, cracklings",2006,2022-10-28
+2705894,survey_fndds_food,"Pork, ribs",2006,2022-10-28
+2705882,survey_fndds_food,"Pork, roast",2006,2022-10-28
+2705877,survey_fndds_food,"Pork, tenderloin",2006,2022-10-28
+2705876,survey_fndds_food,"Pork, steak, coated",2006,2022-10-28
+2705875,survey_fndds_food,"Pork, steak, lean only eaten",2006,2022-10-28
+2705868,survey_fndds_food,"Pork, chop, lean only eaten",2006,2022-10-28
+2705864,survey_fndds_food,"Pork, carnitas",2006,2022-10-28
+2705863,survey_fndds_food,"Pork, ground",2006,2022-10-28
+2705871,survey_fndds_food,"Pork, chop, coated, lean only eaten",2006,2022-10-28
+2705906,survey_fndds_food,"Lamb, chop",2008,2022-10-28
+2705907,survey_fndds_food,"Lamb, ground",2008,2022-10-28
+2705948,survey_fndds_food,"Chicken, NS as to part, sauteed, skin not eaten",2202,2022-10-28
+2705947,survey_fndds_food,"Chicken, NS as to part, sauteed, skin eaten",2202,2022-10-28
+2705943,survey_fndds_food,"Chicken, NS as to part, grilled without sauce, skin not eaten",2202,2022-10-28
+2705942,survey_fndds_food,"Chicken, NS as to part, grilled without sauce, skin eaten",2202,2022-10-28
+2705941,survey_fndds_food,"Chicken, NS as to part, grilled without sauce, NS as to skin eaten",2202,2022-10-28
+2705940,survey_fndds_food,"Chicken, NS as to part, stewed, skin not eaten",2202,2022-10-28
+2705939,survey_fndds_food,"Chicken, NS as to part, stewed, skin eaten",2202,2022-10-28
+2705938,survey_fndds_food,"Chicken, NS as to part, stewed, NS as to skin eaten",2202,2022-10-28
+2705937,survey_fndds_food,"Chicken, NS as to part, rotisserie, skin not eaten",2202,2022-10-28
+2705936,survey_fndds_food,"Chicken, NS as to part, rotisserie, skin eaten",2202,2022-10-28
+2705935,survey_fndds_food,"Chicken, NS as to part, rotisserie, NS as to skin eaten",2202,2022-10-28
+2705934,survey_fndds_food,"Chicken, NS as to part, baked, broiled, or roasted, skin not eaten",2202,2022-10-28
+2705933,survey_fndds_food,"Chicken, NS as to part, baked, broiled, or roasted, skin eaten",2202,2022-10-28
+2705932,survey_fndds_food,"Chicken, NS as to part, baked, broiled, or roasted, NS as to skin eaten",2202,2022-10-28
+2706081,survey_fndds_food,"Chicken, back",2202,2022-10-28
+2706083,survey_fndds_food,"Chicken, tail",2202,2022-10-28
+2706091,survey_fndds_food,"Chicken, ground",2202,2022-10-28
+2706087,survey_fndds_food,"Chicken, chicken roll, roasted",2202,2022-10-28
+2705963,survey_fndds_food,"Chicken breast, rotisserie, skin eaten",2202,2022-10-28
+2705964,survey_fndds_food,"Chicken breast, rotisserie, skin not eaten",2202,2022-10-28
+2705965,survey_fndds_food,"Chicken breast, stewed, skin eaten",2202,2022-10-28
+2705966,survey_fndds_food,"Chicken breast, stewed, skin not eaten",2202,2022-10-28
+2705967,survey_fndds_food,"Chicken breast, grilled without sauce, skin eaten",2202,2022-10-28
+2705968,survey_fndds_food,"Chicken breast, grilled without sauce, skin not eaten",2202,2022-10-28
+2705971,survey_fndds_food,"Chicken breast, sauteed, skin eaten",2202,2022-10-28
+2705972,survey_fndds_food,"Chicken breast, sauteed, skin not eaten",2202,2022-10-28
+2705955,survey_fndds_food,"Chicken breast, baked, broiled, or roasted, skin eaten, from raw",2202,2022-10-28
+2705956,survey_fndds_food,"Chicken breast, baked, broiled, or roasted, skin not eaten, from raw",2202,2022-10-28
+2706008,survey_fndds_food,"Chicken drumstick, rotisserie, skin eaten",2202,2022-10-28
+2706009,survey_fndds_food,"Chicken drumstick, rotisserie, skin not eaten",2202,2022-10-28
+2706010,survey_fndds_food,"Chicken drumstick, grilled without sauce, skin eaten",2202,2022-10-28
+2706011,survey_fndds_food,"Chicken drumstick, grilled without sauce, skin not eaten",2202,2022-10-28
+2706014,survey_fndds_food,"Chicken drumstick, stewed, skin eaten",2202,2022-10-28
+2706015,survey_fndds_food,"Chicken drumstick, stewed, skin not eaten",2202,2022-10-28
+2706016,survey_fndds_food,"Chicken drumstick, sauteed, skin eaten",2202,2022-10-28
+2706017,survey_fndds_food,"Chicken drumstick, sauteed, skin not eaten",2202,2022-10-28
+2706002,survey_fndds_food,"Chicken drumstick, baked, broiled, or roasted, skin eaten, from raw",2202,2022-10-28
+2706003,survey_fndds_food,"Chicken drumstick, baked, broiled, or roasted, skin not eaten, from raw",2202,2022-10-28
+2706035,survey_fndds_food,"Chicken thigh, rotisserie, skin eaten",2202,2022-10-28
+2706036,survey_fndds_food,"Chicken thigh, rotisserie, skin not eaten",2202,2022-10-28
+2706037,survey_fndds_food,"Chicken thigh, stewed, skin eaten",2202,2022-10-28
+2706038,survey_fndds_food,"Chicken thigh, stewed, skin not eaten",2202,2022-10-28
+2706039,survey_fndds_food,"Chicken thigh, grilled without sauce, skin eaten",2202,2022-10-28
+2706040,survey_fndds_food,"Chicken thigh, grilled without sauce, skin not eaten",2202,2022-10-28
+2706043,survey_fndds_food,"Chicken thigh, sauteed, skin eaten",2202,2022-10-28
+2706044,survey_fndds_food,"Chicken thigh, sauteed, skin not eaten",2202,2022-10-28
+2706029,survey_fndds_food,"Chicken thigh, baked, broiled, or roasted, skin eaten, from raw",2202,2022-10-28
+2706030,survey_fndds_food,"Chicken thigh, baked, broiled, or roasted, skin not eaten, from raw",2202,2022-10-28
+2706060,survey_fndds_food,"Chicken wing, rotisserie",2202,2022-10-28
+2706061,survey_fndds_food,"Chicken wing, stewed",2202,2022-10-28
+2706064,survey_fndds_food,"Chicken wing, sauteed",2202,2022-10-28
+2706069,survey_fndds_food,"Chicken wing, baked, coated",2202,2022-10-28
+2706062,survey_fndds_food,"Chicken wing, grilled without sauce",2202,2022-10-28
+2706057,survey_fndds_food,"Chicken wing, baked, broiled, or roasted, from raw",2202,2022-10-28
+2706095,survey_fndds_food,"Chicken nuggets, from school lunch",2204,2022-10-28
+2706097,survey_fndds_food,"Chicken nuggets, from other sources",2204,2022-10-28
+2706131,survey_fndds_food,"Turkey, back",2206,2022-10-28
+2706130,survey_fndds_food,"Turkey, tail",2206,2022-10-28
+2706127,survey_fndds_food,"Turkey, neck",2206,2022-10-28
+2706121,survey_fndds_food,"Turkey, drumstick, cooked, skin not eaten",2206,2022-10-28
+2706122,survey_fndds_food,"Turkey, drumstick, cooked, skin eaten",2206,2022-10-28
+2706125,survey_fndds_food,"Turkey, thigh, cooked, skin eaten",2206,2022-10-28
+2706126,survey_fndds_food,"Turkey, thigh, cooked, skin not eaten",2206,2022-10-28
+2706128,survey_fndds_food,"Turkey, wing, cooked, skin not eaten",2206,2022-10-28
+2706129,survey_fndds_food,"Turkey, wing, cooked, skin eaten",2206,2022-10-28
+2706106,survey_fndds_food,"Turkey, light meat, skin eaten",2206,2022-10-28
+2706105,survey_fndds_food,"Turkey, light meat, skin not eaten",2206,2022-10-28
+2706112,survey_fndds_food,"Turkey, dark meat, roasted, skin eaten",2206,2022-10-28
+2706123,survey_fndds_food,"Turkey, drumstick, roasted, skin not eaten",2206,2022-10-28
+2706124,survey_fndds_food,"Turkey, drumstick, roasted, skin eaten",2206,2022-10-28
+2706111,survey_fndds_food,"Turkey, dark meat, roasted, skin not eaten",2206,2022-10-28
+2706110,survey_fndds_food,"Turkey, light meat, roasted, skin eaten",2206,2022-10-28
+2706109,survey_fndds_food,"Turkey, light meat, roasted, skin not eaten",2206,2022-10-28
+2706139,survey_fndds_food,"Duck, roasted, skin eaten",2206,2022-10-28
+2706140,survey_fndds_food,"Duck, roasted, skin not eaten",2206,2022-10-28
+2706146,survey_fndds_food,"Cornish game hen, roasted, skin not eaten",2206,2022-10-28
+2706169,survey_fndds_food,"Hot dog, reduced fat",2606,2022-10-28
+2706184,survey_fndds_food,"Pastrami, made from any kind of meat, reduced fat",2602,2022-10-28
+2706186,survey_fndds_food,"Pepperoni, reduced fat",2602,2022-10-28
+2706197,survey_fndds_food,"Salami, made from any type of meat, reduced sodium",2602,2022-10-28
+2706196,survey_fndds_food,"Salami, made from any type of meat, reduced fat",2602,2022-10-28
+2706277,survey_fndds_food,"Fish, pompano, NFS",2402,2022-10-28
+2706263,survey_fndds_food,"Fish, mackerel, NFS",2402,2022-10-28
+2706318,survey_fndds_food,"Fish, tilapia, NFS",2402,2022-10-28
+2706285,survey_fndds_food,"Fish, salmon, NFS",2402,2022-10-28
+2706234,survey_fndds_food,"Fish, catfish, NFS",2402,2022-10-28
+2706312,survey_fndds_food,"Fish, whiting, NFS",2402,2022-10-28
+2706254,survey_fndds_food,"Fish, haddock, NFS",2402,2022-10-28
+2706309,survey_fndds_food,"Fish, tuna, NFS",2402,2022-10-28
+2706240,survey_fndds_food,"Fish, cod, NFS",2402,2022-10-28
+2706294,survey_fndds_food,"Fish, bass, NFS",2402,2022-10-28
+2706248,survey_fndds_food,"Fish, flounder, NFS",2402,2022-10-28
+2706302,survey_fndds_food,"Fish, trout, NFS",2402,2022-10-28
+2706284,survey_fndds_food,"Fish, salmon, raw",2402,2022-10-28
+2706223,survey_fndds_food,"Fish, raw",2402,2022-10-28
+2706228,survey_fndds_food,"Fish, NS as to type, steamed",2402,2022-10-28
+2706308,survey_fndds_food,"Fish, tuna, raw",2402,2022-10-28
+2706324,survey_fndds_food,"Fish, white, mixed species, NFS",2402,2022-10-28
+2706274,survey_fndds_food,"Fish, perch, fried",2402,2022-10-28
+2706276,survey_fndds_food,"Fish, pike",2402,2022-10-28
+2706281,survey_fndds_food,"Fish, pompano, fried",2402,2022-10-28
+2706283,survey_fndds_food,"Fish, snapper",2402,2022-10-28
+2706322,survey_fndds_food,"Fish, tilapia, fried",2402,2022-10-28
+2706316,survey_fndds_food,"Fish, whiting, fried",2402,2022-10-28
+2706289,survey_fndds_food,"Fish, salmon, fried",2402,2022-10-28
+2706310,survey_fndds_food,"Fish, tuna, cooked",2402,2022-10-28
+2706292,survey_fndds_food,"Fish, salmon, smoked",2402,2022-10-28
+2706298,survey_fndds_food,"Fish, bass, fried",2402,2022-10-28
+2706306,survey_fndds_food,"Fish, trout, fried",2402,2022-10-28
+2706300,survey_fndds_food,"Fish, shark",2402,2022-10-28
+2706301,survey_fndds_food,"Fish, swordfish",2402,2022-10-28
+2706244,survey_fndds_food,"Fish, cod, fried",2402,2022-10-28
+2706269,survey_fndds_food,"Fish, mullet",2402,2022-10-28
+2706230,survey_fndds_food,"Fish, smoked",2402,2022-10-28
+2706267,survey_fndds_food,"Fish, mackerel, fried",2402,2022-10-28
+2706246,survey_fndds_food,"Fish, croaker",2402,2022-10-28
+2706231,survey_fndds_food,"Fish, stick",2402,2022-10-28
+2706261,survey_fndds_food,"Fish, herring",2402,2022-10-28
+2706247,survey_fndds_food,"Fish, eel",2402,2022-10-28
+2706260,survey_fndds_food,"Fish, halibut",2402,2022-10-28
+2706232,survey_fndds_food,"Fish, anchovy",2402,2022-10-28
+2706258,survey_fndds_food,"Fish, haddock, fried",2402,2022-10-28
+2706238,survey_fndds_food,"Fish, catfish, fried",2402,2022-10-28
+2706233,survey_fndds_food,"Fish, carp",2402,2022-10-28
+2706252,survey_fndds_food,"Fish, flounder, fried",2402,2022-10-28
+2706327,survey_fndds_food,"Fish, white, mixed species, fried",2402,2022-10-28
+2706236,survey_fndds_food,"Fish, catfish, grilled",2402,2022-10-28
+2706314,survey_fndds_food,"Fish, whiting, grilled",2402,2022-10-28
+2706317,survey_fndds_food,"Fish, whiting, steamed",2402,2022-10-28
+2706239,survey_fndds_food,"Fish, catfish, steamed",2402,2022-10-28
+2706242,survey_fndds_food,"Fish, cod, grilled",2402,2022-10-28
+2706320,survey_fndds_food,"Fish, tilapia, grilled",2402,2022-10-28
+2706323,survey_fndds_food,"Fish, tilapia, steamed",2402,2022-10-28
+2706307,survey_fndds_food,"Fish, trout, steamed",2402,2022-10-28
+2706272,survey_fndds_food,"Fish, perch, grilled",2402,2022-10-28
+2706275,survey_fndds_food,"Fish, perch, steamed",2402,2022-10-28
+2706265,survey_fndds_food,"Fish, mackerel, grilled",2402,2022-10-28
+2706279,survey_fndds_food,"Fish, pompano, grilled",2402,2022-10-28
+2706282,survey_fndds_food,"Fish, pompano, steamed",2402,2022-10-28
+2706259,survey_fndds_food,"Fish, haddock, steamed",2402,2022-10-28
+2706287,survey_fndds_food,"Fish, salmon, grilled",2402,2022-10-28
+2706256,survey_fndds_food,"Fish, haddock, grilled",2402,2022-10-28
+2706290,survey_fndds_food,"Fish, salmon, steamed",2402,2022-10-28
+2706253,survey_fndds_food,"Fish, flounder, steamed",2402,2022-10-28
+2706296,survey_fndds_food,"Fish, bass, grilled",2402,2022-10-28
+2706250,survey_fndds_food,"Fish, flounder, grilled",2402,2022-10-28
+2706299,survey_fndds_food,"Fish, bass, steamed",2402,2022-10-28
+2706245,survey_fndds_food,"Fish, cod, steamed",2402,2022-10-28
+2706304,survey_fndds_food,"Fish, trout, grilled",2402,2022-10-28
+2706328,survey_fndds_food,"Fish, white, mixed species, steamed",2402,2022-10-28
+2706329,survey_fndds_food,"Fish, white, mixed species, grilled",2402,2022-10-28
+2706353,survey_fndds_food,"Oysters, steamed",2404,2022-10-28
+2706362,survey_fndds_food,"Shrimp, grilled",2404,2022-10-28
+2707162,survey_fndds_food,"Egg, whole, fried, NS as to fat type",2502,2022-10-28
+2707169,survey_fndds_food,"Egg, white, cooked, NS as to fat",2502,2022-10-28
+2707172,survey_fndds_food,"Egg, yolk only, raw",2502,2022-10-28
+2707168,survey_fndds_food,"Egg, white only, raw",2502,2022-10-28
+2707152,survey_fndds_food,"Egg, whole, raw",2502,2022-10-28
+2707164,survey_fndds_food,"Egg, whole, baked, NS as to fat",2502,2022-10-28
+2707179,survey_fndds_food,"Egg, creamed",2502,2022-10-28
+2707180,survey_fndds_food,"Egg, Benedict",2502,2022-10-28
+2707181,survey_fndds_food,"Egg, deviled",2502,2022-10-28
+2707171,survey_fndds_food,"Egg, white, cooked, fat added",2502,2022-10-28
+2707170,survey_fndds_food,"Egg, white, cooked, no added fat",2502,2022-10-28
+2707156,survey_fndds_food,"Egg, whole, fried no added fat",2502,2022-10-28
+2707174,survey_fndds_food,"Egg, yolk only, cooked, no added fat",2502,2022-10-28
+2707175,survey_fndds_food,"Egg, yolk only, cooked, fat added",2502,2022-10-28
+2707166,survey_fndds_food,"Egg, whole, baked, fat added",2502,2022-10-28
+2707165,survey_fndds_food,"Egg, whole, baked, no added fat",2502,2022-10-28
+2707205,survey_fndds_food,"Egg omelet or scrambled egg, no added fat",2502,2022-10-28
+2707289,survey_fndds_food,"Egg white omelet, scrambled, or fried, no added fat",2502,2022-10-28
+2707354,survey_fndds_food,"White beans, from dried, fat added",2802,2022-10-28
+2707355,survey_fndds_food,"White beans, from dried, no added fat",2802,2022-10-28
+2707360,survey_fndds_food,"Black beans, from dried, fat added",2802,2022-10-28
+2707361,survey_fndds_food,"Black beans, from dried, no added fat",2802,2022-10-28
+2707372,survey_fndds_food,"Pinto beans, from dried, fat added",2802,2022-10-28
+2707373,survey_fndds_food,"Pinto beans, from dried, no added fat",2802,2022-10-28
+2707380,survey_fndds_food,"Kidney beans, from dried, fat added",2802,2022-10-28
+2707381,survey_fndds_food,"Kidney beans, from dried, no added fat",2802,2022-10-28
+2707415,survey_fndds_food,"Chickpeas, from dried, fat added",2802,2022-10-28
+2707416,survey_fndds_food,"Chickpeas, from dried, no added fat",2802,2022-10-28
+2707424,survey_fndds_food,"Lentils, from dried, fat added",2802,2022-10-28
+2707425,survey_fndds_food,"Lentils, from dried, no added fat",2802,2022-10-28
+2707488,survey_fndds_food,"Almonds, lightly salted",2804,2022-10-28
+2707489,survey_fndds_food,"Almonds, unsalted",2804,2022-10-28
+2707490,survey_fndds_food,"Almonds, flavored",2804,2022-10-28
+2707491,survey_fndds_food,"Almonds, honey roasted",2804,2022-10-28
+2707496,survey_fndds_food,"Cashews, lightly salted",2804,2022-10-28
+2707497,survey_fndds_food,"Cashews, unsalted",2804,2022-10-28
+2707498,survey_fndds_food,"Cashews, honey roasted",2804,2022-10-28
+2707509,survey_fndds_food,"Mixed nuts, without peanuts, salted",2804,2022-10-28
+2707510,survey_fndds_food,"Mixed nuts, without peanuts, unsalted",2804,2022-10-28
+2707511,survey_fndds_food,"Mixed nuts, honey roasted",2804,2022-10-28
+2707513,survey_fndds_food,"Peanuts, boiled",2804,2022-10-28
+2707515,survey_fndds_food,"Peanuts, roasted, salted",2804,2022-10-28
+2707516,survey_fndds_food,"Peanuts, roasted, unsalted",2804,2022-10-28
+2707517,survey_fndds_food,"Peanuts, dry roasted, salted",2804,2022-10-28
+2707520,survey_fndds_food,"Peanuts, honey roasted",2804,2022-10-28
+2707518,survey_fndds_food,"Peanuts, dry roasted, lightly salted",2804,2022-10-28
+2707519,survey_fndds_food,"Peanuts, dry roasted, unsalted",2804,2022-10-28
+2707524,survey_fndds_food,"Pecans, unsalted",2804,2022-10-28
+2707525,survey_fndds_food,"Pecans, honey roasted",2804,2022-10-28
+2707529,survey_fndds_food,"Pistachio nuts, lightly salted",2804,2022-10-28
+2707539,survey_fndds_food,"Peanut butter, lower sodium and lower sugar",2804,2022-10-28
+2707541,survey_fndds_food,"Peanut butter, reduced fat",2804,2022-10-28
+2707582,survey_fndds_food,"Sunflower seeds, plain, unsalted",2804,2022-10-28
+2707583,survey_fndds_food,"Sunflower seeds, plain, salted",2804,2022-10-28
+2707594,survey_fndds_food,"Bread, made from home recipe or purchased at a bakery, toasted, NS as to major flour",4202,2022-10-28
+2707764,survey_fndds_food,"Bread, black",4202,2022-10-28
+2707761,survey_fndds_food,"Bread, pumpernickel, toasted",4202,2022-10-28
+2707760,survey_fndds_food,"Bread, pumpernickel",4202,2022-10-28
+2707756,survey_fndds_food,"Bread, rye, toasted",4202,2022-10-28
+2707755,survey_fndds_food,"Bread, rye",4202,2022-10-28
+2707730,survey_fndds_food,"Bread, pita, whole wheat",4202,2022-10-28
+2707718,survey_fndds_food,"Bread, sprouted wheat",4202,2022-10-28
+2707715,survey_fndds_food,"Bread, paratha",4202,2022-10-28
+2707714,survey_fndds_food,"Bread, puri",4202,2022-10-28
+2707710,survey_fndds_food,"Bread, whole wheat, toasted",4202,2022-10-28
+2707709,survey_fndds_food,"Bread, whole wheat",4202,2022-10-28
+2707706,survey_fndds_food,"Bread, whole grain white",4202,2022-10-28
+2707653,survey_fndds_food,"Bread, dough, fried",4202,2022-10-28
+2707651,survey_fndds_food,"Bread, vegetable, toasted",4202,2022-10-28
+2707650,survey_fndds_food,"Bread, vegetable",4202,2022-10-28
+2707649,survey_fndds_food,"Bread, sweet potato, toasted",4202,2022-10-28
+2707765,survey_fndds_food,"Bread, black, toasted",4202,2022-10-28
+2707768,survey_fndds_food,"Bread, oatmeal",4202,2022-10-28
+2707769,survey_fndds_food,"Bread, oatmeal, toasted",4202,2022-10-28
+2707770,survey_fndds_food,"Bread, oat bran",4202,2022-10-28
+2707771,survey_fndds_food,"Bread, oat bran, toasted",4202,2022-10-28
+2707776,survey_fndds_food,"Bread, multigrain, toasted",4202,2022-10-28
+2707777,survey_fndds_food,"Bread, multigrain",4202,2022-10-28
+2707788,survey_fndds_food,"Bread, barley",4202,2022-10-28
+2707789,survey_fndds_food,"Bread, barley, toasted",4202,2022-10-28
+2707790,survey_fndds_food,"Bread, soy",4202,2022-10-28
+2707791,survey_fndds_food,"Bread, soy, toasted",4202,2022-10-28
+2707792,survey_fndds_food,"Bread, sunflower meal",4202,2022-10-28
+2707794,survey_fndds_food,"Bread, rice",4202,2022-10-28
+2707795,survey_fndds_food,"Bread, rice, toasted",4202,2022-10-28
+2707797,survey_fndds_food,"Bread, gluten free",4202,2022-10-28
+2707798,survey_fndds_food,"Bread, gluten free, toasted",4202,2022-10-28
+2707598,survey_fndds_food,"Bread, white",4202,2022-10-28
+2707599,survey_fndds_food,"Bread, white, toasted",4202,2022-10-28
+2707604,survey_fndds_food,"Bread, Cuban",4202,2022-10-28
+2707605,survey_fndds_food,"Bread, Cuban, toasted",4202,2022-10-28
+2707613,survey_fndds_food,"Bread, naan",4202,2022-10-28
+2707616,survey_fndds_food,"Bread, pita",4202,2022-10-28
+2707618,survey_fndds_food,"Bread, cheese",4202,2022-10-28
+2707619,survey_fndds_food,"Bread, cheese, toasted",4202,2022-10-28
+2707620,survey_fndds_food,"Bread, cinnamon",4202,2022-10-28
+2707621,survey_fndds_food,"Bread, cinnamon, toasted",4202,2022-10-28
+2707624,survey_fndds_food,"Bread, egg, Challah",4202,2022-10-28
+2707625,survey_fndds_food,"Bread, egg, Challah, toasted",4202,2022-10-28
+2707633,survey_fndds_food,"Bread, onion",4202,2022-10-28
+2707634,survey_fndds_food,"Bread, onion, toasted",4202,2022-10-28
+2707648,survey_fndds_food,"Bread, sweet potato",4202,2022-10-28
+2707647,survey_fndds_food,"Bread, sour dough, toasted",4202,2022-10-28
+2707646,survey_fndds_food,"Bread, sour dough",4202,2022-10-28
+2707645,survey_fndds_food,"Bread, raisin, toasted",4202,2022-10-28
+2707644,survey_fndds_food,"Bread, raisin",4202,2022-10-28
+2707643,survey_fndds_food,"Bread, potato, toasted",4202,2022-10-28
+2707642,survey_fndds_food,"Bread, potato",4202,2022-10-28
+2707641,survey_fndds_food,"Bread, high protein, toasted",4202,2022-10-28
+2707719,survey_fndds_food,"Bread, sprouted wheat, toasted",4202,2022-10-28
+2707639,survey_fndds_food,"Bread, white, special formula, added fiber",4202,2022-10-28
+2707600,survey_fndds_food,"Bread, white, made from home recipe or purchased at a bakery",4202,2022-10-28
+2707601,survey_fndds_food,"Bread, white, made from home recipe or purchased at a bakery, toasted",4202,2022-10-28
+2707793,survey_fndds_food,"Bread, sunflower meal, toasted",4202,2022-10-28
+2707640,survey_fndds_food,"Bread, white, special formula, added fiber, toasted",4202,2022-10-28
+2707757,survey_fndds_food,"Bread, marble rye and pumpernickel",4202,2022-10-28
+2707606,survey_fndds_food,"Bread, native, water, Puerto Rican style",4202,2022-10-28
+2707607,survey_fndds_food,"Bread, native, water, toasted, Puerto Rican style",4202,2022-10-28
+2707608,survey_fndds_food,"Bread, lard, Puerto Rican style",4202,2022-10-28
+2707781,survey_fndds_food,"Bread, multigrain, reduced calorie and/or high fiber, toasted",4202,2022-10-28
+2707780,survey_fndds_food,"Bread, multigrain, reduced calorie and/or high fiber",4202,2022-10-28
+2707609,survey_fndds_food,"Bread, lard, toasted, Puerto Rican style",4202,2022-10-28
+2707758,survey_fndds_food,"Bread, marble rye and pumpernickel, toasted",4202,2022-10-28
+2707614,survey_fndds_food,"Bread, Italian, Grecian, Armenian",4202,2022-10-28
+2707615,survey_fndds_food,"Bread, Italian, Grecian, Armenian, toasted",4202,2022-10-28
+2707707,survey_fndds_food,"Bread, whole grain white, toasted",4202,2022-10-28
+2707712,survey_fndds_food,"Bread, whole wheat, made from home recipe or purchased at bakery, toasted",4202,2022-10-28
+2707711,survey_fndds_food,"Bread, whole wheat, made from home recipe or purchased at bakery",4202,2022-10-28
+2707800,survey_fndds_food,"Roll, gluten free",4204,2022-10-28
+2707783,survey_fndds_food,"Roll, multigrain, hot dog bun",4204,2022-10-28
+2707782,survey_fndds_food,"Roll, multigrain",4204,2022-10-28
+2707773,survey_fndds_food,"Roll, oatmeal",4204,2022-10-28
+2707767,survey_fndds_food,"Roll, pumpernickel",4204,2022-10-28
+2707766,survey_fndds_food,"Roll, rye",4204,2022-10-28
+2707752,survey_fndds_food,"Roll, whole grain white",4204,2022-10-28
+2707749,survey_fndds_food,"Roll, whole wheat",4204,2022-10-28
+2707665,survey_fndds_food,"Roll, sour dough",4204,2022-10-28
+2707664,survey_fndds_food,"Roll, Mexican, bolillo",4204,2022-10-28
+2707662,survey_fndds_food,"Roll, garlic",4204,2022-10-28
+2707660,survey_fndds_food,"Roll, cheese",4204,2022-10-28
+2707659,survey_fndds_food,"Roll, egg bread",4204,2022-10-28
+2707658,survey_fndds_food,"Roll, diet",4204,2022-10-28
+2707657,survey_fndds_food,"Roll, white, hamburger bun",4204,2022-10-28
+2707656,survey_fndds_food,"Roll, white, hot dog bun",4204,2022-10-28
+2707655,survey_fndds_food,"Roll, white, hard",4204,2022-10-28
+2707654,survey_fndds_food,"Roll, white, soft",4204,2022-10-28
+2707663,survey_fndds_food,"Roll, white, hoagie, submarine",4204,2022-10-28
+2707750,survey_fndds_food,"Roll, whole wheat, hot dog bun",4204,2022-10-28
+2707751,survey_fndds_food,"Roll, whole wheat, hamburger bun",4204,2022-10-28
+2707753,survey_fndds_food,"Roll, whole grain white, hot dog bun",4204,2022-10-28
+2707754,survey_fndds_food,"Roll, whole grain white, hamburger bun",4204,2022-10-28
+2707784,survey_fndds_food,"Roll, multigrain, hamburger bun",4204,2022-10-28
+2707733,survey_fndds_food,"Bagel, whole wheat",4206,2022-10-28
+2707737,survey_fndds_food,"Bagel, wheat bran",4206,2022-10-28
+2707762,survey_fndds_food,"Bagel, pumpernickel",4206,2022-10-28
+2707772,survey_fndds_food,"Bagel, oat bran",4206,2022-10-28
+2707785,survey_fndds_food,"Bagel, multigrain",4206,2022-10-28
+2707741,survey_fndds_food,"Muffin, English, whole wheat",4206,2022-10-28
+2707759,survey_fndds_food,"Muffin, English, rye",4206,2022-10-28
+2707763,survey_fndds_food,"Muffin, English, pumpernickel",4206,2022-10-28
+2707774,survey_fndds_food,"Muffin, English, oat bran",4206,2022-10-28
+2707787,survey_fndds_food,"Muffin, English, multigrain",4206,2022-10-28
+2707744,survey_fndds_food,"Muffin, English, whole grain white",4206,2022-10-28
+2707806,survey_fndds_food,"Biscuit, cheese",4402,2022-10-28
+2707802,survey_fndds_food,"Biscuit, from refrigerated dough",4402,2022-10-28
+2707825,survey_fndds_food,"Tortilla, whole wheat",4208,2022-10-28
+2707833,survey_fndds_food,"Muffin, chocolate",4402,2022-10-28
+2707834,survey_fndds_food,"Muffin, whole wheat",4402,2022-10-28
+2707835,survey_fndds_food,"Muffin, wheat",4402,2022-10-28
+2707836,survey_fndds_food,"Muffin, whole grain",4402,2022-10-28
+2707837,survey_fndds_food,"Muffin, wheat bran",4402,2022-10-28
+2707839,survey_fndds_food,"Muffin, oatmeal",4402,2022-10-28
+2707840,survey_fndds_food,"Muffin, oat bran",4402,2022-10-28
+2707841,survey_fndds_food,"Muffin, plain",4402,2022-10-28
+2707842,survey_fndds_food,"Muffin, cheese",4402,2022-10-28
+2707843,survey_fndds_food,"Muffin, pumpkin",4402,2022-10-28
+2707844,survey_fndds_food,"Muffin, zucchini",4402,2022-10-28
+2707845,survey_fndds_food,"Muffin, carrot",4402,2022-10-28
+2707831,survey_fndds_food,"Muffin, fruit, low fat",4402,2022-10-28
+2707850,survey_fndds_food,"Bread, fruit",4402,2022-10-28
+2707851,survey_fndds_food,"Bread, zucchini",4402,2022-10-28
+2707852,survey_fndds_food,"Bread, Irish soda",4402,2022-10-28
+2708342,survey_fndds_food,"Crepe, plain",4404,2022-10-28
+2708297,survey_fndds_food,"Pancakes, chocolate, frozen",4404,2022-10-28
+2708298,survey_fndds_food,"Pancakes, whole grain, frozen",4404,2022-10-28
+2708303,survey_fndds_food,"Pancakes, school",4404,2022-10-28
+2708304,survey_fndds_food,"Pancakes, plain",4404,2022-10-28
+2708306,survey_fndds_food,"Pancakes, fruit",4404,2022-10-28
+2708307,survey_fndds_food,"Pancakes, pumpkin",4404,2022-10-28
+2708308,survey_fndds_food,"Pancakes, chocolate",4404,2022-10-28
+2708309,survey_fndds_food,"Pancakes, whole grain",4404,2022-10-28
+2708311,survey_fndds_food,"Pancakes, gluten free",4404,2022-10-28
+2708305,survey_fndds_food,"Pancakes, plain, reduced fat",4404,2022-10-28
+2708310,survey_fndds_food,"Pancakes, whole grain, reduced fat",4404,2022-10-28
+2708316,survey_fndds_food,"Waffle, chocolate, frozen",4404,2022-10-28
+2708317,survey_fndds_food,"Waffle, whole grain, frozen",4404,2022-10-28
+2708324,survey_fndds_food,"Waffle, school",4404,2022-10-28
+2708325,survey_fndds_food,"Waffle, plain",4404,2022-10-28
+2708326,survey_fndds_food,"Waffle, fruit",4404,2022-10-28
+2708327,survey_fndds_food,"Waffle, chocolate",4404,2022-10-28
+2708328,survey_fndds_food,"Waffle, cinnamon",4404,2022-10-28
+2708329,survey_fndds_food,"Waffle, whole grain",4404,2022-10-28
+2708330,survey_fndds_food,"Waffle, gluten free",4404,2022-10-28
+2708319,survey_fndds_food,"Waffle, whole grain, fruit, frozen",4404,2022-10-28
+2708314,survey_fndds_food,"Waffle, plain, reduced fat",4404,2022-10-28
+2708318,survey_fndds_food,"Waffle, whole grain, reduced fat",4404,2022-10-28
+2708335,survey_fndds_food,"French toast, plain",4404,2022-10-28
+2708336,survey_fndds_food,"French toast, whole grain",4404,2022-10-28
+2708337,survey_fndds_food,"French toast, gluten free",4404,2022-10-28
+2708359,survey_fndds_food,"Pasta, gluten free",4004,2022-10-28
+2708374,survey_fndds_food,"Cornmeal mush, no added fat",4804,2022-10-28
+2708375,survey_fndds_food,"Cornmeal mush, fat added",4804,2022-10-28
+2708393,survey_fndds_food,"Oatmeal, instant, maple flavored, no added fat",4802,2022-10-28
+2708394,survey_fndds_food,"Oatmeal, instant, maple flavored, fat added",4802,2022-10-28
+2708395,survey_fndds_food,"Oatmeal, instant, fruit flavored, no added fat",4802,2022-10-28
+2708396,survey_fndds_food,"Oatmeal, instant, fruit flavored, fat added",4802,2022-10-28
+2708400,survey_fndds_food,"Quinoa, no added fat",4004,2022-10-28
+2708401,survey_fndds_food,"Quinoa, fat added",4004,2022-10-28
+2708423,survey_fndds_food,"Rice, wild, 100%, cooked, NS as to fat",4002,2022-10-28
+2708407,survey_fndds_food,"Rice, white, cooked, fat added, NS as to fat type",4002,2022-10-28
+2708413,survey_fndds_food,"Rice, brown, cooked, fat added, NS as to fat type",4002,2022-10-28
+2708422,survey_fndds_food,"Rice, white, cooked, glutinous",4002,2022-10-28
+2708408,survey_fndds_food,"Rice, white, cooked, no added fat",4002,2022-10-28
+2708414,survey_fndds_food,"Rice, brown, cooked, no added fat",4002,2022-10-28
+2708424,survey_fndds_food,"Rice, wild, 100%, cooked, no added fat",4002,2022-10-28
+2708425,survey_fndds_food,"Rice, wild, 100%, cooked, fat added",4002,2022-10-28
+2708420,survey_fndds_food,"Yellow rice, cooked, no added fat",4002,2022-10-28
+2708421,survey_fndds_food,"Yellow rice, cooked, fat added",4002,2022-10-28
+2708438,survey_fndds_food,"Bulgur, no added fat",4004,2022-10-28
+2708439,survey_fndds_food,"Bulgur, fat added",4004,2022-10-28
+2709220,survey_fndds_food,"Apple, baked",6002,2022-10-28
+2709225,survey_fndds_food,"Banana, baked",6004,2022-10-28
+2709402,survey_fndds_food,"Potato, roasted, NFS",6802,2022-10-28
+2709387,survey_fndds_food,"Potato, boiled, from fresh, peel not eaten, NS as to fat",6802,2022-10-28
+2709409,survey_fndds_food,"Potato, roasted, from fresh, peel not eaten, NS as to fat",6802,2022-10-28
+2709393,survey_fndds_food,"Potato, boiled, from fresh, peel eaten, NS as to fat",6802,2022-10-28
+2709403,survey_fndds_food,"Potato, roasted, from fresh, peel eaten, NS as to fat",6802,2022-10-28
+2709410,survey_fndds_food,"Potato, roasted, from fresh, peel not eaten, fat added, NS as to fat type",6802,2022-10-28
+2709389,survey_fndds_food,"Potato, boiled, from fresh, peel not eaten, fat added, NS as to fat type",6802,2022-10-28
+2709394,survey_fndds_food,"Potato, boiled, from fresh, peel eaten, fat added, NS as to fat type",6802,2022-10-28
+2709405,survey_fndds_food,"Potato, roasted, from fresh, peel eaten, fat added, NS as to fat type",6802,2022-10-28
+2709524,survey_fndds_food,"Potato, baked, peel eaten",6802,2022-10-28
+2709386,survey_fndds_food,"Potato, boiled, ready-to-heat",6802,2022-10-28
+2709384,survey_fndds_food,"Potato, baked, peel not eaten",6802,2022-10-28
+2709415,survey_fndds_food,"Potato, roasted, ready-to-heat",6802,2022-10-28
+2709404,survey_fndds_food,"Potato, roasted, from fresh, peel eaten, no added fat",6802,2022-10-28
+2709395,survey_fndds_food,"Potato, boiled, from fresh,  peel eaten, no added fat",6802,2022-10-28
+2709388,survey_fndds_food,"Potato, boiled, from fresh, peel not eaten, no added fat",6802,2022-10-28
+2709411,survey_fndds_food,"Potato, roasted, from fresh, peel not eaten, no added fat",6802,2022-10-28
+2709507,survey_fndds_food,"Potato, mashed, ready-to-heat, NFS",6806,2022-10-28
+2709499,survey_fndds_food,"Potato, mashed, from fresh, NFS",6806,2022-10-28
+2709450,survey_fndds_food,"Potato, scalloped, from fresh",6806,2022-10-28
+2709495,survey_fndds_food,"Potato, mashed, ready-to-heat",6806,2022-10-28
+2709452,survey_fndds_food,"Potato, scalloped, from dry mix",6806,2022-10-28
+2709454,survey_fndds_food,"Potato, scalloped, ready-to-heat",6806,2022-10-28
+2709502,survey_fndds_food,"Potato, mashed, from school lunch",6806,2022-10-28
+2709477,survey_fndds_food,"Potato, hash brown, NFS",6804,2022-10-28
+2709464,survey_fndds_food,"Potato, french fries, school",6804,2022-10-28
+2709474,survey_fndds_food,"Potato, home fries, from fresh",6804,2022-10-28
+2709475,survey_fndds_food,"Potato, home fries, ready-to-heat",6804,2022-10-28
+2709482,survey_fndds_food,"Potato, hash brown, from school lunch",6804,2022-10-28
+2709483,survey_fndds_food,"Potato, hash brown, from fresh",6804,2022-10-28
+2709485,survey_fndds_food,"Potato, hash brown, from dry mix",6804,2022-10-28
+2709486,survey_fndds_food,"Potato, hash brown, ready-to-heat",6804,2022-10-28
+2709458,survey_fndds_food,"Potato, french fries, from fresh, fried",6804,2022-10-28
+2709463,survey_fndds_food,"Potato, french fries, from frozen, fried",6804,2022-10-28
+2709459,survey_fndds_food,"Potato, french fries, from fresh, baked",6804,2022-10-28
+2709460,survey_fndds_food,"Potato, french fries, from frozen, baked",6804,2022-10-28
+2709516,survey_fndds_food,"Potato tots, frozen, fried",6804,2022-10-28
+2709515,survey_fndds_food,"Potato tots, frozen, baked",6804,2022-10-28
+2709558,survey_fndds_food,"Plantain, cooked, no added fat",6418,2022-10-28
+2709581,survey_fndds_food,"Collards, frozen, cooked, fat added, NS as to fat type",6411,2022-10-28
+2709577,survey_fndds_food,"Collards, fresh, cooked, no added fat",6411,2022-10-28
+2709578,survey_fndds_food,"Collards, frozen, cooked, no added fat",6411,2022-10-28
+2709593,survey_fndds_food,"Greens, fresh, cooked, no added fat",6411,2022-10-28
+2709594,survey_fndds_food,"Greens, frozen, cooked, no added fat",6411,2022-10-28
+2709596,survey_fndds_food,"Greens, fresh, cooked, fat added",6411,2022-10-28
+2709597,survey_fndds_food,"Greens, frozen, cooked, fat added",6411,2022-10-28
+2709600,survey_fndds_food,"Kale, fresh, cooked, no added fat",6411,2022-10-28
+2709601,survey_fndds_food,"Kale, frozen, cooked, no added fat",6411,2022-10-28
+2709603,survey_fndds_food,"Kale, fresh, cooked, fat added",6411,2022-10-28
+2709604,survey_fndds_food,"Kale, frozen, cooked, fat added",6411,2022-10-28
+2709607,survey_fndds_food,"Mustard greens, fresh, cooked, no added fat",6411,2022-10-28
+2709608,survey_fndds_food,"Mustard greens, frozen, cooked, no added fat",6411,2022-10-28
+2709610,survey_fndds_food,"Mustard greens, fresh, cooked, fat added",6411,2022-10-28
+2709611,survey_fndds_food,"Mustard greens, frozen, cooked, fat added",6411,2022-10-28
+2709622,survey_fndds_food,"Spinach, frozen, cooked, fat added, NS as to fat type",6409,2022-10-28
+2709628,survey_fndds_food,"Spinach, creamed",6409,2022-10-28
+2709615,survey_fndds_food,"Spinach, fresh, cooked, no added fat",6409,2022-10-28
+2709616,survey_fndds_food,"Spinach, frozen, cooked, no added fat",6409,2022-10-28
+2709638,survey_fndds_food,"Turnip greens, frozen, cooked, fat added",6411,2022-10-28
+2709648,survey_fndds_food,"Broccoli, fresh, cooked, fat added, NS as to fat type",6407,2022-10-28
+2709649,survey_fndds_food,"Broccoli, frozen, cooked, fat added, NS as to fat type",6407,2022-10-28
+2709658,survey_fndds_food,"Broccoli, Chinese, cooked",6407,2022-10-28
+2709645,survey_fndds_food,"Broccoli, fresh, cooked, no added fat",6407,2022-10-28
+2709646,survey_fndds_food,"Broccoli, frozen, cooked, no added fat",6407,2022-10-28
+2709671,survey_fndds_food,"Carrots, frozen, cooked, fat added, NS as to fat type",6404,2022-10-28
+2709677,survey_fndds_food,"Carrots, glazed, cooked",6404,2022-10-28
+2709664,survey_fndds_food,"Carrots, fresh, cooked, no added fat",6404,2022-10-28
+2709665,survey_fndds_food,"Carrots, frozen, cooked, no added fat",6404,2022-10-28
+2709684,survey_fndds_food,"Peas and carrots, fresh, cooked, no added fat",6420,2022-10-28
+2709685,survey_fndds_food,"Peas and carrots, frozen, cooked, no added fat",6420,2022-10-28
+2709688,survey_fndds_food,"Peas and carrots, fresh, cooked, fat added",6420,2022-10-28
+2709689,survey_fndds_food,"Peas and carrots, frozen, cooked, fat added",6420,2022-10-28
+2709694,survey_fndds_food,"Winter squash, cooked, no added fat",6406,2022-10-28
+2709695,survey_fndds_food,"Winter squash, cooked, fat added",6406,2022-10-28
+2709704,survey_fndds_food,"Sweet potato, candied",6406,2022-10-28
+2709699,survey_fndds_food,"Sweet potato, baked, no added fat",6406,2022-10-28
+2709700,survey_fndds_food,"Sweet potato, baked, fat added",6406,2022-10-28
+2709702,survey_fndds_food,"Sweet potato, boiled, no added fat",6406,2022-10-28
+2709703,survey_fndds_food,"Sweet potato, boiled, fat added",6406,2022-10-28
+2709721,survey_fndds_food,"Tomatoes, fresh, cooked",6402,2022-10-28
+2709839,survey_fndds_food,"Asparagus, frozen, cooked, fat added, NS as to fat type",6420,2022-10-28
+2709834,survey_fndds_food,"Asparagus, fresh, cooked, no added fat",6420,2022-10-28
+2709835,survey_fndds_food,"Asparagus, frozen, cooked, no added fat",6420,2022-10-28
+2709857,survey_fndds_food,"Green beans, frozen, cooked, fat added, NS as to fat type",6412,2022-10-28
+2709852,survey_fndds_food,"Green beans, fresh, cooked, no added fat",6412,2022-10-28
+2709853,survey_fndds_food,"Green beans, frozen, cooked, no added fat",6412,2022-10-28
+2709872,survey_fndds_food,"Beets, fresh, cooked, no added fat",6420,2022-10-28
+2709875,survey_fndds_food,"Beets, fresh, cooked, fat added",6420,2022-10-28
+2709881,survey_fndds_food,"Brussels sprouts, fresh, cooked, no added fat",6420,2022-10-28
+2709882,survey_fndds_food,"Brussels sprouts, frozen, cooked, no added fat",6420,2022-10-28
+2709884,survey_fndds_food,"Brussels sprouts, fresh, cooked, fat added",6420,2022-10-28
+2709885,survey_fndds_food,"Brussels sprouts, frozen, cooked, fat added",6420,2022-10-28
+2709890,survey_fndds_food,"Cabbage, green, cooked, fat added, NS as to fat type",6413,2022-10-28
+2709893,survey_fndds_food,"Cabbage, red, cooked",6413,2022-10-28
+2709894,survey_fndds_food,"Cabbage, savoy, cooked",6413,2022-10-28
+2709887,survey_fndds_food,"Cabbage, Chinese, cooked, no added fat",6413,2022-10-28
+2709888,survey_fndds_food,"Cabbage, Chinese, cooked, fat added",6413,2022-10-28
+2709889,survey_fndds_food,"Cabbage, green, cooked, no added fat",6413,2022-10-28
+2709901,survey_fndds_food,"Cauliflower, frozen, cooked, fat added, NS as to fat type",6420,2022-10-28
+2709897,survey_fndds_food,"Cauliflower, fresh, cooked, no added fat",6420,2022-10-28
+2709898,survey_fndds_food,"Cauliflower, frozen, cooked, no added fat",6420,2022-10-28
+2709915,survey_fndds_food,"Corn, frozen, cooked, fat added, NS as to fat type",6416,2022-10-28
+2709923,survey_fndds_food,"Corn, creamed",6416,2022-10-28
+2709910,survey_fndds_food,"Corn, fresh, cooked, no added fat",6416,2022-10-28
+2709911,survey_fndds_food,"Corn, frozen, cooked, no added fat",6416,2022-10-28
+2709929,survey_fndds_food,"Eggplant, cooked, no added fat",6420,2022-10-28
+2709949,survey_fndds_food,"Lettuce, cooked",6410,2022-10-28
+2709937,survey_fndds_food,"Mushrooms, fresh, cooked, no added fat",6420,2022-10-28
+2709953,survey_fndds_food,"Onions, green, cooked",6414,2022-10-28
+2709950,survey_fndds_food,"Onions, cooked, no added fat",6414,2022-10-28
+2709951,survey_fndds_food,"Onions, cooked, fat added",6414,2022-10-28
+2709964,survey_fndds_food,"Green peas, frozen, cooked, fat added, NS as to fat type",6418,2022-10-28
+2709959,survey_fndds_food,"Green peas, fresh, cooked, no added fat",6418,2022-10-28
+2709960,survey_fndds_food,"Green peas, frozen, cooked, no added fat",6418,2022-10-28
+2709976,survey_fndds_food,"Peppers, green, cooked",6420,2022-10-28
+2710096,survey_fndds_food,"Peppers, jalapenos",6420,2022-10-28
+2709983,survey_fndds_food,"Snowpeas, fresh, cooked, no added fat",6420,2022-10-28
+2709984,survey_fndds_food,"Snowpeas, frozen, cooked, no added fat",6420,2022-10-28
+2709986,survey_fndds_food,"Snowpeas, fresh, cooked, fat added",6420,2022-10-28
+2709987,survey_fndds_food,"Snowpeas, frozen, cooked, fat added",6420,2022-10-28
+2709944,survey_fndds_food,"Okra, fresh, cooked, no added fat",6420,2022-10-28
+2709945,survey_fndds_food,"Okra, frozen, cooked, no added fat",6420,2022-10-28
+2709947,survey_fndds_food,"Okra, fresh, cooked, fat added",6420,2022-10-28
+2709948,survey_fndds_food,"Okra, frozen, cooked, fat added",6420,2022-10-28
+2710013,survey_fndds_food,"Classic mixed vegetables, frozen, cooked, no added fat",6420,2022-10-28
+2710157,survey_fndds_food,"Butter, light",8002,2022-10-28
+2710162,survey_fndds_food,"Margarine, light",8004,2022-10-28

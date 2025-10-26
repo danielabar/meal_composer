@@ -45,10 +45,12 @@
 #   - db/seeds/fndds/cleanup_fake_foods.rb
 
 require 'csv'
+require 'set'
 
 # File paths
 INPUT_CSV  = File.expand_path('../../db/data/fndds/food.csv', __dir__)
 OUTPUT_CSV = File.expand_path('../../db/data/fndds/food_clean.csv', __dir__)
+CLEAN_CATEGORIES_CSV = File.expand_path('../../db/data/fndds/wweia_food_category_clean.csv', __dir__)
 
 # Exclusion patterns consolidated from all 4 cleanup scripts
 EXCLUDE_PATTERNS = [
@@ -84,15 +86,44 @@ unless File.exist?(INPUT_CSV)
   exit 1
 end
 
-puts "Reading CSV..."
+puts "Loading allowed categories from clean category CSV..."
+allowed_categories = Set.new
+if File.exist?(CLEAN_CATEGORIES_CSV)
+  CSV.foreach(CLEAN_CATEGORIES_CSV, headers: true) do |row|
+    allowed_categories << row['wweia_food_category']
+  end
+  puts "  Loaded #{allowed_categories.size} allowed categories"
+else
+  puts "  ⚠️  Warning: Clean categories CSV not found at #{CLEAN_CATEGORIES_CSV}"
+  puts "  Run extract_clean_food_categories.rb first, or all categories will be allowed"
+end
+
+puts "\nReading food CSV..."
 rows = CSV.read(INPUT_CSV, headers: true)
 puts "  Total foods in raw FNDDS: #{rows.size}"
 
 # Filter out unwanted foods
 puts "\nApplying exclusion filters..."
+category_excluded_count = 0
+pattern_excluded_count = 0
+
 clean_rows = rows.reject do |row|
   description = row['description'].to_s
-  EXCLUDE_PATTERNS.any? { |pattern| description.match?(pattern) }
+  category_code = row['food_category_id']
+
+  # First check: Exclude if category was filtered out
+  if allowed_categories.any? && !allowed_categories.include?(category_code)
+    category_excluded_count += 1
+    next true
+  end
+
+  # Second check: Exclude if matches pattern
+  if EXCLUDE_PATTERNS.any? { |pattern| description.match?(pattern) }
+    pattern_excluded_count += 1
+    next true
+  end
+
+  false
 end
 
 # Write filtered CSV
@@ -110,10 +141,12 @@ puts "=" * 50
 puts "✅ Processing complete!"
 puts ""
 puts "Results:"
-puts "  Clean foods:    #{clean_rows.size}"
-puts "  Excluded foods: #{excluded_count} (#{exclusion_pct}%)"
+puts "  Clean foods:              #{clean_rows.size}"
+puts "  Excluded by category:     #{category_excluded_count}"
+puts "  Excluded by pattern:      #{pattern_excluded_count}"
+puts "  Total excluded:           #{excluded_count} (#{exclusion_pct}%)"
 puts ""
 puts "Next steps:"
 puts "  1. Run: ruby script/fndds/extract_clean_food_nutrients.rb"
 puts "  2. Update db/seeds/fndds/foods.rb to load food_clean.csv"
-puts "  3. Remove cleanup_*.rb scripts (no longer needed)"
+puts "  3. Update db/seeds/fndds/food_categories.rb to load wweia_food_category_clean.csv"
