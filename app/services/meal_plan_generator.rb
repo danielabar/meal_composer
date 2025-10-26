@@ -28,6 +28,7 @@ class MealPlanGenerator
     @name = name
     @daily_macro_target = daily_macro_target
     @daily_meal_structure = daily_meal_structure
+    @failure_message = nil  # Store detailed failure diagnostics
   end
 
   def generate
@@ -37,7 +38,8 @@ class MealPlanGenerator
     composition_result = compose_meals
 
     if composition_result.nil?
-      return Result.new(success?: false, error: "Failed to compose meals after multiple attempts")
+      error_msg = @failure_message || "Unable to compose meals with selected foods and macro targets"
+      return Result.new(success?: false, error: error_msg)
     end
 
     # Calculate total actual macros
@@ -224,6 +226,10 @@ class MealPlanGenerator
     category_ids = meal_structure_item.food_category_ids
     max_attempts = 10
 
+    # Track best solution across all attempts
+    best_foods = nil
+    best_error = Float::INFINITY
+
     max_attempts.times do |attempt|
       Rails.logger.info("=== MealPlanGenerator: #{meal_type} - Attempt #{attempt + 1}/#{max_attempts}")
 
@@ -245,6 +251,17 @@ class MealPlanGenerator
           actual_protein: actual_macros[:protein],
           actual_fat: actual_macros[:fat]
         }
+      end
+
+      # Track best attempt even if it failed tolerance
+      actual_macros = calculate_macros(foods_with_grams)
+      error = (actual_macros[:carbs] - target_carbs)**2 +
+              (actual_macros[:protein] - target_protein)**2 +
+              (actual_macros[:fat] - target_fat)**2
+
+      if error < best_error
+        best_error = error
+        best_foods = foods_with_grams.map { |f| FoodWithGrams.new(food: f.food, grams: f.grams) }
       end
 
       # Try with relaxed constraints after several attempts
@@ -283,7 +300,21 @@ class MealPlanGenerator
       }
     end
 
-    Rails.logger.error("=== MealPlanGenerator: #{meal_type} - Failed after all attempts")
+    # FALLBACK: Return best attempt even if it didn't meet per-meal tolerance
+    # Phase 2 will adjust portions across all meals to meet daily tolerance
+    if best_foods
+      actual_macros = calculate_macros(best_foods)
+      Rails.logger.warn("=== MealPlanGenerator: #{meal_type} - Returning best attempt (error: #{Math.sqrt(best_error).round(1)}g) " \
+                       "- Phase 2 will adjust for daily totals")
+      return {
+        foods_with_grams: best_foods,
+        actual_carbs: actual_macros[:carbs],
+        actual_protein: actual_macros[:protein],
+        actual_fat: actual_macros[:fat]
+      }
+    end
+
+    Rails.logger.error("=== MealPlanGenerator: #{meal_type} - Failed after all attempts (no solution found)")
     nil
   end
 
@@ -292,6 +323,10 @@ class MealPlanGenerator
                             convergence_tolerance, acceptance_tolerance)
     food_ids = meal_structure_item.food_ids
     max_attempts = 10
+
+    # Track best solution across all attempts
+    best_foods = nil
+    best_error = Float::INFINITY
 
     max_attempts.times do |attempt|
       Rails.logger.info("=== MealPlanGenerator: #{meal_type} - Food-based attempt #{attempt + 1}/#{max_attempts}")
@@ -314,6 +349,17 @@ class MealPlanGenerator
           actual_protein: actual_macros[:protein],
           actual_fat: actual_macros[:fat]
         }
+      end
+
+      # Track best attempt even if it failed tolerance
+      actual_macros = calculate_macros(foods_with_grams)
+      error = (actual_macros[:carbs] - target_carbs)**2 +
+              (actual_macros[:protein] - target_protein)**2 +
+              (actual_macros[:fat] - target_fat)**2
+
+      if error < best_error
+        best_error = error
+        best_foods = foods_with_grams.map { |f| FoodWithGrams.new(food: f.food, grams: f.grams) }
       end
 
       # Try with relaxed constraints after several attempts
@@ -352,7 +398,21 @@ class MealPlanGenerator
       }
     end
 
-    Rails.logger.error("=== MealPlanGenerator: #{meal_type} - Food-based failed after all attempts")
+    # FALLBACK: Return best attempt even if it didn't meet per-meal tolerance
+    # Phase 2 will adjust portions across all meals to meet daily tolerance
+    if best_foods
+      actual_macros = calculate_macros(best_foods)
+      Rails.logger.warn("=== MealPlanGenerator: #{meal_type} - Returning best attempt (error: #{Math.sqrt(best_error).round(1)}g) " \
+                       "- Phase 2 will adjust for daily totals")
+      return {
+        foods_with_grams: best_foods,
+        actual_carbs: actual_macros[:carbs],
+        actual_protein: actual_macros[:protein],
+        actual_fat: actual_macros[:fat]
+      }
+    end
+
+    Rails.logger.error("=== MealPlanGenerator: #{meal_type} - Food-based failed after all attempts (no solution found)")
     nil
   end
 
@@ -603,9 +663,103 @@ class MealPlanGenerator
     end
 
     # Check if we succeeded
-    carb_error.abs <= MACRO_TOLERANCE_GRAMS &&
-      protein_error.abs <= MACRO_TOLERANCE_GRAMS &&
-      fat_error.abs <= MACRO_TOLERANCE_GRAMS
+    success = carb_error.abs <= MACRO_TOLERANCE_GRAMS &&
+              protein_error.abs <= MACRO_TOLERANCE_GRAMS &&
+              fat_error.abs <= MACRO_TOLERANCE_GRAMS
+
+    # If failed, provide diagnostic information
+    unless success
+      diagnose_phase2_failure(composed_meals, target_carbs, target_protein, target_fat,
+                              carb_error, protein_error, fat_error)
+    end
+
+    success
+  end
+
+  # Diagnose why Phase 2 failed and provide actionable suggestions
+  def diagnose_phase2_failure(composed_meals, target_carbs, target_protein, target_fat,
+                              carb_error, protein_error, fat_error)
+    failing_macros = []
+    failing_macros << { name: "Carbs", error: carb_error, target: target_carbs } if carb_error.abs > MACRO_TOLERANCE_GRAMS
+    failing_macros << { name: "Protein", error: protein_error, target: target_protein } if protein_error.abs > MACRO_TOLERANCE_GRAMS
+    failing_macros << { name: "Fat", error: fat_error, target: target_fat } if fat_error.abs > MACRO_TOLERANCE_GRAMS
+
+    # Check for foods at min/max limits
+    foods_at_limits = []
+    composed_meals.each do |meal_type, meal_data|
+      meal_data[:foods_with_grams].each do |food_with_grams|
+        if food_with_grams.grams <= MIN_PORTION_SIZE + 1
+          foods_at_limits << { food: food_with_grams.food.description, meal: meal_type, limit: "minimum", grams: food_with_grams.grams }
+        elsif food_with_grams.grams >= MAX_PORTION_SIZE - 1
+          foods_at_limits << { food: food_with_grams.food.description, meal: meal_type, limit: "maximum", grams: food_with_grams.grams }
+        end
+      end
+    end
+
+    # Build user-friendly error message
+    user_message = "Cannot achieve macro targets with selected foods.\n\n"
+
+    user_message += "Missing targets:\n"
+    failing_macros.each do |macro|
+      direction = macro[:error] < 0 ? "short" : "over"
+      user_message += "• #{macro[:name]}: #{macro[:error].abs.round(0)}g #{direction} (need #{macro[:target].round(0)}g total)\n"
+    end
+
+    user_message += "\nSuggestions:\n"
+    suggestions_added = false
+
+    if protein_error < -MACRO_TOLERANCE_GRAMS && foods_at_limits.any? { |f| f[:limit] == "maximum" }
+      user_message += "• Add more protein-rich foods to your meal structure\n"
+      user_message += "• Some protein sources reached maximum portions (500g)\n"
+      suggestions_added = true
+    end
+
+    if fat_error > MACRO_TOLERANCE_GRAMS && protein_error < -MACRO_TOLERANCE_GRAMS
+      user_message += "• Try leaner protein sources (chicken breast, egg whites, lean fish)\n"
+      user_message += "• Or adjust your macro targets - this protein:fat ratio is difficult with current foods\n"
+      suggestions_added = true
+    elsif fat_error > MACRO_TOLERANCE_GRAMS
+      user_message += "• Reduce high-fat foods or replace with lower-fat alternatives\n"
+      suggestions_added = true
+    elsif fat_error < -MACRO_TOLERANCE_GRAMS
+      user_message += "• Add more fat sources (oils, nuts, avocado, fatty fish)\n"
+      suggestions_added = true
+    end
+
+    if carb_error.abs > MACRO_TOLERANCE_GRAMS
+      direction = carb_error < 0 ? "higher-carb" : "lower-carb"
+      user_message += "• Select #{direction} foods for your meals\n"
+      suggestions_added = true
+    end
+
+    if protein_error < -MACRO_TOLERANCE_GRAMS && !suggestions_added
+      user_message += "• Add more protein-rich foods (meat, fish, eggs, dairy)\n"
+      suggestions_added = true
+    elsif protein_error > MACRO_TOLERANCE_GRAMS && !suggestions_added
+      user_message += "• Reduce protein portions or choose foods with less protein\n"
+      suggestions_added = true
+    end
+
+    unless suggestions_added
+      user_message += "• Try different food combinations or adjust macro targets\n"
+    end
+
+    @failure_message = user_message
+
+    # Also log detailed diagnostics
+    Rails.logger.error("=== Phase 2 FAILURE DIAGNOSIS ===")
+    Rails.logger.error("Macros still exceeding ±#{MACRO_TOLERANCE_GRAMS}g tolerance:")
+    failing_macros.each do |macro|
+      direction = macro[:error] < 0 ? "SHORT" : "OVER"
+      Rails.logger.error("  - #{macro[:name]}: #{macro[:error].abs.round(1)}g #{direction} (target: #{macro[:target].round(0)}g)")
+    end
+
+    if foods_at_limits.any?
+      Rails.logger.error("Foods at portion limits (can't adjust further):")
+      foods_at_limits.each do |item|
+        Rails.logger.error("  - #{item[:food]} in #{item[:meal]}: #{item[:grams].round(0)}g (at #{item[:limit]})")
+      end
+    end
   end
 
   # Adjust portions to fix a single macro across all meals
@@ -645,7 +799,14 @@ class MealPlanGenerator
       # Calculate how many grams we need to adjust
       # error > 0 (too much) -> reduce portions (negative adjustment)
       # error < 0 (too little) -> increase portions (positive adjustment)
-      grams_to_adjust = -(error / fc[:macro_per_gram]).to_f
+      # Use 50% of the calculated adjustment to make incremental changes across iterations
+      full_adjustment = -(error / fc[:macro_per_gram]).to_f
+      grams_to_adjust = (full_adjustment * 0.5).to_f  # Partial adjustment
+
+      # Further cap the adjustment to ±100g per iteration to avoid extreme changes
+      if grams_to_adjust.abs > 100.0
+        grams_to_adjust = grams_to_adjust > 0 ? 100.0 : -100.0
+      end
 
       # Clamp adjustment to reasonable bounds
       new_grams = (fc[:current_grams] + grams_to_adjust).to_f
@@ -809,12 +970,11 @@ class MealPlanGenerator
       protein_error = target_protein - current_protein
       fat_error = target_fat - current_fat
 
-      # TEMPORARY: Use simple squared error to debug performance issue
-      # total_error = calculate_dynamic_weighted_error(
-      #   carb_error, protein_error, fat_error,
-      #   target_carbs, target_protein, target_fat
-      # )
-      total_error = carb_error**2 + protein_error**2 + fat_error**2
+      # Use dynamic weighted error to prioritize macros that are furthest off proportionally
+      total_error = calculate_dynamic_weighted_error(
+        carb_error, protein_error, fat_error,
+        target_carbs, target_protein, target_fat
+      )
 
       # Log only every 10 iterations to test if logging is the bottleneck
       Rails.logger.info("=== Iter #{iter}: C:#{carb_error.round(1)}g P:#{protein_error.round(1)}g F:#{fat_error.round(1)}g") if iter % 10 == 0
