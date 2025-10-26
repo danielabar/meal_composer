@@ -79,7 +79,8 @@ athlete_structure = DailyMealStructure.find_or_create_by!(user: user, name: "Thr
 athlete_breakfast_categories = FoodCategory.where(description: [
   "Eggs and omelets",
   "Butter and animal fats",
-  "Oatmeal"
+  "Oatmeal",
+  "Grapes"
 ]).pluck(:id)
 
 MealStructureItem.find_or_create_by!(
@@ -109,7 +110,8 @@ end
 athlete_dinner_categories = FoodCategory.where(description: [
   "Ground beef",
   "Rice",
-  "Butter and animal fats"
+  "Butter and animal fats",
+  "Other red and orange vegetables"
 ]).pluck(:id)
 
 MealStructureItem.find_or_create_by!(
