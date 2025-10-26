@@ -14,7 +14,9 @@ class RegenerationsController < ApplicationController
     composition_result = generator.compose_meals
 
     if composition_result.nil?
-      redirect_to meal_plan_path(@meal_plan), alert: "Could not regenerate plan: Unable to compose meals"
+      # Get the detailed failure message from the generator
+      error_msg = generator.instance_variable_get(:@failure_message) || "Unable to compose meals"
+      redirect_to meal_plan_path(@meal_plan), alert: "Could not regenerate plan: #{error_msg}"
       return
     end
 
