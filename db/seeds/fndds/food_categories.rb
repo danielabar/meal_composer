@@ -1,7 +1,7 @@
 require "csv"
 
 puts "Seeding WWEIA food categories..."
-csv_path = Rails.root.join("db/data/fndds/wweia_food_category.csv")
+csv_path = Rails.root.join("db/data/fndds/wweia_food_category_clean.csv")
 category_count = 0
 
 CSV.foreach(csv_path, headers: true) do |row|

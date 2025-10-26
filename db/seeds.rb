@@ -1,5 +1,7 @@
+# Default to FNDDS dataset, can be overridden with DATASET env var
+dataset = ENV["DATASET"] || "fndds"
+
 # This data is needed in all environments
-dataset = ENV["DATASET"] || "foundation"
 if dataset == "foundation"
   load Rails.root.join("db/seeds_foundation.rb")
 elsif dataset == "fndds"
@@ -11,7 +13,5 @@ end
 
 # This is only for development
 if Rails.env.development?
-  User.find_or_create_by!(email_address: "user@example.com") do |user|
-    user.password = "password"
-  end
+  load Rails.root.join("db/seeds_development.rb")
 end
