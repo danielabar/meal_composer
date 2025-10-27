@@ -487,74 +487,30 @@ fdc_id,data_type,description,food_category_id,publication_date
 2706186,survey_fndds_food,"Pepperoni, reduced fat",2602,2022-10-28
 2706197,survey_fndds_food,"Salami, made from any type of meat, reduced sodium",2602,2022-10-28
 2706196,survey_fndds_food,"Salami, made from any type of meat, reduced fat",2602,2022-10-28
-2706277,survey_fndds_food,"Fish, pompano, NFS",2402,2022-10-28
-2706263,survey_fndds_food,"Fish, mackerel, NFS",2402,2022-10-28
-2706318,survey_fndds_food,"Fish, tilapia, NFS",2402,2022-10-28
-2706285,survey_fndds_food,"Fish, salmon, NFS",2402,2022-10-28
-2706234,survey_fndds_food,"Fish, catfish, NFS",2402,2022-10-28
-2706312,survey_fndds_food,"Fish, whiting, NFS",2402,2022-10-28
-2706254,survey_fndds_food,"Fish, haddock, NFS",2402,2022-10-28
-2706309,survey_fndds_food,"Fish, tuna, NFS",2402,2022-10-28
-2706240,survey_fndds_food,"Fish, cod, NFS",2402,2022-10-28
-2706294,survey_fndds_food,"Fish, bass, NFS",2402,2022-10-28
-2706248,survey_fndds_food,"Fish, flounder, NFS",2402,2022-10-28
-2706302,survey_fndds_food,"Fish, trout, NFS",2402,2022-10-28
-2706284,survey_fndds_food,"Fish, salmon, raw",2402,2022-10-28
-2706223,survey_fndds_food,"Fish, raw",2402,2022-10-28
-2706228,survey_fndds_food,"Fish, NS as to type, steamed",2402,2022-10-28
-2706308,survey_fndds_food,"Fish, tuna, raw",2402,2022-10-28
-2706324,survey_fndds_food,"Fish, white, mixed species, NFS",2402,2022-10-28
-2706274,survey_fndds_food,"Fish, perch, fried",2402,2022-10-28
-2706276,survey_fndds_food,"Fish, pike",2402,2022-10-28
-2706281,survey_fndds_food,"Fish, pompano, fried",2402,2022-10-28
-2706283,survey_fndds_food,"Fish, snapper",2402,2022-10-28
-2706322,survey_fndds_food,"Fish, tilapia, fried",2402,2022-10-28
-2706316,survey_fndds_food,"Fish, whiting, fried",2402,2022-10-28
-2706289,survey_fndds_food,"Fish, salmon, fried",2402,2022-10-28
-2706310,survey_fndds_food,"Fish, tuna, cooked",2402,2022-10-28
-2706292,survey_fndds_food,"Fish, salmon, smoked",2402,2022-10-28
-2706298,survey_fndds_food,"Fish, bass, fried",2402,2022-10-28
-2706306,survey_fndds_food,"Fish, trout, fried",2402,2022-10-28
-2706300,survey_fndds_food,"Fish, shark",2402,2022-10-28
-2706301,survey_fndds_food,"Fish, swordfish",2402,2022-10-28
-2706244,survey_fndds_food,"Fish, cod, fried",2402,2022-10-28
-2706269,survey_fndds_food,"Fish, mullet",2402,2022-10-28
-2706230,survey_fndds_food,"Fish, smoked",2402,2022-10-28
-2706267,survey_fndds_food,"Fish, mackerel, fried",2402,2022-10-28
-2706246,survey_fndds_food,"Fish, croaker",2402,2022-10-28
-2706231,survey_fndds_food,"Fish, stick",2402,2022-10-28
-2706261,survey_fndds_food,"Fish, herring",2402,2022-10-28
-2706247,survey_fndds_food,"Fish, eel",2402,2022-10-28
-2706260,survey_fndds_food,"Fish, halibut",2402,2022-10-28
-2706232,survey_fndds_food,"Fish, anchovy",2402,2022-10-28
-2706258,survey_fndds_food,"Fish, haddock, fried",2402,2022-10-28
-2706238,survey_fndds_food,"Fish, catfish, fried",2402,2022-10-28
-2706233,survey_fndds_food,"Fish, carp",2402,2022-10-28
-2706252,survey_fndds_food,"Fish, flounder, fried",2402,2022-10-28
-2706327,survey_fndds_food,"Fish, white, mixed species, fried",2402,2022-10-28
 2706236,survey_fndds_food,"Fish, catfish, grilled",2402,2022-10-28
-2706314,survey_fndds_food,"Fish, whiting, grilled",2402,2022-10-28
-2706317,survey_fndds_food,"Fish, whiting, steamed",2402,2022-10-28
 2706239,survey_fndds_food,"Fish, catfish, steamed",2402,2022-10-28
 2706242,survey_fndds_food,"Fish, cod, grilled",2402,2022-10-28
-2706320,survey_fndds_food,"Fish, tilapia, grilled",2402,2022-10-28
-2706323,survey_fndds_food,"Fish, tilapia, steamed",2402,2022-10-28
-2706307,survey_fndds_food,"Fish, trout, steamed",2402,2022-10-28
+2706245,survey_fndds_food,"Fish, cod, steamed",2402,2022-10-28
+2706250,survey_fndds_food,"Fish, flounder, grilled",2402,2022-10-28
+2706253,survey_fndds_food,"Fish, flounder, steamed",2402,2022-10-28
+2706256,survey_fndds_food,"Fish, haddock, grilled",2402,2022-10-28
+2706259,survey_fndds_food,"Fish, haddock, steamed",2402,2022-10-28
+2706265,survey_fndds_food,"Fish, mackerel, grilled",2402,2022-10-28
 2706272,survey_fndds_food,"Fish, perch, grilled",2402,2022-10-28
 2706275,survey_fndds_food,"Fish, perch, steamed",2402,2022-10-28
-2706265,survey_fndds_food,"Fish, mackerel, grilled",2402,2022-10-28
 2706279,survey_fndds_food,"Fish, pompano, grilled",2402,2022-10-28
 2706282,survey_fndds_food,"Fish, pompano, steamed",2402,2022-10-28
-2706259,survey_fndds_food,"Fish, haddock, steamed",2402,2022-10-28
+2706292,survey_fndds_food,"Fish, salmon, smoked",2402,2022-10-28
 2706287,survey_fndds_food,"Fish, salmon, grilled",2402,2022-10-28
-2706256,survey_fndds_food,"Fish, haddock, grilled",2402,2022-10-28
 2706290,survey_fndds_food,"Fish, salmon, steamed",2402,2022-10-28
-2706253,survey_fndds_food,"Fish, flounder, steamed",2402,2022-10-28
 2706296,survey_fndds_food,"Fish, bass, grilled",2402,2022-10-28
-2706250,survey_fndds_food,"Fish, flounder, grilled",2402,2022-10-28
 2706299,survey_fndds_food,"Fish, bass, steamed",2402,2022-10-28
-2706245,survey_fndds_food,"Fish, cod, steamed",2402,2022-10-28
 2706304,survey_fndds_food,"Fish, trout, grilled",2402,2022-10-28
+2706307,survey_fndds_food,"Fish, trout, steamed",2402,2022-10-28
+2706314,survey_fndds_food,"Fish, whiting, grilled",2402,2022-10-28
+2706317,survey_fndds_food,"Fish, whiting, steamed",2402,2022-10-28
+2706320,survey_fndds_food,"Fish, tilapia, grilled",2402,2022-10-28
+2706323,survey_fndds_food,"Fish, tilapia, steamed",2402,2022-10-28
 2706328,survey_fndds_food,"Fish, white, mixed species, steamed",2402,2022-10-28
 2706329,survey_fndds_food,"Fish, white, mixed species, grilled",2402,2022-10-28
 2706353,survey_fndds_food,"Oysters, steamed",2404,2022-10-28

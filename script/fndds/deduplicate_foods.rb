@@ -134,11 +134,21 @@ end
 # Extract base food name for grouping
 # "Chicken breast, NS as to cooking method, skin eaten" -> "Chicken breast"
 # "Broccoli, fresh, cooked, no added fat" -> "Broccoli"
+# "Fish, salmon, NFS" -> "Fish, salmon"
+# "Fish, catfish, baked or broiled" -> "Fish, catfish"
 def extract_base_name(description)
-  # Take everything before the first comma (or the whole thing if no comma)
-  base = description.split(',').first.strip
+  parts = description.split(',').map(&:strip)
 
-  # Also normalize some variations
+  # Special case: Foods that start with "Fish," need TWO parts to identify the species
+  # "Fish, salmon, NFS" -> "Fish, salmon" (not just "Fish")
+  if parts[0] == "Fish" && parts.size >= 2
+    base = "#{parts[0]}, #{parts[1]}"
+  else
+    # Standard case: Take everything before the first comma (or the whole thing if no comma)
+    base = parts[0]
+  end
+
+  # Normalize whitespace
   base.gsub(/\s+/, ' ').strip
 end
 
